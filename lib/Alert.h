@@ -2,7 +2,7 @@
 #define ALERT_H
 
 #include "drawing.h"
-#include "lib.h"
+#include "import.h"
 #include "regex"
 #include <conio.h>
 #include <iomanip>

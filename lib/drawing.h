@@ -1,7 +1,7 @@
 #ifndef DRAWING_H
 #define DRAWING_H
 
-#include "lib.h"
+#include "import.h"
 
 //kích thước cửa sổ console
 void resizeConsole(int width, int height) {
@@ -295,7 +295,7 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
             gotoxy(x + dai, i);
             cout << char(THANH_DOC);
         }
-        
+
     }
 
     gotoxy(x + dai - 2, y + 1);
@@ -362,8 +362,7 @@ void drawSelectedTab(int index) {
     }
 }
 
-
-void setUI() {
+void initUI() {
     clrscr();
     resizeConsole(1200, 1000);
     SetScreenBufferSize(1200, 1000);

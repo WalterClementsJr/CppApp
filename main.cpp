@@ -1,11 +1,10 @@
-#include <iostream>
-
-#include "lib/lib.h"
+#include "lib/import.h"
 #include "lib/drawing.h"
 #include "lib/Alert.h"
+#include <thread>
 
 int main() {
 
-	setUI();
-	return 0;
+    initUI();
+    return 0;
 }
