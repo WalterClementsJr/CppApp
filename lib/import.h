@@ -6,13 +6,10 @@
 #include <windows.h>
 #include <cwchar>
 #include <io.h>
-#include <fcntl.h>
 #include <ctime>
-#include <sstream>
 #include <algorithm>
 #include <conio.h>
 #include <fstream>
-#include <string>
 #include <math.h>
 #include <iomanip>
 

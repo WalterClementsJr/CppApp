@@ -3,7 +3,7 @@
 
 #include "import.h"
 
-//kích thước cửa sổ console
+// kích thước cửa sổ console
 void resizeConsole(int width, int height) {
     HWND console = GetConsoleWindow();
     RECT r;
@@ -160,13 +160,13 @@ void clrscr() {
     cls(hConsole);
 }
 
-//vô hiệu hóa thay đổi kích thước cửa sổ
+// vô hiệu hóa thay đổi kích thước cửa sổ
 void DisableResizeWindow() {
     HWND hWnd = GetConsoleWindow();
     SetWindowLong(hWnd, GWL_STYLE, GetWindowLong(hWnd, GWL_STYLE) & ~WS_SIZEBOX);
 }
 
-//Vô hiệu hóa các nút Minimize, Maximize và Close
+// Vô hiệu hóa các nút Minimize, Maximize và Close
 void DisableCtrButton(bool Close, bool Min, bool Max) {
     HWND hWnd = GetConsoleWindow();
     HMENU hMenu = GetSystemMenu(hWnd, false);
@@ -182,14 +182,14 @@ void DisableCtrButton(bool Close, bool Min, bool Max) {
     }
 }
 
-//vô hiệu hóa bôi đen
+// vô hiệu hóa bôi đen
 void DisableSelection() {
     HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 
     SetConsoleMode(hStdin, ~ENABLE_QUICK_EDIT_MODE);
 }
 
-//ẩn hiện con trỏ
+// ẩn hiện con trỏ
 void ShowCur(bool CursorVisibility) {
     HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO ConCurInf;
@@ -210,7 +210,7 @@ void SetScreenBufferSize(SHORT width, SHORT height) {
     SetConsoleScreenBufferSize(hStdout, NewSize);
 }
 
-//vô hiệu hóa thanh cuộn
+// vô hiệu hóa thanh cuộn
 void ShowScrollbar(BOOL show) {
     HWND hWnd = GetConsoleWindow();
     ShowScrollBar(hWnd, SB_BOTH, show);
@@ -226,7 +226,7 @@ void drawRec(int x, int y, int dai, int rong) {
     gotoxy(x + dai, y + rong);
     cout << char(GOC_DUOI_PHAI);
 
-    //cột ngang
+    // cột ngang
     for (int i = x + 1; i <= x + dai - 1; i++) {
         gotoxy(i, y);
         cout << char(THANH_NGANG);
@@ -234,7 +234,7 @@ void drawRec(int x, int y, int dai, int rong) {
         cout << char(THANH_NGANG);
     }
 
-    //cột dọc
+    // cột dọc
     for (int i = y + 1; i <= y + rong - 1; i++) {
         gotoxy(x, i);
         cout << char(THANH_DOC);
@@ -381,39 +381,39 @@ void initUI() {
     drawSelectedTab(2);
 
     gotoxy(4, 51);
-    SetTextColor(PINK);
+    SetTextColor(BLUE);
     cout << char(17) << " " << char(16);
-    SetTextColor(7);
+    SetTextColor(DARKWHITE);
     cout << " PrevPage/NextPage";
 
     gotoxy(33, 51);
-    SetTextColor(29);
+    SetTextColor(BLUE);
     cout << char(30) << " " << char(31);
-    SetTextColor(7);
+    SetTextColor(DARKWHITE);
     cout << " Up/Down";
 
     gotoxy(53, 51);
-    SetTextColor(29);
+    SetTextColor(BLUE);
     cout << "ENTER";
-    SetTextColor(7);
+    SetTextColor(DARKWHITE);
     cout << " Select/Update";
 
     gotoxy(80, 51);
-    SetTextColor(29);
+    SetTextColor(BLUE);
     cout << "DEL";
-    SetTextColor(7);
+    SetTextColor(DARKWHITE);
     cout << " Delete";
 
     gotoxy(98, 51);
-    SetTextColor(29);
+    SetTextColor(BLUE);
     cout << "TAB";
-    SetTextColor(7);
+    SetTextColor(DARKWHITE);
     cout << " Find/Search";
 
     gotoxy(120, 51);
-    SetTextColor(29);
+    SetTextColor(BLUE);
     cout << "ESC";
-    SetColor();
+    SetTextColor(DARKWHITE);
     cout << " Exit/Cancel/Back";
 
     for (size_t i = 10; i <= 49; i++) {
