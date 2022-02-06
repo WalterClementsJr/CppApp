@@ -243,8 +243,68 @@ void drawRec(int x, int y, int dai, int rong) {
     }
 }
 
+void drawCol(int x) {
+    for (size_t i = 10; i < 48; i++) {
+        gotoxy(x, i);
+        cout << char(THANH_DOC);
+    }
+}
+
+void drawRow(int y) {
+    for (size_t i = 5; i < 103; i++) {
+        gotoxy(i, y);
+        cout << char(THANH_NGANG);
+    }
+}
+
+void clearDetail() {
+    for (size_t i = 11; i < 38; i++) {
+        gotoxy(106, i);
+        for (size_t i = 0; i < 37; i++) {
+            cout << " ";
+        }
+    }
+}
+
+void clearNotification() {
+    CursorVisibility(false);
+    for (int i = 0; i < 5; i++) {
+        gotoxy(NOTIF_X, NOTIF_Y + i);
+        cout << string(37, ' ');
+    }
+    CursorVisibility(true);
+}
+
+// in thông báo, auto xuống dòng (37 từ/dòng)
+void displayNotification(string notif, int color = WHITE) {
+    clearNotification();
+
+    SetColor(BLACK, color);
+    for (unsigned i = 0, j = 0; i < notif.length(); i += 37) {
+        gotoxy(NOTIF_X, NOTIF_Y + j);
+        cout << notif.substr(i, 37);
+        j++;
+    }
+    SetColor();
+}
+
+void clearTab() {
+    // clear tabs
+    gotoxy(3, 111);
+    for (size_t i = 10; i < 50; i++) {
+        gotoxy(3, i);
+        for (size_t i = 0; i < 102; i++)
+        {
+            cout << " ";
+        }
+    }
+    clearDetail();
+    clearNotification();
+}
+
 void drawTab(int x, int y, string title, string key, bool selected = false) {
     int dai = 15, rong = 2;
+    SetTextColor(WHITE);
 
     gotoxy(x, y);
     cout << char(GOC_TREN_TRAI);
@@ -295,7 +355,6 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
             gotoxy(x + dai, i);
             cout << char(THANH_DOC);
         }
-
     }
 
     gotoxy(x + dai - 2, y + 1);
@@ -304,45 +363,14 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
     SetColor();
 }
 
-void drawCol(int x) {
-    for (size_t i = 10; i < 48; i++) {
-        gotoxy(x, i);
-        cout << char(THANH_DOC);
-    }
-}
-
-void drawRow(int y) {
-    for (size_t i = 5; i < 103; i++) {
-        gotoxy(i, y);
-        cout << char(THANH_NGANG);
-    }
-}
-
-void clearNotification() {
-    CursorVisibility(false);
-    for (int i = 0; i < 5; i++) {
-        gotoxy(NOTIF_X, NOTIF_Y + i);
-        cout << string(37, ' ');
-    }
-    CursorVisibility(true);
-}
-
-// in thông báo, auto xuống dòng (37 từ/dòng)
-void displayNotification(string notif, int color = WHITE) {
-    clearNotification();
-
-    SetColor(BLACK, color);
-    for (unsigned i = 0, j = 0; i < notif.length(); i += 37) {
-        gotoxy(NOTIF_X, NOTIF_Y + j);
-        cout << notif.substr(i, 37);
-        j++;
-    }
-    SetColor();
-}
 
 void drawSelectedTab(int index) {
     int space = 16;
     int tabx = 3, taby = 7;
+    int dai = 15, rong = 2;
+
+    SetTextColor(WHITE);
+    drawLine(tabx, taby + rong, tabx + space * 4, taby + rong);
 
     switch(index) {
         case 1:
@@ -371,14 +399,13 @@ void initUI() {
     DisableSelection();
     ShowScrollbar(0);
     SetTextColor(WHITE);
+    CursorVisibility(false);
 
-    gotoxy(50, 2);
+    gotoxy(BANNER_X, BANNER_Y);
     cout << "Hoc Vien Cong Nghe Buu Chinh Vien Thong TP.HCM";
 
     drawRec(1, 1, 143, 51);
     drawRec(2, 9, 141, 41);
-
-    drawSelectedTab(2);
 
     gotoxy(4, 51);
     SetTextColor(BLUE);
