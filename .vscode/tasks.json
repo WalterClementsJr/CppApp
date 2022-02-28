@@ -1,0 +1,179 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "Build & run main.cpp",
+            "command": "g++",
+            "args": [
+                "-Wall",
+                "${workspaceFolder}\\main\\main.cpp",
+                "-I${workspaceFolder}\\lib",
+                "-static",
+                "-o",
+                "${workspaceFolder}\\build\\main.exe",
+                "&&",
+                "start",
+                "cmd",
+                "/k",
+                "${workspaceFolder}\\build\\main.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "clear": false,
+                "showReuseMessage": false
+            },
+            "problemMatcher": [
+                {
+                    "source": "gcc",
+                    "owner": "cpptools",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder}"
+                    ],
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(?:fatal\\s+)?(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                    }
+                }
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": ""
+        },
+        {
+            "type": "cppbuild",
+            "label": "Build & run main1 file",
+            "command": "g++",
+            "args": [
+                "-Wall",
+                "${workspaceFolder}\\main\\main1.cpp",
+                "-I${workspaceFolder}\\lib",
+                "-static",
+                "-o",
+                "${workspaceFolder}\\build\\main1.exe",
+                "&&",
+                "start",
+                "cmd",
+                "/k",
+                "${workspaceFolder}\\build\\main1.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                {
+                    "source": "gcc",
+                    "owner": "cpptools",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder}"
+                    ],
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(?:fatal\\s+)?(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                    }
+                }
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": ""
+        },
+        {
+            "type": "cppbuild",
+            "label": "Run main1 file",
+            "command": "start",
+            "args": [
+                "cmd",
+                "/k",
+                "${workspaceFolder}\\build\\main1.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+            ],
+            "group": "none",
+            "detail": ""
+        },
+        {
+            "type": "cppbuild",
+            "label": "Build & run main2 file",
+            "command": "g++",
+            "args": [
+                "-Wall",
+                "${workspaceFolder}\\main\\main2.cpp",
+                "-I${workspaceFolder}\\lib",
+                "-static",
+                "-o",
+                "${workspaceFolder}\\build\\main2.exe",
+                "&&",
+                "start",
+                "cmd",
+                "/k",
+                "${workspaceFolder}\\build\\main2.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                {
+                    "source": "gcc",
+                    "owner": "cpptools",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder}"
+                    ],
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(?:fatal\\s+)?(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                    }
+                }
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": ""
+        },
+        {
+            "type": "cppbuild",
+            "label": "Run main2 file",
+            "command": "start",
+            "args": [
+                "cmd",
+                "/k",
+                "${workspaceFolder}\\build\\main2.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+            ],
+            "group": "none",
+            "detail": ""
+        }
+    ]
+}
