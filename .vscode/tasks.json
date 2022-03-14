@@ -55,7 +55,7 @@
         },
         {
             "type": "cppbuild",
-            "label": "Build & run main1 file",
+            "label": "Build & run main1",
             "command": "g++",
             "args": [
                 "-Wall",
@@ -116,7 +116,7 @@
         },
         {
             "type": "cppbuild",
-            "label": "Build & run main2 file",
+            "label": "Build & run main2",
             "command": "g++",
             "args": [
                 "-Wall",
