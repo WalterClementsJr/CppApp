@@ -3,6 +3,8 @@
 
 #include "import.h"
 
+using namespace std;
+
 // kích thước cửa sổ console
 void resizeConsole(int width, int height) {
     HWND console = GetConsoleWindow();
@@ -53,9 +55,10 @@ void clrEol() {
     coord.X = info.dwCursorPosition.X;
     coord.Y = info.dwCursorPosition.Y;
 
-    FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), ' ',
-     info.dwSize.X - info.dwCursorPosition.X * info.dwCursorPosition.Y,
-     coord, &written);
+    FillConsoleOutputCharacter(
+        GetStdHandle(STD_OUTPUT_HANDLE), ' ',
+        info.dwSize.X - info.dwCursorPosition.X * info.dwCursorPosition.Y,
+        coord, &written);
     gotoxy(info.dwCursorPosition.X, info.dwCursorPosition.Y);
 }
 
@@ -133,22 +136,20 @@ void cls(HANDLE hConsole) {
 
     // Get the number of character cells in the current buffer.
 
-    if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
-        return;
+    if (!GetConsoleScreenBufferInfo(hConsole, &csbi)) return;
     dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
 
     // Fill the entire screen with blanks.
-    if (!FillConsoleOutputCharacter(hConsole, (TCHAR)' ',
-        dwConSize, coordScreen, &cCharsWritten))
+    if (!FillConsoleOutputCharacter(hConsole, (TCHAR)' ', dwConSize,
+                                    coordScreen, &cCharsWritten))
         return;
 
     // Get the current text attribute
-    if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
-        return;
+    if (!GetConsoleScreenBufferInfo(hConsole, &csbi)) return;
 
     // Set the buffer's attributes accordingly
-    if (!FillConsoleOutputAttribute(hConsole, csbi.wAttributes,
-        dwConSize, coordScreen, &cCharsWritten))
+    if (!FillConsoleOutputAttribute(hConsole, csbi.wAttributes, dwConSize,
+                                    coordScreen, &cCharsWritten))
         return;
 
     // Put the cursor at its home coordinates.
@@ -163,7 +164,8 @@ void clrscr() {
 // vô hiệu hóa thay đổi kích thước cửa sổ
 void DisableResizeWindow() {
     HWND hWnd = GetConsoleWindow();
-    SetWindowLong(hWnd, GWL_STYLE, GetWindowLong(hWnd, GWL_STYLE) & ~WS_SIZEBOX);
+    SetWindowLong(hWnd, GWL_STYLE,
+                  GetWindowLong(hWnd, GWL_STYLE) & ~WS_SIZEBOX);
 }
 
 // Vô hiệu hóa các nút Minimize, Maximize và Close
@@ -293,8 +295,7 @@ void clearTab() {
     gotoxy(3, 111);
     for (size_t i = 10; i < 50; i++) {
         gotoxy(3, i);
-        for (size_t i = 0; i < 102; i++)
-        {
+        for (size_t i = 0; i < 102; i++) {
             cout << " ";
         }
     }
@@ -322,7 +323,7 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
         cout << title;
         SetColor();
 
-        //cột ngang
+        // cột ngang
         for (int i = x + 1; i <= x + dai - 1; i++) {
             gotoxy(i, y);
             cout << char(THANH_NGANG);
@@ -330,7 +331,7 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
             cout << " ";
         }
 
-        //cột dọc
+        // cột dọc
         for (int i = y + 1; i <= y + rong - 1; i++) {
             gotoxy(x, i);
             cout << char(THANH_DOC);
@@ -363,7 +364,6 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
     SetColor();
 }
 
-
 void drawSelectedTab(int index) {
     int space = 16;
     int tabx = 3, taby = 7;
@@ -372,21 +372,21 @@ void drawSelectedTab(int index) {
     SetTextColor(WHITE);
     drawLine(tabx, taby + rong, tabx + space * 4, taby + rong);
 
-    switch(index) {
+    switch (index) {
         case 1:
-        drawTab(tabx, taby, "Tab name", "F1", true);
-        drawTab(tabx + space, taby, "Tab name", "F2");
-        drawTab(tabx + space * 2, taby, "Tab name", "F3");
-        drawTab(tabx + space * 3, taby, "Tab name", "F4");
-        drawTab(tabx + space * 4, taby, "Tab name", "F5");
-        break;
+            drawTab(tabx, taby, "Tab name", "F1", true);
+            drawTab(tabx + space, taby, "Tab name", "F2");
+            drawTab(tabx + space * 2, taby, "Tab name", "F3");
+            drawTab(tabx + space * 3, taby, "Tab name", "F4");
+            drawTab(tabx + space * 4, taby, "Tab name", "F5");
+            break;
         case 2:
-        drawTab(tabx, taby, "Tab name", "F1");
-        drawTab(tabx + space, taby, "Tab name", "F2", true);
-        drawTab(tabx + space * 2, taby, "Tab name", "F3");
-        drawTab(tabx + space * 3, taby, "Tab name", "F4");
-        drawTab(tabx + space * 4, taby, "Tab name", "F5");
-        break;
+            drawTab(tabx, taby, "Tab name", "F1");
+            drawTab(tabx + space, taby, "Tab name", "F2", true);
+            drawTab(tabx + space * 2, taby, "Tab name", "F3");
+            drawTab(tabx + space * 3, taby, "Tab name", "F4");
+            drawTab(tabx + space * 4, taby, "Tab name", "F5");
+            break;
     }
 }
 
@@ -458,4 +458,4 @@ void initUI() {
     cout << "NOTIFICATION";
 }
 
-#endif // DRAWING_H
+#endif  // DRAWING_H

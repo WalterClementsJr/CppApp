@@ -8,6 +8,8 @@
 #include <iomanip>
 #include <iostream>
 
+using namespace std;
+
 void showError(string error, string subject) {
     gotoxy(106, 41);
     SetTextColor(12);

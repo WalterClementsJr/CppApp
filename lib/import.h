@@ -99,6 +99,4 @@ const int BANNER_X = 50, BANNER_Y = 2;
 // Notification position
 const int NOTIF_X = 106, NOTIF_Y = 40;
 
-using namespace std;
-
 #endif
