@@ -3,7 +3,6 @@
 
 #include "drawing.h"
 #include "import.h"
-#include "regex"
 #include <conio.h>
 #include <iomanip>
 #include <iostream>
@@ -86,63 +85,6 @@ int ShowAlert(string message) {
 
     return key;
     SetColor();
-}
-
-bool regexCheck(string attribute, string value) {
-    regex rgID("[a-zA-Z]{2}\\d{5}");
-    regex rgNull("[a-zA-Z0-9 ]{1,20}");
-    regex rgSoChoNgoi("[0-9]{3}");
-    regex rgDate("^(0?[1-9]|[12][0-9]|3[01])(0?[1-9]|1[012])\\d{4}$");
-    regex rgTime("^(0[0-9]|1[0-9]|2[0-3])[0-5][0-9]$");
-    regex rgCMND("[a-zA-Z0-9 ]{9}|[a-zA-Z0-9 ]{12}");
-    regex rgPhai("1|0");
-    smatch m;
-    if (attribute == "ID" && !regex_match(value, m, rgID)) {
-        showError("Khong dung dinh dang!", value);
-        return false;
-    }
-    if (attribute == "null" && !regex_match(value, m, rgNull)) {
-        showError("Khong dung dinh dang!", value);
-        return false;
-    }
-    if (attribute == "soChoNgoi" && !regex_match(value, m, rgSoChoNgoi)) {
-        showError("Khong dung dinh dang!", "So Cho Ngoi: 10, 200,...");
-        return false;
-    }
-    if (attribute == "soChoNgoi" && (stoi(value) < 10 || stoi(value) > 1000)) {
-        showError("So luong qua lon hoac qua nho!", "So Cho Ngoi: 10, 1000,...");
-        return false;
-    }
-    if (attribute == "date" && !regex_match(value, m, rgDate)) {
-        showError("Khong dung dinh dang!", "Ngay Khoi Hanh: ddMMyyyy");
-        return false;
-    }
-    if (attribute == "time" && !regex_match(value, m, rgTime)) {
-        showError("Khong dung dinh dang!", "Thoi Gian KH: hhmm");
-        return false;
-    }
-    if (attribute == "cmnd" && !regex_match(value, m, rgCMND)) {
-        showError("Khong dung dinh dang!", "CMND: 9 so hoac 12 so");
-        return false;
-    }
-    if (attribute == "phai" && !regex_match(value, m, rgPhai)) {
-        showError("Khong dung dinh dang!", "Nam = 1, Nu = 0");
-        return false;
-    }
-    return true;
-}
-
-void keyTest() {
-    int ch;
-
-    while ((ch = _getch()) != ESC)
-    {
-        cout << ch << endl;
-        if (ch == 0 || ch == 224)
-            cout << _getch();
-        cout << "\n";
-    }
-    cout << "ESC \n";
 }
 
 #endif

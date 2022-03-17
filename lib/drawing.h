@@ -169,7 +169,7 @@ void DisableResizeWindow() {
 }
 
 // Vô hiệu hóa các nút Minimize, Maximize và Close
-void DisableCtrButton(bool Close, bool Min, bool Max) {
+void DisableTitleBarControls(bool Close, bool Min, bool Max) {
     HWND hWnd = GetConsoleWindow();
     HMENU hMenu = GetSystemMenu(hWnd, false);
 
@@ -259,32 +259,30 @@ void drawRow(int y) {
     }
 }
 
-void clearDetail() {
-    for (size_t i = 11; i < 38; i++) {
-        gotoxy(106, i);
-        for (size_t i = 0; i < 37; i++) {
-            cout << " ";
-        }
+// fill an area with space 
+void clearArea(int x, int y, int width, int height) {
+    for (int i = y; i < y + height; i++) {
+        gotoxy(x, i);
+        cout << string(width, ' ');
     }
+}
+
+void clearDetail() {
+    clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27);
 }
 
 void clearNotification() {
-    CursorVisibility(false);
-    for (int i = 0; i < 5; i++) {
-        gotoxy(NOTIF_X, NOTIF_Y + i);
-        cout << string(37, ' ');
-    }
-    CursorVisibility(true);
+    clearArea(NOTIF_X, NOTIF_Y, NOTIF_WORD_PER_LINE, UI_LIMIT_Y - NOTIF_Y - 2);
 }
 
-// in thông báo, auto xuống dòng (37 từ/dòng)
-void displayNotification(string notif, int color = WHITE) {
+// in thông báo, auto xuống dòng (60 từ/dòng)
+void displayNotification(string message, int color = WHITE) {
     clearNotification();
 
     SetColor(BLACK, color);
-    for (unsigned i = 0, j = 0; i < notif.length(); i += 37) {
+    for (unsigned i = 0, j = 0; i < message.length(); i += NOTIF_WORD_PER_LINE) {
         gotoxy(NOTIF_X, NOTIF_Y + j);
-        cout << notif.substr(i, 37);
+        cout << message.substr(i, NOTIF_WORD_PER_LINE);
         j++;
     }
     SetColor();
@@ -367,21 +365,21 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
 void drawSelectedTab(int index) {
     int space = 16;
     int tabx = 3, taby = 7;
-    int dai = 15, rong = 2;
+    int rong = 2;
 
     SetTextColor(WHITE);
     drawLine(tabx, taby + rong, tabx + space * 4, taby + rong);
 
     switch (index) {
         case 1:
-            drawTab(tabx, taby, "Tab name", "F1", true);
+            drawTab(tabx, taby, "MON HOC", "F1", true);
             drawTab(tabx + space, taby, "Tab name", "F2");
             drawTab(tabx + space * 2, taby, "Tab name", "F3");
             drawTab(tabx + space * 3, taby, "Tab name", "F4");
             drawTab(tabx + space * 4, taby, "Tab name", "F5");
             break;
         case 2:
-            drawTab(tabx, taby, "Tab name", "F1");
+            drawTab(tabx, taby, "MON HOC", "F1");
             drawTab(tabx + space, taby, "Tab name", "F2", true);
             drawTab(tabx + space * 2, taby, "Tab name", "F3");
             drawTab(tabx + space * 3, taby, "Tab name", "F4");
@@ -392,69 +390,70 @@ void drawSelectedTab(int index) {
 
 void initUI() {
     clrscr();
-    resizeConsole(1200, 1000);
-    SetScreenBufferSize(1200, 1000);
+    resizeConsole(1500, 1000);
+    SetScreenBufferSize(1500, 1000);
     DisableResizeWindow();
-    DisableCtrButton(0, 0, 1);
+    DisableTitleBarControls(0, 0, 1);
     DisableSelection();
-    ShowScrollbar(0);
+    ShowScrollbar(0);\
     SetTextColor(WHITE);
     CursorVisibility(false);
 
-    gotoxy(BANNER_X, BANNER_Y);
-    cout << "Hoc Vien Cong Nghe Buu Chinh Vien Thong TP.HCM";
+    gotoxy(UI_LIMIT_X / 2, 2);
+    cout << "PTIT TP.HCM";
 
-    drawRec(1, 1, 143, 51);
-    drawRec(2, 9, 141, 41);
+    drawRec(1, 1, UI_LIMIT_X, UI_LIMIT_Y);
+    drawRec(2, 9, UI_LIMIT_X - 2, UI_LIMIT_Y - 10);
 
-    gotoxy(4, 51);
+    gotoxy(4, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << char(17) << " " << char(16);
     SetTextColor(DARKWHITE);
     cout << " PrevPage/NextPage";
 
-    gotoxy(33, 51);
+    gotoxy(33, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << char(30) << " " << char(31);
     SetTextColor(DARKWHITE);
     cout << " Up/Down";
 
-    gotoxy(53, 51);
+    gotoxy(53, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "ENTER";
     SetTextColor(DARKWHITE);
-    cout << " Select/Update";
+    cout << " Select";
 
-    gotoxy(80, 51);
+    gotoxy(80, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "DEL";
     SetTextColor(DARKWHITE);
     cout << " Delete";
 
-    gotoxy(98, 51);
+    gotoxy(98, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "TAB";
     SetTextColor(DARKWHITE);
     cout << " Find/Search";
 
-    gotoxy(120, 51);
+    gotoxy(120, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "ESC";
     SetTextColor(DARKWHITE);
     cout << " Exit/Cancel/Back";
 
-    for (size_t i = 10; i <= 49; i++) {
-        gotoxy(105, i);
+    for (size_t i = 10; i <= UI_LIMIT_Y - 2; i++) {
+        gotoxy(NOTIF_X - 1, i);
         cout << char(THANH_DOC);
     }
-    gotoxy(120, 10);
+
+    gotoxy(UI_LIMIT_X - 35, 10);
     cout << "DETAILS";
 
-    for (size_t i = 106; i < 143; i++) {
-        gotoxy(i, 38);
+    for (size_t i = NOTIF_X; i < UI_LIMIT_X; i++) {
+        gotoxy(i, NOTIF_Y - 2);
         cout << char(THANH_NGANG);
     }
-    gotoxy(118, 39);
+    gotoxy(UI_LIMIT_X - 35, NOTIF_Y - 1);
     cout << "NOTIFICATION";
 }
 

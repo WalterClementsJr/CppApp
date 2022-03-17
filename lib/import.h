@@ -87,16 +87,18 @@
 #define colTabSize 38
 #define rowTabSize 100
 
+// UI limit
+const int UI_LIMIT_X = 170;
+const int UI_LIMIT_Y = 55;
+
 // table
 #define FIRST_ROW 12
 #define LAST_ROW 47
 #define INDEX wherey() - 13
 #define MAX_ROW 35
 
-// Banner position
-const int BANNER_X = 50, BANNER_Y = 2;
-
 // Notification position
-const int NOTIF_X = 106, NOTIF_Y = 40;
+const int NOTIF_X = 110, NOTIF_Y = 40;
+const int NOTIF_WORD_PER_LINE = 60;
 
 #endif

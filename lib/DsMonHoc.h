@@ -1,6 +1,3 @@
-#ifndef DS_NodeMonHoc_H
-#define DS_NodeMonHoc_H
-
 #include <iostream>
 #include <string>
 
@@ -63,6 +60,7 @@ void DsMonHoc::displayPostOrder() {
     cout << "\nDisplay postorder\n";
     traversePostOrder(root);
 }
+
 // private
 int DsMonHoc::getHeight(NodeMonHoc *root) {
     if (root == NULL)
@@ -179,5 +177,3 @@ void testDSMH() {
     ds.displayInOrder();
     ds.displayPostOrder();
 }
-
-#endif
