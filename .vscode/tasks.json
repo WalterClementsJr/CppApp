@@ -3,11 +3,11 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "Build & run main.cpp",
+            "label": "BUILD & RUN MAIN",
             "command": "g++",
             "args": [
                 "-Wall",
-                "-I", "",
+                "-I",
                 "${workspaceFolder}\\lib",
                 "-o",
                 "${workspaceFolder}\\build\\main.exe",
@@ -50,7 +50,22 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "type": "cppbuild",
+            "label": "RUN MAIN.EXE",
+            "command": "start",
+            "args": [
+                "cmd",
+                "/k",
+                "${workspaceFolder}\\build\\main.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
+            "problemMatcher": [],
+            "group": "none",
             "detail": ""
         },
         {
@@ -60,7 +75,8 @@
             "args": [
                 "-Wall",
                 "${workspaceFolder}\\main\\main1.cpp",
-                "-I", "${workspaceFolder}/lib",
+                "-I",
+                "${workspaceFolder}/lib",
                 "-o",
                 "${workspaceFolder}\\build\\main1.exe",
                 "&&",
@@ -98,7 +114,7 @@
         },
         {
             "type": "cppbuild",
-            "label": "Run main1 file",
+            "label": "Run main1",
             "command": "start",
             "args": [
                 "cmd",
@@ -108,8 +124,7 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": [
-            ],
+            "problemMatcher": [],
             "group": "none",
             "detail": ""
         },
@@ -120,7 +135,8 @@
             "args": [
                 "-Wall",
                 "${workspaceFolder}\\main\\main2.cpp",
-                "-I", "${workspaceFolder}\\lib",
+                "-I",
+                "${workspaceFolder}\\lib",
                 "-o",
                 "${workspaceFolder}\\build\\main2.exe",
                 "&&",
@@ -158,7 +174,7 @@
         },
         {
             "type": "cppbuild",
-            "label": "Run main2 file",
+            "label": "Run main2",
             "command": "start",
             "args": [
                 "cmd",
@@ -168,8 +184,7 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": [
-            ],
+            "problemMatcher": [],
             "group": "none",
             "detail": ""
         }

@@ -29,9 +29,5 @@ int main() {
                 break;
         }
     }
-
-    // getch();
-    clearNotification();
-    clearDetail();
     return 0;
 }
