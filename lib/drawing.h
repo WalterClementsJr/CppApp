@@ -2,8 +2,9 @@
 #define DRAWING_H
 
 #include <windows.h>
-#include <string>
+
 #include <iostream>
+#include <string>
 
 #include "import.h"
 
@@ -110,27 +111,6 @@ void CursorVisibility(bool show) {
     SetConsoleCursorInfo(h, &cur);
 }
 
-void drawLine(int x1, int y1, int x2, int y2) {
-    int t = (y1 == y2) ? THANH_NGANG : THANH_DOC;
-
-    int m_new = 2 * (y2 - y1);
-    int slope_error_new = m_new - (x2 - x1);
-    for (int x = x1, y = y1; x <= x2; x++) {
-        gotoxy(x, y);
-        cout << char(t);
-
-        // Add slope to increment angle formed
-        slope_error_new += m_new;
-
-        // Slope error reached limit, time to
-        // increment y and update slope error.
-        if (slope_error_new >= 0) {
-            y++;
-            slope_error_new -= 2 * (x2 - x1);
-        }
-    }
-}
-
 // clear screen and set cursor at 0,0
 void cls(HANDLE hConsole) {
     COORD coordScreen = {0, 0};
@@ -222,6 +202,21 @@ void ShowScrollbar(BOOL show) {
     ShowScrollBar(hWnd, SB_BOTH, show);
 }
 
+
+void drawCol(int x, int y, int len) {
+    for (int i = y; i <= y + len; i++) {
+        gotoxy(x, i);
+        cout << char(THANH_DOC);
+    }
+}
+
+void drawRow(int x, int y, int len) {
+    for (int i = x; i <= x + len; i++) {
+        gotoxy(i, y);
+        cout << char(THANH_NGANG);
+    }
+}
+
 void drawRec(int x, int y, int dai, int rong) {
     gotoxy(x, y);
     cout << char(GOC_TREN_TRAI);
@@ -232,38 +227,14 @@ void drawRec(int x, int y, int dai, int rong) {
     gotoxy(x + dai, y + rong);
     cout << char(GOC_DUOI_PHAI);
 
-    // cột ngang
-    for (int i = x + 1; i <= x + dai - 1; i++) {
-        gotoxy(i, y);
-        cout << char(THANH_NGANG);
-        gotoxy(i, y + rong);
-        cout << char(THANH_NGANG);
-    }
+    drawRow(x + 1, y, dai - 2);
+    drawRow(x + 1, y + rong, dai - 2);
 
-    // cột dọc
-    for (int i = y + 1; i <= y + rong - 1; i++) {
-        gotoxy(x, i);
-        cout << char(THANH_DOC);
-        gotoxy(x + dai, i);
-        cout << char(THANH_DOC);
-    }
+    drawCol(x, y + 1 , rong - 2);
+    drawCol(x + dai, y + 1, rong - 2);
 }
 
-void drawCol(int x) {
-    for (size_t i = 10; i < 48; i++) {
-        gotoxy(x, i);
-        cout << char(THANH_DOC);
-    }
-}
-
-void drawRow(int y) {
-    for (size_t i = 5; i < 103; i++) {
-        gotoxy(i, y);
-        cout << char(THANH_NGANG);
-    }
-}
-
-// fill an area with space 
+// fill an area with space
 void clearArea(int x, int y, int width, int height) {
     for (int i = y; i < y + height; i++) {
         gotoxy(x, i);
@@ -271,9 +242,7 @@ void clearArea(int x, int y, int width, int height) {
     }
 }
 
-void clearDetail() {
-    clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27);
-}
+void clearDetail() { clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27); }
 
 void clearNotification() {
     clearArea(NOTIF_X, NOTIF_Y, NOTIF_WORD_PER_LINE, UI_LIMIT_Y - NOTIF_Y - 2);
@@ -284,7 +253,8 @@ void displayNotification(string message, int color = WHITE) {
     clearNotification();
 
     SetColor(BLACK, color);
-    for (unsigned i = 0, j = 0; i < message.length(); i += NOTIF_WORD_PER_LINE) {
+    for (unsigned i = 0, j = 0; i < message.length();
+         i += NOTIF_WORD_PER_LINE) {
         gotoxy(NOTIF_X, NOTIF_Y + j);
         cout << message.substr(i, NOTIF_WORD_PER_LINE);
         j++;
@@ -372,7 +342,7 @@ void drawSelectedTab(int index) {
     int rong = 2;
 
     SetTextColor(WHITE);
-    drawLine(tabx, taby + rong, tabx + space * 4, taby + rong);
+    drawRow(tabx, taby + rong, space * 4);
 
     switch (index) {
         case 1:
@@ -399,7 +369,7 @@ void initUI() {
     DisableResizeWindow();
     DisableTitleBarControls(0, 0, 1);
     DisableSelection();
-    ShowScrollbar(0);\
+    ShowScrollbar(0);
     SetTextColor(WHITE);
     CursorVisibility(false);
 
