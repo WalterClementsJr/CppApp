@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "import.h"
 
@@ -202,7 +203,6 @@ void ShowScrollbar(BOOL show) {
     ShowScrollBar(hWnd, SB_BOTH, show);
 }
 
-
 void drawCol(int x, int y, int len) {
     for (int i = y; i <= y + len; i++) {
         gotoxy(x, i);
@@ -230,7 +230,7 @@ void drawRec(int x, int y, int dai, int rong) {
     drawRow(x + 1, y, dai - 2);
     drawRow(x + 1, y + rong, dai - 2);
 
-    drawCol(x, y + 1 , rong - 2);
+    drawCol(x, y + 1, rong - 2);
     drawCol(x + dai, y + 1, rong - 2);
 }
 
@@ -294,7 +294,6 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
         gotoxy(x + 1, y + 1);
         cout << title;
         SetColor();
-
         // cột ngang
         for (int i = x + 1; i <= x + dai - 1; i++) {
             gotoxy(i, y);
@@ -302,7 +301,6 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
             gotoxy(i, y + rong);
             cout << " ";
         }
-
         // cột dọc
         for (int i = y + 1; i <= y + rong - 1; i++) {
             gotoxy(x, i);
@@ -344,21 +342,12 @@ void drawSelectedTab(int index) {
     SetTextColor(WHITE);
     drawRow(tabx, taby + rong, space * 4);
 
-    switch (index) {
-        case 1:
-            drawTab(tabx, taby, "MON HOC", "F1", true);
-            drawTab(tabx + space, taby, "Tab name", "F2");
-            drawTab(tabx + space * 2, taby, "Tab name", "F3");
-            drawTab(tabx + space * 3, taby, "Tab name", "F4");
-            drawTab(tabx + space * 4, taby, "Tab name", "F5");
-            break;
-        case 2:
-            drawTab(tabx, taby, "MON HOC", "F1");
-            drawTab(tabx + space, taby, "Tab name", "F2", true);
-            drawTab(tabx + space * 2, taby, "Tab name", "F3");
-            drawTab(tabx + space * 3, taby, "Tab name", "F4");
-            drawTab(tabx + space * 4, taby, "Tab name", "F5");
-            break;
+    const string tabName[] = {"DS Mon hoc", "DS Lop", "DS SV", "DS Dang ky",
+                              "Thong ke"};
+    const string shortcut[] = {"F1", "F2", "F3", "F4", "F5"};
+
+    for (unsigned int i = 0; i < sizeof(tabName) / sizeof(tabName[0]); i++) {
+        drawTab(tabx + space * i, taby, tabName[i], shortcut[i], (i == index));
     }
 }
 
@@ -421,14 +410,14 @@ void initUI() {
     }
 
     gotoxy(UI_LIMIT_X - 35, 10);
-    cout << "DETAILS";
+    cout << "CHI TIET";
 
     for (size_t i = NOTIF_X; i < UI_LIMIT_X; i++) {
         gotoxy(i, NOTIF_Y - 2);
         cout << char(THANH_NGANG);
     }
     gotoxy(UI_LIMIT_X - 35, NOTIF_Y - 1);
-    cout << "NOTIFICATION";
+    cout << "THONG BAO";
 }
 
 #endif  // DRAWING_H

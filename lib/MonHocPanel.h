@@ -1,24 +1,24 @@
 #ifndef MH_PANEL_H
 #define MH_PANEL_H
 
-#include <iostream>
-#include <iomanip>
 #include <conio.h>
+#include <iostream>
 #include <string>
 
-#include "drawing.h"
-#include "MonHoc.h"
 #include "DsMonHoc.h"
+#include "MonHoc.h"
+#include "drawing.h"
 
 using namespace std;
 
 const int TABLE_X = 5, TABLE_Y = 10;
-const int INSERT_X = 106, INSERT_Y = 11;
+const int INSERT_X = DETAIL_X, INSERT_Y = DETAIL_Y + 1;
 
-const int TABLE_WIDTH = 83;
+const int TABLE_WIDTH = 100;
 const int MAX_TABLE_ROW = 15;
 
-const string MH_FIELDS[] = {"Ma so: ", "Ten mon hoc: ", "SLTC LT: ", "SLTC TH: "};
+const string MH_FIELDS[] = {
+    "Ma so: ", "Ten mon hoc: ", "SLTC LT: ", "SLTC TH: "};
 const unsigned int MH_FIELD_LIMITS[] = {10, 50, 2, 2};
 
 void initMHPanel() {
