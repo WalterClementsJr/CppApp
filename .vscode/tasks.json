@@ -7,11 +7,11 @@
             "command": "g++",
             "args": [
                 "-Wall",
-                "${workspaceFolder}\\main\\main.cpp",
-                "-I${workspaceFolder}\\lib",
-                "-static",
+                "-I", "",
+                "${workspaceFolder}\\lib",
                 "-o",
                 "${workspaceFolder}\\build\\main.exe",
+                "${workspaceFolder}\\main\\main.cpp",
                 "&&",
                 "start",
                 "cmd",
@@ -60,7 +60,7 @@
             "args": [
                 "-Wall",
                 "${workspaceFolder}\\main\\main1.cpp",
-                "-I${workspaceFolder}\\lib",
+                "-I", "${workspaceFolder}/lib",
                 "-static",
                 "-o",
                 "${workspaceFolder}\\build\\main1.exe",
@@ -121,7 +121,7 @@
             "args": [
                 "-Wall",
                 "${workspaceFolder}\\main\\main2.cpp",
-                "-I${workspaceFolder}\\lib",
+                "-I", "${workspaceFolder}\\lib",
                 "-static",
                 "-o",
                 "${workspaceFolder}\\build\\main2.exe",
