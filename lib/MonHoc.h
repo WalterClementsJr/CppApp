@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MONHOC_H
+#define MONHOC_H
 
 #include <string>
 
@@ -37,3 +38,5 @@ class NodeMonHoc {
         right = NULL;
     }
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef DSMH_H
+#define DSMH_H
+
 #include <iostream>
 #include <string>
 
@@ -177,3 +180,5 @@ void testDSMH() {
     ds.displayInOrder();
     ds.displayPostOrder();
 }
+
+#endif

@@ -1,6 +1,10 @@
 #ifndef DRAWING_H
 #define DRAWING_H
 
+#include <windows.h>
+#include <string>
+#include <iostream>
+
 #include "import.h"
 
 using namespace std;

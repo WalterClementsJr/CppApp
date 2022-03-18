@@ -1,4 +1,10 @@
-#pragma once
+#ifndef HELPER_H
+#define HELPER_H
+
+#include <windows.h>
+#include <string>
+#include <iostream>
+#include <conio.h>
 
 using namespace std;
 
@@ -18,3 +24,5 @@ void keyTest() {
     }
     cout << "ESC\n";
 }
+
+#endif

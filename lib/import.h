@@ -4,14 +4,7 @@
 #include <string>
 #include <iostream>
 #include <windows.h>
-#include <cwchar>
-#include <io.h>
-#include <ctime>
-#include <algorithm>
 #include <conio.h>
-#include <fstream>
-#include <math.h>
-#include <iomanip>
 
 // color values
 #define BLACK           0
@@ -97,7 +90,10 @@ const int UI_LIMIT_Y = 55;
 #define INDEX wherey() - 13
 #define MAX_ROW 35
 
-// Notification position
+// Details
+const int DETAIL_X = 110, DETAIL_Y = 10;
+
+// Notification
 const int NOTIF_X = 110, NOTIF_Y = 40;
 const int NOTIF_WORD_PER_LINE = 60;
 

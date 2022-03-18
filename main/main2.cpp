@@ -1,5 +1,5 @@
-#include "../lib/drawing.h"
-#include "../lib/import.h"
+#include "drawing.h"
+#include "import.h"
 
 using namespace std;
 

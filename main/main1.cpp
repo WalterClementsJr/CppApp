@@ -1,10 +1,13 @@
-#include "../lib/drawing.h"
-#include "../lib/import.h"
-#include "../lib/DsMonHoc.h"
+#include "import.h"
+#include "drawing.h"
+#include "DsMonHoc.h"
+#include "MonHocPanel.h"
 
 using namespace std;
 
 int main() {
-    testDSMH();
+    initUI();
+    drawSelectedTab(1);
+    initMHPanel();
     return 0;
 }
