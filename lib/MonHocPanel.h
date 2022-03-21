@@ -26,9 +26,9 @@ void highlightIndex(MonHoc *list[], int index) {
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
     cout << setfill(' ') << left << setw(MH_FIELD_LIMITS[0]) << list[index]->ms
-         << setw(MH_FIELD_LIMITS[1] + 5) << list[index]->ten << setw(10)
-         << setw(MH_FIELD_LIMITS[2] + 5) << list[index]->sltclt
-         << setw(MH_FIELD_LIMITS[2] + 5) << list[index]->sltcth;
+         << setw(MH_FIELD_LIMITS[1] + 2) << list[index]->ten
+         << setw(MH_FIELD_LIMITS[2] + 6) << list[index]->sltclt
+         << setw(MH_FIELD_LIMITS[2] + 6) << list[index]->sltcth;
 
     SetColor();
 }
@@ -39,9 +39,9 @@ void dehighlightIndex(MonHoc *list[], int index) {
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
     cout << setfill(' ') << left << setw(MH_FIELD_LIMITS[0]) << list[index]->ms
-         << setw(MH_FIELD_LIMITS[1] + 5) << list[index]->ten << setw(10)
-         << setw(MH_FIELD_LIMITS[2] + 5) << list[index]->sltclt
-         << setw(MH_FIELD_LIMITS[2] + 5) << list[index]->sltcth;
+         << setw(MH_FIELD_LIMITS[1] + 2) << list[index]->ten
+         << setw(MH_FIELD_LIMITS[2] + 6) << list[index]->sltclt
+         << setw(MH_FIELD_LIMITS[2] + 6) << list[index]->sltcth;
     SetColor();
 }
 
@@ -74,16 +74,36 @@ void deleteMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index) {
     }
 }
 
-void loadMonHocToTable(MonHoc *list[], int index) {}
+// display MonHoc to table based on index
+void loadMonHocToTable(MonHoc *list[], int length, int index) {
+    CursorVisibility(false);
+
+    int x = TABLE_X, y = TABLE_Y + 2;
+    int currentPage = index / MAX_TABLE_ROW;
+
+    int rowsLeft = length - currentPage * MAX_TABLE_ROW;
+    rowsLeft = rowsLeft > MAX_TABLE_ROW ? MAX_TABLE_ROW : rowsLeft;
+
+    for (int i = 0; i < rowsLeft; i++) {
+        gotoxy(x, y);
+        cout << setfill(' ') << left << setw(MH_FIELD_LIMITS[0])
+             << list[index]->ms << setw(MH_FIELD_LIMITS[1] + 2)
+             << list[index]->ten << setw(MH_FIELD_LIMITS[2] + 6)
+             << list[index]->sltclt << setw(MH_FIELD_LIMITS[2] + 6)
+             << list[index]->sltcth;
+        drawRow(x, y + 1, TABLE_WIDTH);
+        y += 2;
+    }
+}
 
 int initMHPanel(DsMonHoc &dsmh) {
     SetColor(BLACK, WHITE);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma so";
-    gotoxy(TABLE_X + 10, TABLE_Y);
+    gotoxy(TABLE_X + MH_FIELD_LIMITS[0], TABLE_Y);
     cout << "Ten mon hoc";
-    gotoxy(TABLE_X + 60, TABLE_Y);
+    gotoxy(TABLE_X + 62, TABLE_Y);
     cout << "STC LT";
     gotoxy(TABLE_X + 70, TABLE_Y);
     cout << "STC TH";
@@ -103,17 +123,18 @@ int initMHPanel(DsMonHoc &dsmh) {
     MonHoc *list[10000];
     // load to array
     dsmh.toArray(list);
+    int dsLength = dsmh.getCount();
 
     // highlight if not empty
-    if (!dsmh.isEmpty()) {
-        loadMonHocToTable(list, index);
+    if (dsLength > 0) {
+        loadMonHocToTable(list, dsLength, index);
         highlightIndex(list, index);
     }
 
     while (exit == 0) {
         currentPage = index / MAX_TABLE_ROW;
         nPage = dsmh.getCount() / MAX_TABLE_ROW;
-        nOfRowRemains = dsmh.getCount() - currentPage * MAX_TABLE_ROW;
+        nOfRowRemains = dsLength - currentPage * MAX_TABLE_ROW;
         nOfRowRemains =
             nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
 
@@ -159,33 +180,33 @@ int initMHPanel(DsMonHoc &dsmh) {
                     index =
                         (currentPage > 0 ? currentPage - 1 : 0) * MAX_TABLE_ROW;
                     clearTable();
-                    loadMonHocToTable(list, index);
+                    loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == KEY_RIGHT) {
                     currentPage =
                         currentPage >= nPage ? nPage : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
                     clearTable();
-                    loadMonHocToTable(list, index);
+                    loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == INSERT) {
                     // insert
                     insertMonHoc(dsmh, list);
                     index = 0;
-                    loadMonHocToTable(list, index);
+                    loadMonHocToTable(list,dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == DEL) {
                     // remove
                     deleteMonHoc(dsmh, list, index);
                     index = 0;
-                    loadMonHocToTable(list, index);
+                    loadMonHocToTable(list,dsLength, index);
                     highlightIndex(list, index);
                 }
             }
         } else if (key == TAB) {
             // search + edit
             // searchMonHoc(dsmh);
-            loadMonHocToTable(list, index);
+            loadMonHocToTable(list, dsLength, index);
             highlightIndex(list, index);
         } else if (key == ENTER) {
             // edit row

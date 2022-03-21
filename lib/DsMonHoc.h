@@ -74,9 +74,6 @@ bool DsMonHoc::isEmpty() { return root != NULL; }
 int DsMonHoc::getCount() { return getCount(root); }
 
 void DsMonHoc::toArray(MonHoc *arr[]) {
-    int len = getCount();
-
-    // MonHoc *arr = new MonHoc[len];
     int index = 0;
     addNodeToArray(root, arr, index);
 }
