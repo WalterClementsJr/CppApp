@@ -242,6 +242,10 @@ void clearArea(int x, int y, int width, int height) {
     }
 }
 
+void clearTable() {
+    clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH, LAST_ROW);
+}
+
 void clearDetail() { clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27); }
 
 void clearNotification() {
@@ -263,14 +267,7 @@ void displayNotification(string message, int color = WHITE) {
 }
 
 void clearTab() {
-    // clear tabs
-    gotoxy(3, 111);
-    for (size_t i = 10; i < 50; i++) {
-        gotoxy(3, i);
-        for (size_t i = 0; i < 102; i++) {
-            cout << " ";
-        }
-    }
+    clearTable();
     clearDetail();
     clearNotification();
 }
@@ -347,7 +344,7 @@ void drawSelectedTab(int index) {
     const string shortcut[] = {"F1", "F2", "F3", "F4", "F5"};
 
     for (unsigned int i = 0; i < sizeof(tabName) / sizeof(tabName[0]); i++) {
-        drawTab(tabx + space * i, taby, tabName[i], shortcut[i], (i == index));
+        drawTab(tabx + space * i, taby, tabName[i], shortcut[i], (i == (unsigned)index));
     }
 }
 

@@ -85,10 +85,13 @@ const int UI_LIMIT_X = 170;
 const int UI_LIMIT_Y = 55;
 
 // table
-#define FIRST_ROW 12
-#define LAST_ROW 47
-#define INDEX wherey() - 13
-#define MAX_ROW 35
+const int TABLE_X = 5, TABLE_Y = 10;
+const int FIRST_ROW = 12;
+const int LAST_ROW = 44;
+
+const int MAX_ROW = 35;
+const int TABLE_WIDTH = 101;
+const int MAX_TABLE_ROW = 15;
 
 // Details
 const int DETAIL_X = 110, DETAIL_Y = 10;

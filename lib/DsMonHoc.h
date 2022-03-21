@@ -19,6 +19,9 @@ class DsMonHoc {
     void update(MonHoc mh);
     void read();
     void write();
+    bool isEmpty();
+    int getCount();
+    void toArray(MonHoc *arr[]);
 
     // debugging
     void displayPostOrder();
@@ -27,6 +30,7 @@ class DsMonHoc {
    private:
     NodeMonHoc *root;
     int getHeight(NodeMonHoc *root);
+    int getCount(NodeMonHoc *root);
     bool isBalanced(NodeMonHoc *root);
     NodeMonHoc *emptyTree(NodeMonHoc *root);
     NodeMonHoc *search(NodeMonHoc *root, string cmnd);
@@ -37,6 +41,7 @@ class DsMonHoc {
     // NodeMonHoc *removeNode(NodeMonHoc *root, string ms);
     // NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream *reader);
     // void writeToFile(NodeMonHoc *root, ofstream *writer);
+    void addNodeToArray(NodeMonHoc *root, MonHoc *arr[], int &index);
 };
 
 // public
@@ -64,6 +69,18 @@ void DsMonHoc::displayPostOrder() {
     traversePostOrder(root);
 }
 
+bool DsMonHoc::isEmpty() { return root != NULL; }
+
+int DsMonHoc::getCount() { return getCount(root); }
+
+void DsMonHoc::toArray(MonHoc *arr[]) {
+    int len = getCount();
+
+    // MonHoc *arr = new MonHoc[len];
+    int index = 0;
+    addNodeToArray(root, arr, index);
+}
+
 // private
 int DsMonHoc::getHeight(NodeMonHoc *root) {
     if (root == NULL)
@@ -71,6 +88,14 @@ int DsMonHoc::getHeight(NodeMonHoc *root) {
     else {
         return max(getHeight(root->left), getHeight(root->right)) + 1;
     }
+}
+
+int DsMonHoc::getCount(NodeMonHoc *root) {
+    if (root == NULL) {
+        return 0;
+    }
+
+    return 1 + getCount(root->left) + getCount(root->right);
 }
 
 bool DsMonHoc::isBalanced(NodeMonHoc *root) {
@@ -143,42 +168,65 @@ NodeMonHoc *DsMonHoc::insertNode(NodeMonHoc *root, MonHoc &m) {
 }
 
 // NodeMonHoc *DsMonHoc::removeNode(NodeMonHoc *root, string ms) {
-    // NodeMonHoc *temp;
+// NodeMonHoc *temp;
 
-    // if (root == NULL)
-    //     return NULL;
-    // else if (ms < root->monhoc.ms)
-    //     root->left = removeNode(root->left, ms);
-    // else if (ms > root->monhoc.ms)
-    //     root->right = removeNode(root->right, ms);
-    // else if (root->left && root->right) {
-    //     temp = findLeft(root->right);
-    //     root->monhoc = temp->monhoc;
-    //     root->right = removeNode(root->right, root->monhoc.ms);
-    // } else {
-    //     temp = root;
-    //     if (root->left == NULL)
-    //         root = root->right;
-    //     else if (root->right == NULL)
-    //         root = root->left;
-    //     delete temp;
-    // }
-    // return root;
-    // return NULL;
+// if (root == NULL)
+//     return NULL;
+// else if (ms < root->monhoc.ms)
+//     root->left = removeNode(root->left, ms);
+// else if (ms > root->monhoc.ms)
+//     root->right = removeNode(root->right, ms);
+// else if (root->left && root->right) {
+//     temp = findLeft(root->right);
+//     root->monhoc = temp->monhoc;
+//     root->right = removeNode(root->right, root->monhoc.ms);
+// } else {
+//     temp = root;
+//     if (root->left == NULL)
+//         root = root->right;
+//     else if (root->right == NULL)
+//         root = root->left;
+//     delete temp;
+// }
+// return root;
+// return NULL;
 // }
 
-void testDSMH() {
-    DsMonHoc ds;
-    ds.insert("6", "", 1, 1);
-    ds.insert("4", "", 1, 1);
-    ds.insert("3", "", 1, 1);
+void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &index) {
+    if (root == NULL) {
+        return;
+    }
+    addNodeToArray(root->left, array, index);
+
+    array[index] = &root->monhoc;
+    index++;
+    // cout << &root->monhoc;
+    addNodeToArray(root->right, array, index);
+}
+
+void testDSMH(DsMonHoc &ds) {
+    ds.insert("6", "MONHOC 1", 1, 1);
+    ds.insert("4", "Mon HOC 2", 1, 1);
+    ds.insert("3", "TOAN", 1, 1);
     ds.insert("5", "", 1, 1);
     ds.insert("8", "", 1, 1);
     ds.insert("7", "", 1, 1);
     ds.insert("9", "", 1, 1);
 
-    ds.displayInOrder();
-    ds.displayPostOrder();
+    // int len = ds.getCount();
+    // cout << "Number of mh: " << len << endl;
+
+    // MonHoc *arr[len];
+    // ds.toArray(arr);
+
+    // for (unsigned i = 0; i < len; i++) {
+    //     cout << arr[i]->toString() << endl;
+    // }
+
+    // arr[2]->ten = "FUCK FUCK";
+
+    // ds.displayPostOrder();
+
 }
 
 #endif
