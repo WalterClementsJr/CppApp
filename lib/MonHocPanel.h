@@ -87,10 +87,10 @@ void loadMonHocToTable(MonHoc *list[], int length, int index) {
     for (int i = 0; i < rowsLeft; i++) {
         gotoxy(x, y);
         cout << setfill(' ') << left << setw(MH_FIELD_LIMITS[0])
-             << list[index]->ms << setw(MH_FIELD_LIMITS[1] + 2)
-             << list[index]->ten << setw(MH_FIELD_LIMITS[2] + 6)
-             << list[index]->sltclt << setw(MH_FIELD_LIMITS[2] + 6)
-             << list[index]->sltcth;
+             << list[index + i]->ms << setw(MH_FIELD_LIMITS[1] + 2)
+             << list[index + i]->ten << setw(MH_FIELD_LIMITS[2] + 6)
+             << list[index + i]->sltclt << setw(MH_FIELD_LIMITS[2] + 6)
+             << list[index + i]->sltcth;
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
     }
