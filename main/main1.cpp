@@ -14,7 +14,7 @@ int main() {
     DsMonHoc dsmh;
     testDSMH(dsmh);
 
-    initMHPanel(dsmh);
+    // initMHPanel(dsmh);
 
     // insertMonHoc(dsmh, NULL);
 

@@ -1,6 +1,7 @@
 #ifndef DSMH_H
 #define DSMH_H
 
+#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -17,10 +18,10 @@ class DsMonHoc {
     void insert(string ms, string ten, int sltclt, int sltcth);
     void remove(string ms);
     void update(MonHoc mh);
-    void read();
-    void write();
     bool isEmpty();
     int getCount();
+    void read();
+    void write();
     void toArray(MonHoc *arr[]);
 
     // debugging
@@ -38,9 +39,9 @@ class DsMonHoc {
     void traversePostOrder(NodeMonHoc *root);
     NodeMonHoc *insertNode(NodeMonHoc *root, MonHoc &m);
     // NodeMonHoc *updateNode(NodeMonHoc *root, MonHoc &m);
-    // NodeMonHoc *removeNode(NodeMonHoc *root, string ms);
-    // NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream *reader);
-    // void writeToFile(NodeMonHoc *root, ofstream *writer);
+    NodeMonHoc *removeNode(NodeMonHoc *root, string ms);
+    NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream &reader);
+    void writeToFile(NodeMonHoc *root, ofstream &writer);
     void addNodeToArray(NodeMonHoc *root, MonHoc *arr[], int &index);
 };
 
@@ -76,6 +77,25 @@ int DsMonHoc::getCount() { return getCount(root); }
 void DsMonHoc::toArray(MonHoc *arr[]) {
     int index = 0;
     addNodeToArray(root, arr, index);
+}
+
+void DsMonHoc::read() {
+    ifstream fileReader("./build/data/monhoc.csv");
+
+    if (fileReader.is_open()) {
+        root = readFromFile(root, fileReader);
+    }
+    fileReader.close();
+}
+
+void DsMonHoc::write() {
+    ofstream fileWriter("./build/data/monhoc.csv");
+
+    if (fileWriter.is_open()) {
+        writeToFile(root, fileWriter);
+    }
+
+    fileWriter.close();
 }
 
 // private
@@ -164,30 +184,72 @@ NodeMonHoc *DsMonHoc::insertNode(NodeMonHoc *root, MonHoc &m) {
     return root;
 }
 
-// NodeMonHoc *DsMonHoc::removeNode(NodeMonHoc *root, string ms) {
-// NodeMonHoc *temp;
+NodeMonHoc *DsMonHoc::removeNode(NodeMonHoc *root, string ms) {
+    // NodeMonHoc *temp;
 
-// if (root == NULL)
-//     return NULL;
-// else if (ms < root->monhoc.ms)
-//     root->left = removeNode(root->left, ms);
-// else if (ms > root->monhoc.ms)
-//     root->right = removeNode(root->right, ms);
-// else if (root->left && root->right) {
-//     temp = findLeft(root->right);
-//     root->monhoc = temp->monhoc;
-//     root->right = removeNode(root->right, root->monhoc.ms);
-// } else {
-//     temp = root;
-//     if (root->left == NULL)
-//         root = root->right;
-//     else if (root->right == NULL)
-//         root = root->left;
-//     delete temp;
-// }
-// return root;
-// return NULL;
-// }
+    if (root == NULL) return NULL;
+    // else if (ms < root->monhoc.ms)
+    //     root->left = removeNode(root->left, ms);
+    // else if (ms > root->monhoc.ms)
+    //     root->right = removeNode(root->right, ms);
+    // else if (root->left && root->right) {
+    //     temp = findLeft(root->right);
+    //     root->monhoc = temp->monhoc;
+    //     root->right = removeNode(root->right, root->monhoc.ms);
+    // } else {
+    //     temp = root;
+    //     if (root->left == NULL)
+    //         root = root->right;
+    //     else if (root->right == NULL)
+    //         root = root->left;
+    //     delete temp;
+    // }
+    return root;
+}
+
+NodeMonHoc *DsMonHoc::readFromFile(NodeMonHoc *root, ifstream &reader) {
+    string line;
+    string data[4] = {""};
+    int index;
+    string temp;
+
+    while (getline(reader, line)) {
+        index = 0;
+        data[0] = "";
+        data[1] = "";
+        data[2] = "";
+        data[3] = "";
+
+        temp = "";
+
+        // read every character to find ','
+        for (unsigned i = 0; i < line.size(); i++) {
+            if (line[i] == ',') {
+                data[index] = temp;
+                temp = "";
+                index++;
+            } else if (i == line.size() - 1) {
+                // if end of line => last string
+                temp += line[i];
+                data[index] = temp;
+            } else {
+                temp += line[i];
+            }
+        }
+        MonHoc m(data[0], data[1], stoi(data[2]), stoi(data[3]));
+        root = insertNode(root, m);
+    }
+    return root;
+}
+
+void DsMonHoc::writeToFile(NodeMonHoc *root, ofstream &writer) {
+    // write pre-order
+    if (root != NULL) {
+        writer << root->monhoc.toString() << endl;
+        writeToFile(root->left, writer);
+        writeToFile(root->right, writer);
+    }
+}
 
 void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &index) {
     if (root == NULL) {
@@ -202,13 +264,17 @@ void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &index) {
 }
 
 void testDSMH(DsMonHoc &ds) {
-    ds.insert("6", "MONHOC 1", 1, 1);
-    ds.insert("4", "Mon HOC 2", 1, 1);
-    ds.insert("3", "TOAN", 1, 1);
-    ds.insert("5", "", 1, 1);
-    ds.insert("8", "", 1, 1);
-    ds.insert("7", "", 1, 1);
-    ds.insert("9", "", 1, 1);
+    // ds.insert("6", "MONHOC", 1, 1);
+    // ds.insert("4", "Mon HOC", 1, 1);
+    // ds.insert("3", "TOAN", 1, 1);
+    // ds.insert("5", "CD", 1, 1);
+    // ds.insert("8", "AGHT", 1, 1);
+    // ds.insert("7", "BHT", 1, 1);
+    // ds.insert("9", "LLKH", 1, 1);
+
+    ds.read();
+
+    ds.displayPostOrder();
 
     // int len = ds.getCount();
     // cout << "Number of mh: " << len << endl;
@@ -223,7 +289,6 @@ void testDSMH(DsMonHoc &ds) {
     // arr[2]->ten = "FUCK FUCK";
 
     // ds.displayPostOrder();
-
 }
 
 #endif
