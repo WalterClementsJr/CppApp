@@ -39,6 +39,7 @@ class DsMonHoc {
     void traversePostOrder(NodeMonHoc *root);
     NodeMonHoc *insertNode(NodeMonHoc *root, MonHoc &m);
     // NodeMonHoc *updateNode(NodeMonHoc *root, MonHoc &m);
+    NodeMonHoc *findLeft(NodeMonHoc *root);
     NodeMonHoc *removeNode(NodeMonHoc *root, string ms);
     NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream &reader);
     void writeToFile(NodeMonHoc *root, ofstream &writer);
@@ -56,7 +57,9 @@ void DsMonHoc::insert(string ms, string ten, int sltclt, int sltcth) {
     root = insertNode(root, m);
 }
 
-void DsMonHoc::remove(string ms) {}
+void DsMonHoc::remove(string ms) {
+    root = removeNode(root, ms);
+}
 
 void DsMonHoc::update(MonHoc m) {}
 
@@ -184,26 +187,36 @@ NodeMonHoc *DsMonHoc::insertNode(NodeMonHoc *root, MonHoc &m) {
     return root;
 }
 
-NodeMonHoc *DsMonHoc::removeNode(NodeMonHoc *root, string ms) {
-    // NodeMonHoc *temp;
+NodeMonHoc *DsMonHoc::findLeft(NodeMonHoc *root) {
+    if (root == NULL)
+        return NULL;
+    else if (root->left == NULL)
+        return root;
+    else
+        return findLeft(root->left);
+}
 
-    if (root == NULL) return NULL;
-    // else if (ms < root->monhoc.ms)
-    //     root->left = removeNode(root->left, ms);
-    // else if (ms > root->monhoc.ms)
-    //     root->right = removeNode(root->right, ms);
-    // else if (root->left && root->right) {
-    //     temp = findLeft(root->right);
-    //     root->monhoc = temp->monhoc;
-    //     root->right = removeNode(root->right, root->monhoc.ms);
-    // } else {
-    //     temp = root;
-    //     if (root->left == NULL)
-    //         root = root->right;
-    //     else if (root->right == NULL)
-    //         root = root->left;
-    //     delete temp;
-    // }
+NodeMonHoc *DsMonHoc::removeNode(NodeMonHoc *root, string ms) {
+    NodeMonHoc *temp;
+
+    if (root == NULL)
+        return NULL;
+    else if (ms < root->monhoc.ms) {
+        root->left = removeNode(root->left, ms);
+    } else if (ms > root->monhoc.ms) {
+        root->right = removeNode(root->right, ms);
+    } else if (root->left && root->right) {
+        temp = findLeft(root->right);
+        root->monhoc = temp->monhoc;
+        root->right = removeNode(root->right, root->monhoc.ms);
+    } else {
+        temp = root;
+        if (root->left == NULL)
+            root = root->right;
+        else if (root->right == NULL)
+            root = root->left;
+        delete temp;
+    }
     return root;
 }
 
@@ -274,6 +287,8 @@ void testDSMH(DsMonHoc &ds) {
 
     ds.read();
 
+    ds.displayPostOrder();
+    ds.remove("6");
     ds.displayPostOrder();
 
     // int len = ds.getCount();
