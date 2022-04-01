@@ -288,24 +288,16 @@ void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &index) {
 }
 
 void testDSMH(DsMonHoc &ds) {
-    // ds.insert("6", "MONHOC", 1, 1);
-    // ds.insert("4", "Mon HOC", 1, 1);
-    // ds.insert("3", "TOAN", 1, 1);
-    // ds.insert("5", "CD", 1, 1);
-    // ds.insert("8", "AGHT", 1, 1);
-    // ds.insert("7", "BHT", 1, 1);
-    // ds.insert("9", "LLKH", 1, 1);
-
     ds.read();
 
-    ds.displayPostOrder();
-    ds.update("6", "MONHOC EDIT", 2, 1);
+    // ds.displayPostOrder();
+    // ds.update("6", "MONHOC EDIT", 2, 1);
     // MonHoc *m = ds.search("6");
 
     // m->ten = "MONHOC EDITED";
     // cout << m->toString() << endl;
     // ds.remove("6");
-    ds.displayPostOrder();
+    // ds.displayPostOrder();
 
     // int len = ds.getCount();
     // cout << "Number of mh: " << len << endl;

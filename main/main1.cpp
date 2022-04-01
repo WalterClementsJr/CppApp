@@ -13,11 +13,17 @@ int main() {
     drawSelectedTab(1);
 
     DsMonHoc dsmh;
-    // testDSMH(dsmh);
+    testDSMH(dsmh);
+    // dsmh.displayPostOrder();
+
+    MonHoc *arr[1000];
+    dsmh.toArray(arr);
 
     // initMHPanel(dsmh);
 
-    insertMonHoc(dsmh, NULL);
+    // insertMonHoc(dsmh, arr);
+    editMonHoc(dsmh, arr, 5);
+    dsmh.displayPostOrder();
 
     return 0;
 }
