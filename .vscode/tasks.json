@@ -76,7 +76,7 @@
                 "-Wall",
                 "${workspaceFolder}\\main\\main1.cpp",
                 "-I",
-                "${workspaceFolder}/lib",
+                "${workspaceFolder}\\lib",
                 "-o",
                 "${workspaceFolder}\\build\\main1.exe",
                 "&&",

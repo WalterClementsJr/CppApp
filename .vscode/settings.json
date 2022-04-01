@@ -53,6 +53,9 @@
         "xlocbuf": "cpp",
         "xmemory": "cpp",
         "xstddef": "cpp",
-        "xtr1common": "cpp"
+        "xtr1common": "cpp",
+        "*.tcc": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp"
     }
 }

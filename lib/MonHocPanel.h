@@ -177,9 +177,10 @@ string insertMonHoc(DsMonHoc &dsmh, MonHoc *list[]) {
                             gotoxy(INSERT_X, INSERT_Y + 10);
                             cout << string(40, ' ');
 
-                            // insert
+                            // insert to dsmh and update list and length
                             dsmh.insert(input[0], input[1], stoi(input[2]),
                                         stoi(input[3]));
+                            dsmh.toArray(list);
                             dsmh.write();
                             exit = 1;
                             ms = input[0];
@@ -470,19 +471,23 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
             }
         }
     }
-    return "";
+    return input[0];
 }
 
 void deleteMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index) {
     // xác nhận xóa
-    displayNotification("Xac nhan xoa " + list[index]->ten + "? Y/N");
+    displayNotification("Xac nhan xoa mon hoc " + list[index]->ten + "? Y/N",
+                        RED);
     int key = _getch();
 
     while (true) {
         if (key == 0 || key == 224) {
             _getch();
         } else if (key == 'y' || key == 'Y') {
-            // TODO delete from ds and temp
+            // delete from dsmh and list
+            dsmh.remove(list[index]->ms);
+            dsmh.toArray(list);
+            dsmh.write();
             break;
         } else if (key == 'n' || key == 'N') {
             break;
@@ -541,7 +546,7 @@ int initMHPanel(DsMonHoc &dsmh) {
     MonHoc *list[10000];
     // load to array
     dsmh.toArray(list);
-    int dsLength = dsmh.getCount();
+    int dsLength = dsmh.getSize();
 
     // highlight if not empty
     if (dsLength > 0) {
@@ -551,7 +556,7 @@ int initMHPanel(DsMonHoc &dsmh) {
 
     while (exit == 0) {
         currentPage = index / MAX_TABLE_ROW;
-        nPage = dsmh.getCount() / MAX_TABLE_ROW;
+        nPage = dsmh.getSize() / MAX_TABLE_ROW;
         nOfRowRemains = dsLength - currentPage * MAX_TABLE_ROW;
         nOfRowRemains =
             nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
@@ -610,12 +615,16 @@ int initMHPanel(DsMonHoc &dsmh) {
                 } else if (key == INSERT) {
                     // insert
                     insertMonHoc(dsmh, list);
+                    clearTable();
+                    dsLength = dsmh.getSize();
                     index = 0;
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == DEL) {
                     // remove
                     deleteMonHoc(dsmh, list, index);
+                    clearTable();
+                    dsLength = dsmh.getSize();
                     index = 0;
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
@@ -630,7 +639,8 @@ int initMHPanel(DsMonHoc &dsmh) {
             // edit row
             editMonHoc(dsmh, list, index);
             index = 0;
-            // loadMonHocToTable(list, index);
+            clearTable();
+            loadMonHocToTable(list, dsLength, index);
             highlightIndex(list, index);
         }
     }

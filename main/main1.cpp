@@ -19,11 +19,7 @@ int main() {
     MonHoc *arr[1000];
     dsmh.toArray(arr);
 
-    // initMHPanel(dsmh);
-
-    // insertMonHoc(dsmh, arr);
-    editMonHoc(dsmh, arr, 5);
-    dsmh.displayPostOrder();
+    initMHPanel(dsmh);
 
     return 0;
 }

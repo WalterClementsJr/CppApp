@@ -20,7 +20,7 @@ class DsMonHoc {
     void remove(string ms);
     MonHoc *search(string ms);
     bool isEmpty();
-    int getCount();
+    int getSize();
     void read();
     void write();
     void toArray(MonHoc *arr[]);
@@ -32,7 +32,7 @@ class DsMonHoc {
    private:
     NodeMonHoc *root;
     int getHeight(NodeMonHoc *root);
-    int getCount(NodeMonHoc *root);
+    int getSize(NodeMonHoc *root);
     bool isBalanced(NodeMonHoc *root);
     NodeMonHoc *emptyTree(NodeMonHoc *root);
     NodeMonHoc *search(NodeMonHoc *root, string ms);
@@ -65,14 +65,13 @@ void DsMonHoc::update(string ms, string ten, int sltclt, int sltcth) {
     m->ten = ten;
     m->sltclt = sltclt;
     m->sltcth = sltcth;
+
+    // TODO rebalance tree
 }
 
 void DsMonHoc::remove(string ms) { root = removeNode(root, ms); }
 
-MonHoc *DsMonHoc::search(string ms) {
-    return &search(root, ms)->monhoc;
-}
-
+MonHoc *DsMonHoc::search(string ms) { return &search(root, ms)->monhoc; }
 
 void DsMonHoc::displayInOrder() {
     cout << "\nDisplay inorder\n";
@@ -86,7 +85,7 @@ void DsMonHoc::displayPostOrder() {
 
 bool DsMonHoc::isEmpty() { return root != NULL; }
 
-int DsMonHoc::getCount() { return getCount(root); }
+int DsMonHoc::getSize() { return getSize(root); }
 
 void DsMonHoc::toArray(MonHoc *arr[]) {
     int index = 0;
@@ -121,12 +120,12 @@ int DsMonHoc::getHeight(NodeMonHoc *root) {
     }
 }
 
-int DsMonHoc::getCount(NodeMonHoc *root) {
+int DsMonHoc::getSize(NodeMonHoc *root) {
     if (root == NULL) {
         return 0;
     }
 
-    return 1 + getCount(root->left) + getCount(root->right);
+    return 1 + getSize(root->left) + getSize(root->right);
 }
 
 bool DsMonHoc::isBalanced(NodeMonHoc *root) {
@@ -299,7 +298,7 @@ void testDSMH(DsMonHoc &ds) {
     // ds.remove("6");
     // ds.displayPostOrder();
 
-    // int len = ds.getCount();
+    // int len = ds.getSize();
     // cout << "Number of mh: " << len << endl;
 
     // MonHoc *arr[len];
