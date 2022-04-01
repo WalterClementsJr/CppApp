@@ -9,15 +9,15 @@ using namespace std;
 
 int main() {
     // keyTest();
-    // initUI();
-    // drawSelectedTab(1);
+    initUI();
+    drawSelectedTab(1);
 
     DsMonHoc dsmh;
-    testDSMH(dsmh);
+    // testDSMH(dsmh);
 
     // initMHPanel(dsmh);
 
-    // insertMonHoc(dsmh, NULL);
+    insertMonHoc(dsmh, NULL);
 
     return 0;
 }

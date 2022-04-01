@@ -357,7 +357,7 @@ void initUI() {
     DisableSelection();
     ShowScrollbar(0);
     SetTextColor(WHITE);
-    CursorVisibility(false);
+    ShowCur(false);
 
     gotoxy(UI_LIMIT_X / 2, 2);
     cout << "PTIT TP.HCM";
