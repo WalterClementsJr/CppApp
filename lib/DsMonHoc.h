@@ -18,6 +18,7 @@ class DsMonHoc {
     void insert(string ms, string ten, int sltclt, int sltcth);
     void update(string ms, string ten, int sltclt, int sltcth);
     void remove(string ms);
+    MonHoc *search(string ms);
     bool isEmpty();
     int getCount();
     void read();
@@ -38,7 +39,6 @@ class DsMonHoc {
     void traverseInOrder(NodeMonHoc *root);
     void traversePostOrder(NodeMonHoc *root);
     NodeMonHoc *insertNode(NodeMonHoc *root, MonHoc &m);
-    NodeMonHoc *updateNode(NodeMonHoc *root, MonHoc m);
     NodeMonHoc *findLeft(NodeMonHoc *root);
     NodeMonHoc *removeNode(NodeMonHoc *root, string ms);
     NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream &reader);
@@ -58,12 +58,20 @@ void DsMonHoc::insert(string ms, string ten, int sltclt, int sltcth) {
 }
 
 void DsMonHoc::update(string ms, string ten, int sltclt, int sltcth) {
-    MonHoc m(ms, ten, sltclt, sltcth);
+    MonHoc *m = search(ms);
 
-    root = updateNode(root, m);
+    if (m == NULL) return;
+
+    m->ten = ten;
+    m->sltclt = sltclt;
+    m->sltcth = sltcth;
 }
 
 void DsMonHoc::remove(string ms) { root = removeNode(root, ms); }
+
+MonHoc *DsMonHoc::search(string ms) {
+    return &search(root, ms)->monhoc;
+}
 
 
 void DsMonHoc::displayInOrder() {
@@ -190,20 +198,6 @@ NodeMonHoc *DsMonHoc::insertNode(NodeMonHoc *root, MonHoc &m) {
     return root;
 }
 
-NodeMonHoc *DsMonHoc::updateNode(NodeMonHoc *root, MonHoc m) {
-    if (root == NULL) {
-        root = insertNode(root, m);
-    } else if (m.ms == root->monhoc.ms) {
-        root->monhoc.ten = m.ten;
-        root->monhoc.sltclt = m.sltclt;
-        root->monhoc.sltcth = m.sltcth;
-    } else if (m.ms < root->monhoc.ms)
-        root->left = updateNode(root->left, m);
-    else if (m.ms > root->monhoc.ms)
-        root->right = updateNode(root->right, m);
-    return root;
-}
-
 NodeMonHoc *DsMonHoc::findLeft(NodeMonHoc *root) {
     if (root == NULL)
         return NULL;
@@ -306,6 +300,10 @@ void testDSMH(DsMonHoc &ds) {
 
     ds.displayPostOrder();
     ds.update("6", "MONHOC EDIT", 2, 1);
+    // MonHoc *m = ds.search("6");
+
+    // m->ten = "MONHOC EDITED";
+    // cout << m->toString() << endl;
     // ds.remove("6");
     ds.displayPostOrder();
 
