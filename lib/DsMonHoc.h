@@ -16,8 +16,8 @@ class DsMonHoc {
     ~DsMonHoc();
 
     void insert(string ms, string ten, int sltclt, int sltcth);
+    void update(string ms, string ten, int sltclt, int sltcth);
     void remove(string ms);
-    void update(MonHoc mh);
     bool isEmpty();
     int getCount();
     void read();
@@ -34,11 +34,11 @@ class DsMonHoc {
     int getCount(NodeMonHoc *root);
     bool isBalanced(NodeMonHoc *root);
     NodeMonHoc *emptyTree(NodeMonHoc *root);
-    NodeMonHoc *search(NodeMonHoc *root, string cmnd);
+    NodeMonHoc *search(NodeMonHoc *root, string ms);
     void traverseInOrder(NodeMonHoc *root);
     void traversePostOrder(NodeMonHoc *root);
     NodeMonHoc *insertNode(NodeMonHoc *root, MonHoc &m);
-    // NodeMonHoc *updateNode(NodeMonHoc *root, MonHoc &m);
+    NodeMonHoc *updateNode(NodeMonHoc *root, MonHoc m);
     NodeMonHoc *findLeft(NodeMonHoc *root);
     NodeMonHoc *removeNode(NodeMonHoc *root, string ms);
     NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream &reader);
@@ -57,11 +57,14 @@ void DsMonHoc::insert(string ms, string ten, int sltclt, int sltcth) {
     root = insertNode(root, m);
 }
 
-void DsMonHoc::remove(string ms) {
-    root = removeNode(root, ms);
+void DsMonHoc::update(string ms, string ten, int sltclt, int sltcth) {
+    MonHoc m(ms, ten, sltclt, sltcth);
+
+    root = updateNode(root, m);
 }
 
-void DsMonHoc::update(MonHoc m) {}
+void DsMonHoc::remove(string ms) { root = removeNode(root, ms); }
+
 
 void DsMonHoc::displayInOrder() {
     cout << "\nDisplay inorder\n";
@@ -187,6 +190,20 @@ NodeMonHoc *DsMonHoc::insertNode(NodeMonHoc *root, MonHoc &m) {
     return root;
 }
 
+NodeMonHoc *DsMonHoc::updateNode(NodeMonHoc *root, MonHoc m) {
+    if (root == NULL) {
+        root = insertNode(root, m);
+    } else if (m.ms == root->monhoc.ms) {
+        root->monhoc.ten = m.ten;
+        root->monhoc.sltclt = m.sltclt;
+        root->monhoc.sltcth = m.sltcth;
+    } else if (m.ms < root->monhoc.ms)
+        root->left = updateNode(root->left, m);
+    else if (m.ms > root->monhoc.ms)
+        root->right = updateNode(root->right, m);
+    return root;
+}
+
 NodeMonHoc *DsMonHoc::findLeft(NodeMonHoc *root) {
     if (root == NULL)
         return NULL;
@@ -288,7 +305,8 @@ void testDSMH(DsMonHoc &ds) {
     ds.read();
 
     ds.displayPostOrder();
-    ds.remove("6");
+    ds.update("6", "MONHOC EDIT", 2, 1);
+    // ds.remove("6");
     ds.displayPostOrder();
 
     // int len = ds.getCount();
