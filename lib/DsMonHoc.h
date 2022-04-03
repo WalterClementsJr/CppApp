@@ -16,7 +16,7 @@ class DsMonHoc {
     ~DsMonHoc();
 
     void insert(string ms, string ten, int sltclt, int sltcth);
-    void update(string ms, string ten, int sltclt, int sltcth);
+    void update(string msOld, string ten, int sltclt, int sltcth, string msNew);
     void remove(string ms);
     MonHoc *search(string ms);
     bool isEmpty();
@@ -57,14 +57,19 @@ void DsMonHoc::insert(string ms, string ten, int sltclt, int sltcth) {
     root = insertNode(root, m);
 }
 
-void DsMonHoc::update(string ms, string ten, int sltclt, int sltcth) {
-    MonHoc *m = search(ms);
+void DsMonHoc::update(string msOld, string ten, int sltclt, int sltcth, string msNew) {
+    if (msOld == msNew) {
+        MonHoc *m = search(msOld);
 
-    if (m == NULL) return;
+        if (m == NULL) return;
 
-    m->ten = ten;
-    m->sltclt = sltclt;
-    m->sltcth = sltcth;
+        m->ten = ten;
+        m->sltclt = sltclt;
+        m->sltcth = sltcth;
+    } else {
+        remove(msOld);
+        insert(msNew, ten, sltclt, sltcth);
+    }
 
     // TODO rebalance tree
 }

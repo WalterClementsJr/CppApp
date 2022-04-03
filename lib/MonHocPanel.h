@@ -384,12 +384,16 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                             gotoxy(INSERT_X, INSERT_Y + 10);
                             cout << string(40, ' ');
 
-                            // update
-                            m->ms = input[0];
-                            m->ten = input[1];
-                            m->sltclt = stoi(input[2]);
-                            m->sltcth = stoi(input[3]);
-
+                            // update if ms is the same, else remove and insert with new ms
+                            if (m->ms == input[0]) {
+                                m->ten = input[1];
+                                m->sltclt = stoi(input[2]);
+                                m->sltcth = stoi(input[3]);
+                            } else {
+                                dsmh.remove(m->ms);
+                                dsmh.insert(input[0], input[1], stoi(input[2]),  stoi(input[3]));
+                                // dsmh.update(m->ms, input[1], stoi(input[2]),  stoi(input[3]), input[0]);
+                            }
                             dsmh.write();
                             exit = 1;
                             ms = input[0];
