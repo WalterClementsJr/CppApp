@@ -1,11 +1,13 @@
 #ifndef ALERT_H
 #define ALERT_H
 
-#include "drawing.h"
-#include "import.h"
 #include <conio.h>
+
 #include <iomanip>
 #include <iostream>
+
+#include "drawing.h"
+#include "import.h"
 
 using namespace std;
 
@@ -40,51 +42,46 @@ int ShowAlert(string message) {
     key = _getch();
     // detect Function keys
     if (key == 0) {
-        switch (_getch())
-        {
-        case (KEY_F3):
-            key = KEY_F3;
-            break;
-        case (KEY_F4):
-            key = KEY_F4;
-            break;
-        case (KEY_F1):
-            key = KEY_F1;
-            break;
-        case (KEY_F2):
-            key = KEY_F2;
-            break;
+        switch (_getch()) {
+            case (KEY_F3):
+                key = KEY_F3;
+                break;
+            case (KEY_F4):
+                key = KEY_F4;
+                break;
+            case (KEY_F1):
+                key = KEY_F1;
+                break;
+            case (KEY_F2):
+                key = KEY_F2;
+                break;
         }
     }
-    //detect arrow keys
+    // detect arrow keys
     else if (key == 224) {
-        switch (_getch())
-        {
-        case (KEY_UP):
-            key = KEY_UP;
-            break;
-        case (KEY_DOWN):
-            key = KEY_DOWN;
-            break;
+        switch (_getch()) {
+            case (KEY_UP):
+                key = KEY_UP;
+                break;
+            case (KEY_DOWN):
+                key = KEY_DOWN;
+                break;
+        }
+    } else {
+        switch (key) {
+            case (ENTER):
+                key = ENTER;
+                break;
+            case (SPACE):
+                key = SPACE;
+                break;
+            case (TAB):
+                key = TAB;
+                break;
         }
     }
-    else {
-        switch (key)
-        {
-        case (ENTER):
-            key = ENTER;
-            break;
-        case (SPACE):
-            key = SPACE;
-            break;
-        case (TAB):
-            key = TAB;
-            break;
-        }
-    }
-
-    return key;
     SetColor();
+    return key;
 }
 
 #endif

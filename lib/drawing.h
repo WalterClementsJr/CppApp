@@ -242,9 +242,7 @@ void clearArea(int x, int y, int width, int height) {
     }
 }
 
-void clearTable() {
-    clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH, LAST_ROW);
-}
+void clearTable() { clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH, LAST_ROW); }
 
 void clearDetail() { clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27); }
 
@@ -344,7 +342,8 @@ void drawSelectedTab(int index) {
     const string shortcut[] = {"F1", "F2", "F3", "F4", "F5"};
 
     for (unsigned int i = 0; i < sizeof(tabName) / sizeof(tabName[0]); i++) {
-        drawTab(tabx + space * i, taby, tabName[i], shortcut[i], (i == (unsigned)index));
+        drawTab(tabx + space * i, taby, tabName[i], shortcut[i],
+                (i == (unsigned)index));
     }
 }
 

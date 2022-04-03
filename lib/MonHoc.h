@@ -15,7 +15,7 @@ struct MonHoc {
         ms = "";
         ten = "";
         sltclt = 0;
-        sltcth = 0;   
+        sltcth = 0;
     }
 
     MonHoc(string ms, string ten, int sltclt, int sltcth) {
@@ -24,7 +24,10 @@ struct MonHoc {
         this->sltclt = sltclt;
         this->sltcth = sltcth;
     }
-    string toString() { return ms + "," + ten + "," + to_string(sltclt) + "," + to_string(sltcth); }
+    string toString() {
+        return ms + "," + ten + "," + to_string(sltclt) + "," +
+               to_string(sltcth);
+    }
 };
 
 class NodeMonHoc {
