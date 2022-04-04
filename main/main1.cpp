@@ -8,18 +8,16 @@
 using namespace std;
 
 int main() {
-    // keyTest();
-    initUI();
-    drawSelectedTab(1);
+    // initUI();
+    // drawSelectedTab(1);
 
     DsMonHoc dsmh;
     testDSMH(dsmh);
-    // dsmh.displayPostOrder();
 
-    MonHoc *arr[1000];
-    dsmh.toArray(arr);
+    // MonHoc *arr[1000];
+    // dsmh.toArray(arr);
 
-    initMHPanel(dsmh);
+    // initMHPanel(dsmh);
 
     return 0;
 }

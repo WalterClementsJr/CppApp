@@ -1,12 +1,13 @@
 #ifndef DSMH_H
 #define DSMH_H
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
 
-#include "Helper.h"
 #include "MonHoc.h"
+#include "Helper.h"
 
 using namespace std;
 
@@ -34,20 +35,29 @@ class DsMonHoc {
     int getHeight(NodeMonHoc *root);
     int getSize(NodeMonHoc *root);
     bool isBalanced(NodeMonHoc *root);
+    int balanceFactor(NodeMonHoc *root);
     NodeMonHoc *emptyTree(NodeMonHoc *root);
     NodeMonHoc *search(NodeMonHoc *root, string ms);
+
     void traverseInOrder(NodeMonHoc *root);
     void traversePostOrder(NodeMonHoc *root);
+
     NodeMonHoc *insertNode(NodeMonHoc *root, MonHoc &m);
     NodeMonHoc *findLeft(NodeMonHoc *root);
     NodeMonHoc *removeNode(NodeMonHoc *root, string ms);
+
+    NodeMonHoc *RotateRight(NodeMonHoc *n2);
+    NodeMonHoc *RotateLeft(NodeMonHoc *n2);
+    NodeMonHoc *RotateLR(NodeMonHoc *n3);
+    NodeMonHoc *RotateRL(NodeMonHoc *n3);
+
     NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream &reader);
     void writeToFile(NodeMonHoc *root, ofstream &writer);
     void addNodeToArray(NodeMonHoc *root, MonHoc *arr[], int &index);
 };
 
 // public
-DsMonHoc::DsMonHoc() { root = nullptr; }
+DsMonHoc::DsMonHoc() { root = NULL; }
 
 DsMonHoc::~DsMonHoc() { root = emptyTree(root); }
 
@@ -57,7 +67,8 @@ void DsMonHoc::insert(string ms, string ten, int sltclt, int sltcth) {
     root = insertNode(root, m);
 }
 
-void DsMonHoc::update(string msOld, string ten, int sltclt, int sltcth, string msNew) {
+void DsMonHoc::update(string msOld, string ten, int sltclt, int sltcth,
+                      string msNew) {
     if (msOld == msNew) {
         MonHoc *m = search(msOld);
 
@@ -70,8 +81,6 @@ void DsMonHoc::update(string msOld, string ten, int sltclt, int sltcth, string m
         remove(msOld);
         insert(msNew, ten, sltclt, sltcth);
     }
-
-    // TODO rebalance tree
 }
 
 void DsMonHoc::remove(string ms) { root = removeNode(root, ms); }
@@ -117,6 +126,7 @@ void DsMonHoc::write() {
 }
 
 // private
+// get tree height
 int DsMonHoc::getHeight(NodeMonHoc *root) {
     if (root == NULL)
         return -1;
@@ -125,11 +135,11 @@ int DsMonHoc::getHeight(NodeMonHoc *root) {
     }
 }
 
+// get node count
 int DsMonHoc::getSize(NodeMonHoc *root) {
     if (root == NULL) {
         return 0;
     }
-
     return 1 + getSize(root->left) + getSize(root->right);
 }
 
@@ -141,15 +151,22 @@ bool DsMonHoc::isBalanced(NodeMonHoc *root) {
     }
 }
 
+int DsMonHoc::balanceFactor(NodeMonHoc *root) {
+    return getHeight(root->left) - getHeight(root->right);
+}
+
 void DsMonHoc::traverseInOrder(NodeMonHoc *root) {
     if (root != NULL) {
         traverseInOrder(root->left);
-        cout << root->monhoc.toString() << endl;
+        cout << root->monhoc.toString()
+             << " Height: " << to_string(root->height) << endl;
         if (root->left) {
-            cout << "\tleft child: " << root->left->monhoc.toString() << endl;
+            cout << "\tleft child: " << root->left->monhoc.toString()
+                 << " Height: " << to_string(root->left->height) << endl;
         }
         if (root->right) {
-            cout << "\tright child: " << root->right->monhoc.toString() << endl;
+            cout << "\tright child: " << root->right->monhoc.toString()
+                 << " Height: " << to_string(root->right->height) << endl;
         }
         traverseInOrder(root->right);
     }
@@ -157,12 +174,15 @@ void DsMonHoc::traverseInOrder(NodeMonHoc *root) {
 
 void DsMonHoc::traversePostOrder(NodeMonHoc *root) {
     if (root != NULL) {
-        cout << root->monhoc.toString() << endl;
+        cout << root->monhoc.toString()
+             << " Height: " << to_string(root->height) << endl;
         if (root->left) {
-            cout << "\tleft: " << root->left->monhoc.toString() << endl;
+            cout << "\tleft: " << root->left->monhoc.toString()
+                 << " Height: " << to_string(root->left->height) << endl;
         }
         if (root->right) {
-            cout << "\tright: " << root->right->monhoc.toString() << endl;
+            cout << "\tright: " << root->right->monhoc.toString()
+                 << " Height: " << to_string(root->right->height) << endl;
         }
         traversePostOrder(root->left);
         traversePostOrder(root->right);
@@ -194,29 +214,47 @@ NodeMonHoc *DsMonHoc::insertNode(NodeMonHoc *root, MonHoc &m) {
     if (root == NULL) {
         root = new NodeMonHoc;
         root->monhoc = m;
-    } else if (m.ms < root->monhoc.ms)
+    } else if (m.ms < root->monhoc.ms) {
         root->left = insertNode(root->left, m);
-    else if (m.ms > root->monhoc.ms)
+    } else if (m.ms > root->monhoc.ms) {
         root->right = insertNode(root->right, m);
+    }
 
+    int balance = balanceFactor(root);
+
+    // left heavier than right
+    if (balance > 1) {
+        if (m.ms < root->left->monhoc.ms) {
+            root = RotateRight(root);
+        } else {
+            root = RotateLR(root);
+        }
+    } else if (balance < -1) {
+        if (m.ms < root->right->monhoc.ms) {
+            root = RotateRL(root);
+        } else {
+            root = RotateLeft(root);
+        }
+    }
     return root;
 }
 
 NodeMonHoc *DsMonHoc::findLeft(NodeMonHoc *root) {
-    if (root == NULL)
+    if (root == NULL) {
         return NULL;
-    else if (root->left == NULL)
+    } else if (root->left == NULL) {
         return root;
-    else
+    } else {
         return findLeft(root->left);
+    }
 }
 
 NodeMonHoc *DsMonHoc::removeNode(NodeMonHoc *root, string ms) {
     NodeMonHoc *temp;
 
-    if (root == NULL)
+    if (root == NULL) {
         return NULL;
-    else if (ms < root->monhoc.ms) {
+    } else if (ms < root->monhoc.ms) {
         root->left = removeNode(root->left, ms);
     } else if (ms > root->monhoc.ms) {
         root->right = removeNode(root->right, ms);
@@ -232,7 +270,55 @@ NodeMonHoc *DsMonHoc::removeNode(NodeMonHoc *root, string ms) {
             root = root->left;
         delete temp;
     }
+
+    int balance = balanceFactor(root);
+
+    if (balance > 1) {
+        // if (ms < root->left->monhoc.ms) {
+        //     root = RotateRight(root);
+        // } else {
+        //     root = RotateLR(root);
+        // }
+    } else if (balance < -1) {
+        // if (ms < root->right->monhoc.ms) {
+        //     root = RotateRL(root);
+        // } else {
+        //     root = RotateLeft(root);
+        // }
+    }
     return root;
+}
+
+NodeMonHoc *DsMonHoc::RotateLeft(NodeMonHoc *n1) {
+    cout << "left rotate\n";
+
+    NodeMonHoc *n2 = n1->right;
+    n1->right = n2->left;
+    n2->left = n1;
+    return n2;
+}
+
+NodeMonHoc *DsMonHoc::RotateRight(NodeMonHoc *n3) {
+    cout << "right rotate\n";
+
+    NodeMonHoc *n2 = n3->left;
+    n3->left = n2->right;
+    n2->right = n3;
+    return n2;
+}
+
+NodeMonHoc *DsMonHoc::RotateLR(NodeMonHoc *n3) {
+    cout << "lr rotate\n";
+
+    n3->left = RotateLeft(n3->left);
+    return RotateRight(n3);
+}
+
+NodeMonHoc *DsMonHoc::RotateRL(NodeMonHoc *n3) {
+    cout << "rl rotate\n";
+
+    n3->right = RotateRight(n3->right);
+    return RotateLeft(n3);
 }
 
 NodeMonHoc *DsMonHoc::readFromFile(NodeMonHoc *root, ifstream &reader) {
@@ -287,20 +373,16 @@ void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &index) {
 
     array[index] = &root->monhoc;
     index++;
-    // cout << &root->monhoc;
     addNodeToArray(root->right, array, index);
 }
 
 void testDSMH(DsMonHoc &ds) {
     ds.read();
 
-    // ds.displayPostOrder();
+    ds.displayPostOrder();
     // ds.update("6", "MONHOC EDIT", 2, 1);
     // MonHoc *m = ds.search("6");
 
-    // m->ten = "MONHOC EDITED";
-    // cout << m->toString() << endl;
-    // ds.remove("6");
     // ds.displayPostOrder();
 
     // int len = ds.getSize();

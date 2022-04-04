@@ -7,9 +7,9 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
+#include "import.h"
 
-int max(int a, int b) { return (a > b) ? a : b; }
+using namespace std;
 
 void keyTest() {
     int ch;
