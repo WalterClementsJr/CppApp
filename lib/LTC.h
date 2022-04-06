@@ -96,7 +96,7 @@ class DsLTC {
         }
 
         // insert
-        LTC *lop = new LTC(currentMax++, maMH, nienKhoa, hocKy, nhom, min, max);
+        LTC *lop = new LTC(++currentMax, maMH, nienKhoa, hocKy, nhom, min, max);
         dsltc[count] = lop;
         count += 1;
 
@@ -133,7 +133,9 @@ class DsLTC {
                 dsltc[i] = dsltc[i + 1];
             }
         }
-        count--;
+        if (found) {
+            count--;
+        }
         return found;
     }
 
@@ -152,11 +154,12 @@ void testDSLTC(DsLTC &ds) {
     // LTC l(3, "INT123", "2021-2022", 2, 1, 1, 100);
     // cout << l.toString();
     ds.insert("3", "2021-2022", 2, 1, 1, 100);
-    ds.insert("2", "2021-2022", 2, 1, 1, 100);
-    ds.insert("3", "2021-2022", 2, 1, 1, 100);
+    ds.insert("2", "2022-2022", 2, 1, 1, 100);
+    ds.insert("3", "2020-2022", 2, 1, 1, 100);
     ds.insert("4", "20-21", 2, 1, 1, 123);
-
     ds.print();
+
+    ds.remove(4, "4", "20-21", 2, 1);
     ds.print();
 }
 
