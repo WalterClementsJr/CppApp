@@ -6,8 +6,8 @@
 #include <iostream>
 #include <string>
 
-#include "MonHoc.h"
 #include "Helper.h"
+#include "MonHoc.h"
 
 using namespace std;
 
@@ -88,12 +88,12 @@ void DsMonHoc::remove(string ms) { root = removeNode(root, ms); }
 MonHoc *DsMonHoc::search(string ms) { return &search(root, ms)->monhoc; }
 
 void DsMonHoc::displayInOrder() {
-    cout << "\nDisplay inorder\n";
+    cout << "\n\tDisplay inorder\n";
     traverseInOrder(root);
 }
 
 void DsMonHoc::displayPostOrder() {
-    cout << "\nDisplay postorder\n";
+    cout << "\n\tDisplay postorder\n";
     traversePostOrder(root);
 }
 
@@ -158,15 +158,12 @@ int DsMonHoc::balanceFactor(NodeMonHoc *root) {
 void DsMonHoc::traverseInOrder(NodeMonHoc *root) {
     if (root != NULL) {
         traverseInOrder(root->left);
-        cout << root->monhoc.toString()
-             << " Height: " << to_string(root->height) << endl;
+        cout << root->monhoc.toString() << endl;
         if (root->left) {
-            cout << "\tleft child: " << root->left->monhoc.toString()
-                 << " Height: " << to_string(root->left->height) << endl;
+            cout << "\tleft child: " << root->left->monhoc.toString() << endl;
         }
         if (root->right) {
-            cout << "\tright child: " << root->right->monhoc.toString()
-                 << " Height: " << to_string(root->right->height) << endl;
+            cout << "\tright child: " << root->right->monhoc.toString() << endl;
         }
         traverseInOrder(root->right);
     }
@@ -174,15 +171,12 @@ void DsMonHoc::traverseInOrder(NodeMonHoc *root) {
 
 void DsMonHoc::traversePostOrder(NodeMonHoc *root) {
     if (root != NULL) {
-        cout << root->monhoc.toString()
-             << " Height: " << to_string(root->height) << endl;
+        cout << root->monhoc.toString() << endl;
         if (root->left) {
-            cout << "\tleft: " << root->left->monhoc.toString()
-                 << " Height: " << to_string(root->left->height) << endl;
+            cout << "\tleft: " << root->left->monhoc.toString() << endl;
         }
         if (root->right) {
-            cout << "\tright: " << root->right->monhoc.toString()
-                 << " Height: " << to_string(root->right->height) << endl;
+            cout << "\tright: " << root->right->monhoc.toString() << endl;
         }
         traversePostOrder(root->left);
         traversePostOrder(root->right);
@@ -259,39 +253,46 @@ NodeMonHoc *DsMonHoc::removeNode(NodeMonHoc *root, string ms) {
     } else if (ms > root->monhoc.ms) {
         root->right = removeNode(root->right, ms);
     } else if (root->left && root->right) {
+        // node has 2 child
         temp = findLeft(root->right);
         root->monhoc = temp->monhoc;
         root->right = removeNode(root->right, root->monhoc.ms);
     } else {
+        // node is leaf or has only 1 child
         temp = root;
-        if (root->left == NULL)
+        if (root->left == NULL) {
             root = root->right;
-        else if (root->right == NULL)
+        } else {
             root = root->left;
+        }
         delete temp;
+        return root;
     }
 
+    // balancing
     int balance = balanceFactor(root);
 
     if (balance > 1) {
-        // if (ms < root->left->monhoc.ms) {
-        //     root = RotateRight(root);
-        // } else {
-        //     root = RotateLR(root);
-        // }
+        if (balanceFactor(root->left) >= 0) {
+            // left left
+            root = RotateRight(root);
+        } else {
+            // left right
+            root = RotateLR(root);
+        }
     } else if (balance < -1) {
-        // if (ms < root->right->monhoc.ms) {
-        //     root = RotateRL(root);
-        // } else {
-        //     root = RotateLeft(root);
-        // }
+        if (balanceFactor(root->right) <= 0) {
+            // right right
+            root = RotateLeft(root);
+        } else {
+            // right left
+            root = RotateRL(root);
+        }
     }
     return root;
 }
 
 NodeMonHoc *DsMonHoc::RotateLeft(NodeMonHoc *n1) {
-    cout << "left rotate\n";
-
     NodeMonHoc *n2 = n1->right;
     n1->right = n2->left;
     n2->left = n1;
@@ -299,8 +300,6 @@ NodeMonHoc *DsMonHoc::RotateLeft(NodeMonHoc *n1) {
 }
 
 NodeMonHoc *DsMonHoc::RotateRight(NodeMonHoc *n3) {
-    cout << "right rotate\n";
-
     NodeMonHoc *n2 = n3->left;
     n3->left = n2->right;
     n2->right = n3;
@@ -308,15 +307,11 @@ NodeMonHoc *DsMonHoc::RotateRight(NodeMonHoc *n3) {
 }
 
 NodeMonHoc *DsMonHoc::RotateLR(NodeMonHoc *n3) {
-    cout << "lr rotate\n";
-
     n3->left = RotateLeft(n3->left);
     return RotateRight(n3);
 }
 
 NodeMonHoc *DsMonHoc::RotateRL(NodeMonHoc *n3) {
-    cout << "rl rotate\n";
-
     n3->right = RotateRight(n3->right);
     return RotateLeft(n3);
 }
@@ -382,6 +377,10 @@ void testDSMH(DsMonHoc &ds) {
     ds.displayPostOrder();
     // ds.update("6", "MONHOC EDIT", 2, 1);
     // MonHoc *m = ds.search("6");
+    ds.remove("3");
+
+
+    ds.displayPostOrder();
 
     // ds.displayPostOrder();
 
@@ -394,10 +393,6 @@ void testDSMH(DsMonHoc &ds) {
     // for (unsigned i = 0; i < len; i++) {
     //     cout << arr[i]->toString() << endl;
     // }
-
-    // arr[2]->ten = "FUCK FUCK";
-
-    // ds.displayPostOrder();
 }
 
 #endif
