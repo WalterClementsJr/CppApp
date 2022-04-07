@@ -134,7 +134,7 @@ class DsLTC {
             }
         }
         if (found) {
-            count--;
+            delete dsltc[count--];
         }
         return found;
     }
@@ -145,21 +145,22 @@ class DsLTC {
             return;
         }
         for (int i = 0; i < count; i++) {
-            cout << dsltc[i]->toString() << endl;
+            cout << i << ": " << dsltc[i]->toString() << endl;
         }
     }
 };
 
 void testDSLTC(DsLTC &ds) {
-    // LTC l(3, "INT123", "2021-2022", 2, 1, 1, 100);
-    // cout << l.toString();
-    ds.insert("3", "2021-2022", 2, 1, 1, 100);
-    ds.insert("2", "2022-2022", 2, 1, 1, 100);
-    ds.insert("3", "2020-2022", 2, 1, 1, 100);
+    ds.insert("3", "21-22", 2, 1, 1, 100);
+    ds.insert("2", "22-23", 2, 1, 1, 100);
+    ds.insert("3", "20-21", 2, 1, 1, 100);
     ds.insert("4", "20-21", 2, 1, 1, 123);
     ds.print();
 
-    ds.remove(4, "4", "20-21", 2, 1);
+    LTC *a = ds.search(3, "2", "20-21", 2, 1);
+    if (a)
+        a->max = 999;
+    ds.remove(2, "2", "22-23", 2, 1);
     ds.print();
 }
 
