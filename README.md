@@ -5,7 +5,7 @@
 ## Build
 
 ```
-g++ -Wall $project_path\\main\\main.cpp -I$project_path\\lib -o $project_path\\build\\main.exe
+g++ -Wall $project_path/main/main.cpp -I $project_path/lib -o $project_path/build/main.exe
 ```
 
 with project path as path to the folder
@@ -13,5 +13,5 @@ with project path as path to the folder
 ## Run
 
 ```
-$project_path\\build\\main.exe
+$project_path/build/main.exe
 ```
