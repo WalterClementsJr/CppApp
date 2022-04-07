@@ -48,8 +48,7 @@ struct LTC {
     }
 
     string getKey() {
-        return to_string(maLTC) + maMH + nienKhoa + to_string(hocKy) +
-               to_string(nhom);
+        return maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
     }
 };
 
@@ -75,9 +74,8 @@ class DsLTC {
 
     bool isFull() { return count == DSLTC_MAX; }
 
-    LTC *search(int maLTC, string maMH, string nienKhoa, int hocKy, int nhom) {
-        string key = to_string(maLTC) + maMH + nienKhoa + to_string(hocKy) +
-                     to_string(nhom);
+    LTC *search(string maMH, string nienKhoa, int hocKy, int nhom) {
+        string key = maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
         for (int i = 0; i < count; i++) {
             if (dsltc[i]->getKey() == key) {
                 return dsltc[i];
@@ -88,10 +86,13 @@ class DsLTC {
 
     int insert(string maMH, string nienKhoa, int hocKy, int nhom, int min,
                int max) {
-        string key = to_string(currentMax + 1) + maMH + nienKhoa +
-                     to_string(hocKy) + to_string(nhom);
+        string key = maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
+        if (count >= DSLTC_MAX) {
+            return 0;
+        }
+
         // check exist
-        if (search(currentMax + 1, maMH, nienKhoa, hocKy, nhom) != NULL) {
+        if (search(maMH, nienKhoa, hocKy, nhom) != NULL) {
             return 0;
         }
 
@@ -105,8 +106,8 @@ class DsLTC {
 
     int edit(int maLTC, string maMH, string nienKhoa, int hocKy, int nhom,
              int min, int max, bool huy) {
-        // not implemented
-        LTC *lop = search(maLTC, maMH, nienKhoa, hocKy, nhom);
+        // TODO: not implemented
+        LTC *lop = search(maMH, nienKhoa, hocKy, nhom);
 
         if (lop == NULL) {
             return 0;
@@ -114,13 +115,12 @@ class DsLTC {
         return 1;
     }
 
-    int remove(int maLTC, string maMH, string nienKhoa, int hocKy, int nhom) {
+    int remove(string maMH, string nienKhoa, int hocKy, int nhom) {
         if (count == 0) {
             return 0;
         }
 
-        string key = to_string(maLTC) + maMH + nienKhoa + to_string(hocKy) +
-                     to_string(nhom);
+        string key = maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
         bool found = false;
 
         for (int i = 0; i < count; i++) {
@@ -157,10 +157,9 @@ void testDSLTC(DsLTC &ds) {
     ds.insert("4", "20-21", 2, 1, 1, 123);
     ds.print();
 
-    LTC *a = ds.search(3, "2", "20-21", 2, 1);
-    if (a)
-        a->max = 999;
-    ds.remove(2, "2", "22-23", 2, 1);
+    LTC *a = ds.search("3", "20-21", 2, 1);
+    if (a) a->max = 999;
+    ds.remove("2", "22-23", 2, 1);
     ds.print();
 }
 
