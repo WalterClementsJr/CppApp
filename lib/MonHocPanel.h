@@ -384,15 +384,18 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                             gotoxy(INSERT_X, INSERT_Y + 10);
                             cout << string(40, ' ');
 
-                            // update if ms is the same, else remove and insert with new ms
+                            // update if ms is the same, else remove and insert
+                            // with new ms
                             if (m->ms == input[0]) {
                                 m->ten = input[1];
                                 m->sltclt = stoi(input[2]);
                                 m->sltcth = stoi(input[3]);
                             } else {
                                 dsmh.remove(m->ms);
-                                dsmh.insert(input[0], input[1], stoi(input[2]),  stoi(input[3]));
-                                // dsmh.update(m->ms, input[1], stoi(input[2]),  stoi(input[3]), input[0]);
+                                dsmh.insert(input[0], input[1], stoi(input[2]),
+                                            stoi(input[3]));
+                                // dsmh.update(m->ms, input[1], stoi(input[2]),
+                                // stoi(input[3]), input[0]);
                             }
                             dsmh.write();
                             exit = 1;
@@ -523,7 +526,7 @@ void loadMonHocToTable(MonHoc *list[], int length, int index) {
     }
 }
 
-int initMHPanel(DsMonHoc &dsmh) {
+int initMHTab(DsMonHoc &dsmh) {
     SetColor(BLACK, WHITE);
 
     gotoxy(TABLE_X, TABLE_Y);
@@ -574,11 +577,10 @@ int initMHPanel(DsMonHoc &dsmh) {
                 // change tab keys
                 if (key == KEY_F1 || key == KEY_F2 || key == KEY_F4 ||
                     key == KEY_F5) {
-                    return key - 59;
+                    return key;
                 }
-            }
-            // "224" keys
-            else if (key == 224) {
+            } else if (key == 224) {
+                // "224" keys
                 key = _getch();
                 if (key == KEY_UP) {
                     // first row -> last row
@@ -604,12 +606,14 @@ int initMHPanel(DsMonHoc &dsmh) {
                         dehighlightIndex(list, index - 1);
                     }
                 } else if (key == KEY_LEFT) {
+                    // prev page
                     index =
                         (currentPage > 0 ? currentPage - 1 : 0) * MAX_TABLE_ROW;
                     clearTable();
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == KEY_RIGHT) {
+                    // next page
                     currentPage =
                         currentPage >= nPage ? nPage : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
@@ -646,6 +650,8 @@ int initMHPanel(DsMonHoc &dsmh) {
             clearTable();
             loadMonHocToTable(list, dsLength, index);
             highlightIndex(list, index);
+        } else if (key == ESC) {
+            return ESC;
         }
     }
 

@@ -10,17 +10,20 @@ using namespace std;
 
 int main() {
     // initUI();
-    // drawSelectedTab(1);
+    // drawSelectedTab(0);
 
     // DsMonHoc dsmh;
     // testDSMH(dsmh);
+    // initMHTab(dsmh);
+
+    // keyTest();
+
     DsLTC dsltc;
     testDSLTC(dsltc);
 
     // MonHoc *arr[1000];
     // dsmh.toArray(arr);
 
-    // initMHPanel(dsmh);
 
     return 0;
 }

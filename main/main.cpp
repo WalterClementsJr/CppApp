@@ -1,3 +1,6 @@
+#include "LTC.h"
+#include "MonHoc.h"
+#include "MonHocPanel.h"
 #include "drawing.h"
 #include "import.h"
 
@@ -7,14 +10,17 @@ int main() {
     initUI();
     drawSelectedTab(0);
 
-    while (true) {
-        displayNotification("123132432354124213421734982197439827389123132432354124213421734982197439827389123132432354124213421734982197439827389123132432354124213421734982197439827389");
+    // declare data structures and load data
+    // TODO: also do the same for everything else here, or in switch cases
+    DsMonHoc dsmh;
+    dsmh.read();
 
-        char key = getch();
+    // start first tab: MonHoc
+    int key = initMHTab(dsmh);
+
+    while (key != ESC) {
+        // TODO: put other tab in here
         switch (key) {
-            case KEY_F1:
-                drawSelectedTab(0);
-                break;
             case KEY_F2:
                 drawSelectedTab(1);
                 break;
@@ -28,6 +34,9 @@ int main() {
                 drawSelectedTab(4);
                 break;
         }
+        drawSelectedTab(0);
+        key = initMHTab(dsmh);
     }
+    SetColor();
     return 0;
 }
