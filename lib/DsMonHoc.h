@@ -42,7 +42,7 @@ class DsMonHoc {
     void traverseInOrder(NodeMonHoc *root);
     void traversePostOrder(NodeMonHoc *root);
 
-    NodeMonHoc *insertNode(NodeMonHoc *root, MonHoc &m);
+    NodeMonHoc *insertNode(NodeMonHoc *root, MonHoc m);
     NodeMonHoc *findLeft(NodeMonHoc *root);
     NodeMonHoc *removeNode(NodeMonHoc *root, string ms);
 
@@ -204,7 +204,7 @@ NodeMonHoc *DsMonHoc::search(NodeMonHoc *root, string ms) {
         return root;
 }
 
-NodeMonHoc *DsMonHoc::insertNode(NodeMonHoc *root, MonHoc &m) {
+NodeMonHoc *DsMonHoc::insertNode(NodeMonHoc *root, MonHoc m) {
     if (root == NULL) {
         root = new NodeMonHoc;
         root->monhoc = m;
@@ -375,9 +375,9 @@ void testDSMH(DsMonHoc &ds) {
     ds.read();
 
     ds.displayPostOrder();
-    // ds.update("6", "MONHOC EDIT", 2, 1);
+    ds.update("6", "HDH123", 2, 1, "6");
     // MonHoc *m = ds.search("6");
-    ds.remove("3");
+    // ds.remove("3");
 
 
     ds.displayPostOrder();
