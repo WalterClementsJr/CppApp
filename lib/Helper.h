@@ -19,10 +19,13 @@ void keyTest() {
             cout << "a-z A-Z: " << ch << endl;
         } else if (ch >= '0' && ch <= '9') {
             cout << "0-9: " << ch << endl;
-        } else if (ch == 0 || ch == 224) {
-            cout << _getch();
-        } else
-            cout << ch << endl;
+        } else if (ch == 0) {
+            cout << "0:" << _getch() << endl;
+        } else if (ch == 224) {
+            cout << "224:" << _getch() << endl;
+        } else {
+            cout << "normal:" << ch << endl;
+        }
         cout << "\n";
     }
     cout << "ESC\n";
