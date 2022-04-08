@@ -1,10 +1,10 @@
 #ifndef SINHVIEN_H
 #define SINHVIEN_H
 
+#include <fstream>
 #include <iostream>
-#include <string>
 #include <sstream>
-#include<fstream>
+#include <string>
 
 using namespace std;
 
@@ -15,6 +15,7 @@ struct SinhVien {
     string phai;
     string soDT;
     string maLop;
+
     SinhVien() {
         maSV = "";
         ho = "";
@@ -23,6 +24,7 @@ struct SinhVien {
         soDT = "";
         maLop = "";
     }
+
     SinhVien(string maSV, string ho, string ten, string phai, string soDT,
              string maLop) {
         this->maSV = maSV;
@@ -34,16 +36,18 @@ struct SinhVien {
     }
 
     string toString() {
-        return maSV + "," + ho + "," + ten + "," + phai + "," + soDT +
-               "," + maLop;
+        return maSV + "," + ho + "," + ten + "," + phai + "," + soDT + "," +
+               maLop;
     }
 };
+
 struct NodeSinhVien {
     SinhVien sinhVien;
     NodeSinhVien *next;
 
     NodeSinhVien() { next = NULL; }
 };
+
 typedef NodeSinhVien *PTRSinhVien;
 
 struct DangKy {
@@ -54,87 +58,84 @@ struct DangKy {
 
 class DSSV {
    private:
-    int dem = 0;
+    PTRSinhVien First;
+
    public:
-    PTRSinhVien First = NULL;
+    int dem;
+    DSSV();
+    ~DSSV();
 
-    DSSV() { khoiTao(First); }
-    void khoiTao(PTRSinhVien &First) { First = NULL; }
-    void insertFirst(PTRSinhVien &First, SinhVien &sv);
-    void insertAfter(PTRSinhVien p, SinhVien sv);
-    void duyet(PTRSinhVien First);
-    void docFile(fstream &file, SinhVien &sv);
-    void ghiFile(PTRSinhVien First, ofstream &file);
-    void xuatSV(SinhVien sv);
-
-    
+    void duyet();
+    int insertFirst(string maSV, string ho, string ten, string phai,
+                    string soDT, string maLop);
+    int insertAfter(string maGoc, string maSV, string ho, string ten,
+                    string phai, string soDT, string maLop);
 };
 
+DSSV::DSSV() {
+    First = NULL;
+    dem = 0;
+}
 
-
+DSSV::~DSSV() {
+    PTRSinhVien p;
+    while (First != NULL) {
+        p = First;
+        First = First->next;
+        delete p;
+    }
+    delete First;
+}
 
 // DsSinhVien:DsSinhVien(){}
-void DSSV::insertFirst(PTRSinhVien &First, SinhVien &sv) {
-    PTRSinhVien p;
-    p = new NodeSinhVien;
+int DSSV::insertFirst(string maSV, string ho, string ten, string phai,
+                      string soDT, string maLop) {
+    SinhVien sv(maSV, ho, ten, phai, soDT, maLop);
+
+    PTRSinhVien p = new NodeSinhVien;
     p->sinhVien = sv;
     p->next = First;
     First = p;
     dem++;
-    
-}
-void DSSV::insertAfter(PTRSinhVien p, SinhVien sv){
-    PTRSinhVien q;
-    if(p == NULL)
-        cout<<"Add fail";
-    else
-    {
-        q = new NodeSinhVien;
-        q->sinhVien = sv;
-        q->next = p->next;
-        p->next = q;
-        dem++;
-    }
-    
+    return 1;
 }
 
-void DSSV::duyet(PTRSinhVien First) {
+int DSSV::insertAfter(string maGoc, string maSV, string ho, string ten,
+                      string phai, string soDT, string maLop) {
+    if (First == NULL) {
+        return 0;
+    }
+    // TODO: tim PTRSinhVien p voi maGoc, roi insert sau do
+    PTRSinhVien p = NULL;
+    // PTRSinhVien p = timkiem(maGoc);
+
+    SinhVien sv(maSV, ho, ten, phai, soDT, maLop);
+
+    PTRSinhVien q = new NodeSinhVien;
+    q->sinhVien = sv;
+    q->next = p->next;
+    p->next = q;
+
+    dem++;
+    return 1;
+}
+
+void DSSV::duyet() {
     PTRSinhVien p;
-    int stt = 0;
+    cout << "\n\tDuyet dssv:\n";
     for (p = First; p != NULL; p = p->next) {
         cout << p->sinhVien.toString() << endl;
     }
 }
-void DSSV::ghiFile(PTRSinhVien First, ofstream &file){
-    PTRSinhVien p;
-    int stt = 0;
-    for (p = First; p != NULL; p = p->next) {
-        file << p->sinhVien.toString() << endl;
-    }
-    file.close();
-    
+
+void testDSSV(DSSV &ds) {
+    ds.insertFirst("1", "A", "N", "nam", "2", "524");
+    ds.insertFirst("2", "B", "N", "nam", "21", "234");
+    ds.insertFirst("3", "C", "N", "nam", "3", "523");
+    ds.insertFirst("4", "D", "N", "nam", "23", "34");
+
+    ds.duyet();
+    cout << "So luong sinh vien: " << ds.dem;
 }
-
-//đọc ghi file
-void DSSV::docFile(fstream &filein, SinhVien &sv){
-    getline(filein,sv.maSV,',');
-    getline(filein,sv.ho,',');
-    getline(filein,sv.ten,',');
-    getline(filein,sv.phai,',');
-    getline(filein,sv.soDT,',');
-    getline(filein,sv.maLop,',');
-
-}
-void DSSV::xuatSV(SinhVien sv){
-    cout<<"\nMaSV:"<<sv.maSV;
-    cout<<"\nHo:"<<sv.ho;
-    cout<<"\nTen:"<<sv.ten;
-    cout<<"\nPhai:"<<sv.phai;
-    cout<<"\nSoDT:"<<sv.soDT;
-    cout<<"\nMaLop:"<<sv.maLop;
-}
-
-
-
 
 #endif
