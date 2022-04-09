@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include "DangKy.h"
+
 using namespace std;
 
 const int DSLTC_MAX = 10000;
@@ -16,7 +18,7 @@ struct LTC {
     int nhom;
     int min, max;
     bool huy;
-    // DsSV dssv;
+    DsDangKy *dssv;
 
     LTC() {
         this->maLTC = 0;
@@ -147,6 +149,21 @@ class DsLTC {
         for (int i = 0; i < count; i++) {
             cout << i << ": " << dsltc[i]->toString() << endl;
         }
+    }
+
+    void write() {
+        ofstream fileWriter("./build/data/monhoc.csv");
+
+        if (fileWriter.is_open()) {
+            // save currentMax and count
+            fileWriter << currentMax << "," << count << endl;
+
+            // TODO: write DSSV on new lines
+            for (int i = 0; i < count; i++) {
+                fileWriter << dsltc[i]->toString() << endl;
+            }
+        }
+        fileWriter.close();
     }
 };
 

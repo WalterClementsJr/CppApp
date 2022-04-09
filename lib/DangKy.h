@@ -94,6 +94,7 @@ int DsDangKy::insertLast(string maSV, float diem, bool huy) {
 
     temp = ndk;
     count++;
+    return 1;
 }
 
 int DsDangKy::insertAfter(string maGoc, string maSV, float diem, bool huy) {
@@ -118,29 +119,32 @@ int DsDangKy::insertAfter(string maGoc, string maSV, float diem, bool huy) {
 int DsDangKy::insertOrder(string maSV, float diem, bool huy) {
     DangKy dk(maSV, diem, huy);
 
-    if (first == NULL) {
-        first = new NodeDangKy;
-        DangKy d(maSV, diem, huy);
-
-        first->dk = d;
-        count++;
-        return 1;
+    if (first == NULL || first->dk.maSV > maSV) {
+        return insertFirst(maSV, diem, huy);
     }
-    NodeDangKy *temp = first;
 
-    while (temp != NULL) {
-        if (temp->dk.maSV > maSV) {
+    NodeDangKy *current = first->next;
+    NodeDangKy *prev = first;
+
+    while (current != NULL) {
+        cout << "\nincreasing\n";
+        if (current->dk.maSV > maSV) {
+            cout << "\nfound prev: " << prev->dk.toString() << endl;
+            cout << "\nfound: " << current->dk.toString() << endl;
             break;
         }
-        temp = temp->next;
+        cout << "\nprev: " << prev->dk.toString() <<endl;
+        cout << "\ncurrent: " << current->dk.toString() <<endl;
+        prev = current;
+        current = current->next;
     }
 
     NodeDangKy *ndk = new NodeDangKy;
-    // DangKy dk(maSV, diem, huy);
-
     ndk->dk = DangKy(maSV, diem, huy);
-    ndk->next = temp->next;
-    temp->next = ndk;
+    cout << "\ninserting: " << ndk->dk.toString() << endl;
+
+    prev->next = ndk;
+    ndk->next = current;
 
     count++;
     return 1;
@@ -169,13 +173,12 @@ void testDSDK(DsDangKy &dsdk) {
     // dsdk.insertOrder("N2", 7, 1);
     // dsdk.insertOrder("N5", 7, 1);
 
-    dsdk.insertFirst("N1", 7, 1);
+    dsdk.insertFirst("N6", 7, 1);
+    dsdk.insertFirst("N4", 7, 1);
     dsdk.insertFirst("N2", 7, 1);
-    dsdk.insertLast("N3", 7, 1);
+    dsdk.print();
 
-    // dsdk.insertFirst("N3", 7, 1);
-    // dsdk.insertFirst("N4", 7, 1);
-
+    dsdk.insertOrder("N1", 0, 0);
     dsdk.print();
 }
 
