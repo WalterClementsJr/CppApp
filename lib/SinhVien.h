@@ -50,12 +50,6 @@ struct NodeSinhVien {
 
 typedef NodeSinhVien *PTRSinhVien;
 
-struct DangKy {
-    string maSV;
-    float diem;
-    bool huyDK;
-};
-
 class DSSV {
    private:
     PTRSinhVien First;
