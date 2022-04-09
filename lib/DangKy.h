@@ -82,17 +82,20 @@ int DsDangKy::insertFirst(string maSV, float diem, bool huy) {
 }
 
 int DsDangKy::insertOrder(string maSV, float diem, bool huy) {
-    DangKy dk(maSV, diem, huy);
-
     if (first == NULL || first->dk.maSV > maSV) {
         return insertFirst(maSV, diem, huy);
+    } else if (first->dk.maSV == maSV) {
+        // neu masv trung first -> return 0
+        return 0;
     }
 
     NodeDangKy *current = first->next;
     NodeDangKy *prev = first;
 
     while (current != NULL) {
-        if (current->dk.maSV > maSV) {
+        if (current->dk.maSV == maSV) {
+            return 0;
+        } else if (current->dk.maSV > maSV) {
             break;
         }
         prev = current;
@@ -154,7 +157,7 @@ int DsDangKy::remove(string maSV) {
 }
 
 void DsDangKy::print() {
-    cout << "\n\tDsDangKy:\n";
+    cout << "\n\tDsDangKy, count: " << count << endl;
 
     for (NodeDangKy *temp = first; temp != NULL; temp = temp->next) {
         cout << temp->dk.toString() << endl;
@@ -165,15 +168,14 @@ void testDSDK(DsDangKy &dsdk) {
     dsdk.insertOrder("N1", 2, 1);
     dsdk.insertOrder("N2", 1, 1);
     dsdk.insertOrder("N5", 7, 1);
-
     dsdk.insertOrder("N6", 2, 1);
     dsdk.insertOrder("N4", 4, 1);
     dsdk.print();
 
-    // dsdk.remove("N1");
+    dsdk.remove("N1");
     // DangKy *d = dsdk.search("N6");
     // d->maSV = "123123";
-    // dsdk.print();
+    dsdk.print();
 }
 
 #endif

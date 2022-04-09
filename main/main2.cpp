@@ -9,7 +9,6 @@ using namespace std;
 
 int main() {
     // keyTest();
-    int dem;
     DSSV ds;
 
     testDSSV(ds);

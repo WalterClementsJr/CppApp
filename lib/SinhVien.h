@@ -62,8 +62,8 @@ class DSSV {
     void duyet();
     int insertFirst(string maSV, string ho, string ten, string phai,
                     string soDT, string maLop);
-    int insertAfter(string maGoc, string maSV, string ho, string ten,
-                    string phai, string soDT, string maLop);
+    int insertOrder(string maSV, string ho, string ten, string phai,
+                    string soDT, string maLop);
     int ghiFile();
 };
 
@@ -95,21 +95,35 @@ int DSSV::insertFirst(string maSV, string ho, string ten, string phai,
     return 1;
 }
 
-int DSSV::insertAfter(string maGoc, string maSV, string ho, string ten,
-                      string phai, string soDT, string maLop) {
-    if (First == NULL) {
+int DSSV::insertOrder(string maSV, string ho, string ten, string phai,
+                      string soDT, string maLop) {
+    if (First == NULL || First->sinhVien.maSV > maSV) {
+        return insertFirst(maSV, ho, ten, phai, soDT, maLop);
+    } else if (First->sinhVien.maSV == maSV) {
+        // neu masv trung first -> return 0
         return 0;
     }
-    // TODO: tim PTRSinhVien p voi maGoc, roi insert sau do
-    PTRSinhVien p = NULL;
-    // PTRSinhVien p = timkiem(maGoc);
 
-    SinhVien sv(maSV, ho, ten, phai, soDT, maLop);
+    PTRSinhVien current = First->next;
+    PTRSinhVien prev = First;
 
-    PTRSinhVien q = new NodeSinhVien;
-    q->sinhVien = sv;
-    q->next = p->next;
-    p->next = q;
+    while (current != NULL) {
+        // neu masv trung -> return 0
+        if (current->sinhVien.maSV == maSV) {
+            cout << "\n found trung \n";
+            return 0;
+        } else if (current->sinhVien.maSV > maSV) {
+            break;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    PTRSinhVien ndk = new NodeSinhVien;
+    ndk->sinhVien = SinhVien(maSV, ho, ten, phai, soDT, maLop);
+
+    prev->next = ndk;
+    ndk->next = current;
 
     dem++;
     return 1;
@@ -117,7 +131,7 @@ int DSSV::insertAfter(string maGoc, string maSV, string ho, string ten,
 
 void DSSV::duyet() {
     PTRSinhVien p;
-    cout << "\n\tDuyet dssv:\n";
+    cout << "\n\tDuyet dssv, so sv: " << dem << endl;
     for (p = First; p != NULL; p = p->next) {
         cout << p->sinhVien.toString() << endl;
     }
@@ -126,9 +140,7 @@ void DSSV::duyet() {
 int DSSV::ghiFile() {
     ofstream writer("./build/data/sinhvien.csv");
     if (writer.is_open()) {
-        PTRSinhVien p;
-
-        for (p = First; p != NULL; p = p->next) {
+        for (PTRSinhVien p = First; p != NULL; p = p->next) {
             writer << p->sinhVien.toString() << endl;
         }
     } else {
@@ -140,14 +152,13 @@ int DSSV::ghiFile() {
 }
 
 void testDSSV(DSSV &ds) {
-    ds.insertFirst("1", "A", "N", "nam", "2", "524");
-    ds.insertFirst("2", "B", "N", "nam", "21", "234");
-    ds.insertFirst("3", "C", "N", "nam", "3", "523");
-    ds.insertFirst("4", "D", "N", "nam", "23", "34");
+    ds.insertOrder("2", "A", "N", "nam", "2", "524");
+    ds.insertOrder("1", "B", "N", "nam", "21", "234");
+    ds.insertOrder("1", "C", "N", "nam", "3", "523");
+    ds.insertOrder("3", "D", "N", "nam", "23", "34");
 
     ds.duyet();
-    ds.ghiFile();
-    cout << "So luong sinh vien: " << ds.dem;
+    // ds.ghiFile();
 }
 
 #endif
