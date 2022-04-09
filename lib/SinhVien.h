@@ -70,6 +70,7 @@ class DSSV {
                     string soDT, string maLop);
     int insertAfter(string maGoc, string maSV, string ho, string ten,
                     string phai, string soDT, string maLop);
+    int ghiFile();
 };
 
 DSSV::DSSV() {
@@ -128,6 +129,22 @@ void DSSV::duyet() {
     }
 }
 
+int DSSV::ghiFile() {
+    ofstream writer("./build/data/sinhvien.csv");
+    if (writer.is_open()) {
+        PTRSinhVien p;
+
+        for (p = First; p != NULL; p = p->next) {
+            writer << p->sinhVien.toString() << endl;
+        }
+    } else {
+        return 0;
+    }
+
+    writer.close();
+    return 1;
+}
+
 void testDSSV(DSSV &ds) {
     ds.insertFirst("1", "A", "N", "nam", "2", "524");
     ds.insertFirst("2", "B", "N", "nam", "21", "234");
@@ -135,6 +152,7 @@ void testDSSV(DSSV &ds) {
     ds.insertFirst("4", "D", "N", "nam", "23", "34");
 
     ds.duyet();
+    ds.ghiFile();
     cout << "So luong sinh vien: " << ds.dem;
 }
 
