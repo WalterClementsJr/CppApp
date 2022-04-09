@@ -34,6 +34,8 @@ int main() {
                 drawSelectedTab(4);
                 break;
         }
+
+        // TODO: remove these 2 lines
         drawSelectedTab(0);
         key = initMHTab(dsmh);
     }
