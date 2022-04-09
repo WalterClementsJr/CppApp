@@ -224,7 +224,7 @@ string insertMonHoc(DsMonHoc &dsmh, MonHoc *list[]) {
             } else if (index == 1) {
                 // field is ten
                 if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                    (key >= '0' && key <= '9')) {
+                    (key >= '0' && key <= '9') || key == ' ') {
                     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
                         continue;
                     }
@@ -347,7 +347,7 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                 // check format
                 if (!regex_match(input[0], MSMH_REGEX)) {
                     displayNotification(
-                        "MS mon hoc khong dung dinh dang (VD: ABC12345)");
+                        "MS mon hoc khong dung dinh dang (VD: ABC123)");
                     index = 0;
                     gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
                            INSERT_Y + index * 2);
@@ -440,7 +440,7 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
             } else if (index == 1) {
                 // field is ten
                 if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                    (key >= '0' && key <= '9')) {
+                    (key >= '0' && key <= '9') || key == ' ') {
                     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
                         continue;
                     }

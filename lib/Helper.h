@@ -19,6 +19,8 @@ void keyTest() {
             cout << "a-z A-Z: " << ch << endl;
         } else if (ch >= '0' && ch <= '9') {
             cout << "0-9: " << ch << endl;
+        } else if (ch == ' ') {
+            cout << "space: " << ch << endl;
         } else if (ch == 0) {
             cout << "0:" << _getch() << endl;
         } else if (ch == 224) {
