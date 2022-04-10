@@ -1,16 +1,17 @@
 // walterclements's main
 
-#include "import.h"
-#include "drawing.h"
 #include "DsMonHoc.h"
-#include "MonHocPanel.h"
 #include "LTC.h"
+#include "LTCPanel.h"
+#include "MonHocPanel.h"
 #include "SinhVien.h"
+#include "drawing.h"
+#include "import.h"
 
 using namespace std;
 
 int main() {
-    // initUI();
+    initUI();
     // drawSelectedTab(0);
 
     // DsMonHoc dsmh;
@@ -25,6 +26,9 @@ int main() {
     DsLTC dsltc;
     // testDSLTC(dsltc, dsdk);
     testDSLTC(dsltc);
+    // dsltc.read();
+
+    initLTCPanel(dsltc);
 
     return 0;
 }

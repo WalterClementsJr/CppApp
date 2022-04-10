@@ -63,10 +63,11 @@ struct LTC {
 
 class DsLTC {
    private:
-    int currentMax, count;
+    int currentMax;
 
    public:
     LTC *dsltc[DSLTC_MAX];
+    int count;
 
     DsLTC() {
         currentMax = 0;
