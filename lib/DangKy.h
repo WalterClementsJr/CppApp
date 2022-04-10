@@ -52,6 +52,7 @@ class DsDangKy {
     int insertOrder(string maSV, float diem, bool huy = false);
     DangKy *search(string maSV);
     int remove(string maSV);
+    string toString();
 };
 
 DsDangKy::DsDangKy() {
@@ -164,18 +165,26 @@ void DsDangKy::print() {
     }
 }
 
+string DsDangKy::toString() {
+    string result = "";
+    for (NodeDangKy *temp = first; temp != NULL; temp = temp->next) {
+        result += temp->dk.toString() + "\n";
+    }
+    return result;
+}
+
 void testDSDK(DsDangKy &dsdk) {
     dsdk.insertOrder("N1", 2, 1);
     dsdk.insertOrder("N2", 1, 1);
     dsdk.insertOrder("N5", 7, 1);
     dsdk.insertOrder("N6", 2, 1);
     dsdk.insertOrder("N4", 4, 1);
-    dsdk.print();
+    // dsdk.print();
 
-    dsdk.remove("N1");
+    // dsdk.remove("N1");
     // DangKy *d = dsdk.search("N6");
     // d->maSV = "123123";
-    dsdk.print();
+    // dsdk.print();
 }
 
 #endif

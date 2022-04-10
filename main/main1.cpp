@@ -5,6 +5,7 @@
 #include "DsMonHoc.h"
 #include "MonHocPanel.h"
 #include "LTC.h"
+#include "SinhVien.h"
 
 using namespace std;
 
@@ -15,15 +16,15 @@ int main() {
     // DsMonHoc dsmh;
     // testDSMH(dsmh);
     // initMHTab(dsmh);
-    // keyTest();
 
-    // DsLTC dsltc;
-    // testDSLTC(dsltc);
-
-    // MonHoc *arr[1000];
-    // dsmh.toArray(arr);
+    DSSV dssv;
 
     DsDangKy dsdk;
     testDSDK(dsdk);
+
+    DsLTC dsltc;
+    testDSLTC(dsltc, dsdk);
+    testDSLTC(dsltc);
+
     return 0;
 }

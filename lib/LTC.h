@@ -18,7 +18,7 @@ struct LTC {
     int nhom;
     int min, max;
     bool huy;
-    DsDangKy *dssv;
+    DsDangKy *dsdk;
 
     LTC() {
         this->maLTC = 0;
@@ -29,6 +29,8 @@ struct LTC {
         this->min = 0;
         this->max = 0;
         this->huy = false;
+
+        dsdk = new DsDangKy;
     }
 
     LTC(int maLTC, string maMH, string nienKhoa, int hocKy, int nhom, int min,
@@ -41,6 +43,12 @@ struct LTC {
         this->min = min;
         this->max = max;
         this->huy = huy;
+
+        dsdk = new DsDangKy;
+    }
+
+    ~LTC() {
+        delete dsdk;
     }
 
     string toString() {
@@ -142,42 +150,66 @@ class DsLTC {
     }
 
     void print() {
-        cout << "\n\tTraverse DSLTC:\n";
-        if (count == 0) {
-            return;
-        }
+        cout << "\n\tDSLTC, size: " << count << endl;
         for (int i = 0; i < count; i++) {
             cout << i << ": " << dsltc[i]->toString() << endl;
+            if (dsltc[i]->dsdk->count > 0) {
+                cout << "\n\t Dsdk\n";
+                cout << dsltc[i]->dsdk->toString();
+            }
         }
     }
 
     void write() {
-        ofstream fileWriter("./build/data/monhoc.csv");
+        ofstream writer("./build/data/loptinchi.csv");
 
-        if (fileWriter.is_open()) {
-            // save currentMax and count
-            fileWriter << currentMax << "," << count << endl;
+        if (writer.is_open()) {
+            // write currentMax
+            writer << currentMax << endl;
+
+            // write LTC and dsdk on new lines
+            for (int i = 0; i < count; i++) {
+                LTC *temp = dsltc[i];
+                // write data and number of DangKy in dsdk
+                writer << temp->toString() << "," << temp->dsdk->count << endl;
+                writer << temp->dsdk->toString();
+            }
+        }
+        writer.close();
+    }
+
+    void read() {
+        ifstream reader("./build/data/monhoc.csv");
+
+        if (reader.is_open()) {
+            // read currentMax
 
             // TODO: write DSSV on new lines
             for (int i = 0; i < count; i++) {
-                fileWriter << dsltc[i]->toString() << endl;
             }
         }
-        fileWriter.close();
+        reader.close();
     }
 };
 
-void testDSLTC(DsLTC &ds) {
-    ds.insert("3", "21-22", 2, 1, 1, 100);
-    ds.insert("2", "22-23", 2, 1, 1, 100);
-    ds.insert("3", "20-21", 2, 1, 1, 100);
-    ds.insert("4", "20-21", 2, 1, 1, 123);
-    ds.print();
+void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
+    ds.insert("INT2", "21-22", 2, 1, 1, 100);
+    ds.insert("INT3", "22-23", 2, 1, 1, 100);
+    ds.insert("ENG1", "20-21", 2, 1, 1, 100);
+    ds.insert("ENG2", "20-21", 2, 1, 1, 123);
+    // ds.print();
 
-    LTC *a = ds.search("3", "20-21", 2, 1);
-    if (a) a->max = 999;
-    ds.remove("2", "22-23", 2, 1);
+    // LTC *a = ds.search("3", "20-21", 2, 1);
+    // if (a) a->max = 999;
+    ds.dsltc[0]->dsdk = &dsdk;
+    // ds.remove("2", "22-23", 2, 1);
     ds.print();
+    ds.write();
+
+}
+
+void testDSLTC(DsLTC &ds) {
+    // ds.write();
 }
 
 #endif
