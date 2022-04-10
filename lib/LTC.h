@@ -1,6 +1,7 @@
 #ifndef DSLTC_H
 #define DSLTC_H
 
+#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -21,7 +22,7 @@ struct LTC {
     DsDangKy *dsdk;
 
     LTC() {
-        this->maLTC = 0;
+        this->maLTC = -1;
         this->maMH = "";
         this->nienKhoa = "";
         this->hocKy = 0;
@@ -47,9 +48,7 @@ struct LTC {
         dsdk = new DsDangKy;
     }
 
-    ~LTC() {
-        delete dsdk;
-    }
+    ~LTC() { delete dsdk; }
 
     string toString() {
         return to_string(maLTC) + "," + maMH + "," + nienKhoa + "," +
@@ -78,6 +77,7 @@ class DsLTC {
         for (int i = 0; i < count; i++) {
             delete dsltc[i];
         }
+        count = 0;
     }
 
     bool isEmpty() { return count == 0; }
@@ -94,24 +94,30 @@ class DsLTC {
         return NULL;
     }
 
-    int insert(string maMH, string nienKhoa, int hocKy, int nhom, int min,
-               int max) {
-        string key = maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
+    LTC *insert(string maMH, string nienKhoa, int hocKy, int nhom, int min,
+                int max, bool huy, int maLTC = -1) {
         if (count >= DSLTC_MAX) {
-            return 0;
+            return NULL;
         }
+        // string key = maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
 
         // check exist
-        if (search(maMH, nienKhoa, hocKy, nhom) != NULL) {
-            return 0;
+        // if (search(maMH, nienKhoa, hocKy, nhom) != NULL) {
+        //     return 0;
+        // }
+        LTC *lop = NULL;
+
+        // insert with auto increment on
+        if (maLTC == -1) {
+            lop = new LTC(++currentMax, maMH, nienKhoa, hocKy, nhom, min, max,
+                          huy);
+            dsltc[count] = lop;
+        } else {
+            lop = new LTC(maLTC, maMH, nienKhoa, hocKy, nhom, min, max, huy);
+            dsltc[count] = lop;
         }
-
-        // insert
-        LTC *lop = new LTC(++currentMax, maMH, nienKhoa, hocKy, nhom, min, max);
-        dsltc[count] = lop;
         count += 1;
-
-        return 1;
+        return lop;
     }
 
     int edit(int maLTC, string maMH, string nienKhoa, int hocKy, int nhom,
@@ -179,13 +185,73 @@ class DsLTC {
     }
 
     void read() {
-        ifstream reader("./build/data/monhoc.csv");
-
+        ifstream reader("./build/data/loptinchi.csv");
         if (reader.is_open()) {
-            // read currentMax
+            string temp;
+            string line;
+            int index = 0;
 
-            // TODO: write DSSV on new lines
-            for (int i = 0; i < count; i++) {
+            // read currentMax
+            getline(reader, line);
+            currentMax = stoi(line);
+            cout << "\ncurrent max" << currentMax << endl;
+
+            while (getline(reader, line)) {
+                index = 0;
+                temp = "";
+
+                string ltcData[9] = {""};
+                string dkData[3] = {""};
+
+                // read data for ltc ','
+                for (unsigned i = 0; i < line.size(); i++) {
+                    if (line[i] == ',') {
+                        ltcData[index] = temp;
+                        temp = "";
+                        index++;
+                    } else if (i == line.size() - 1) {
+                        // if end of line => last string
+                        temp += line[i];
+                        ltcData[index] = temp;
+                    } else {
+                        temp += line[i];
+                    }
+                }
+                int dsdkLength = stoi(ltcData[8]);
+
+                for (int i = 0; i < 9; i++) {
+                    cout << ltcData[i] << endl;
+                }
+
+                LTC *lop =
+                    insert(ltcData[1], ltcData[2], stoi(ltcData[3]),
+                           stoi(ltcData[4]), stoi(ltcData[5]), stoi(ltcData[6]),
+                           stoi(ltcData[7]), stoi(ltcData[0]));
+                // insert success
+                if (lop) {
+                    // get dsdk
+                    for (int i = 0; i < dsdkLength; i++) {
+                        getline(reader, line);
+                        cout << line << endl;
+                        temp = "";
+                        index = 0;
+
+                        for (unsigned j = 0; j < line.size(); j++) {
+                            if (line[j] == ',') {
+                                dkData[index] = temp;
+                                temp = "";
+                                index++;
+                            } else if (j == line.size() - 1) {
+                                // if end of line => last string
+                                temp += line[j];
+                                dkData[index] = temp;
+                            } else {
+                                temp += line[j];
+                            }
+                        }
+                        lop->dsdk->insertOrder(dkData[0], stoi(dkData[1]), stoi(dkData[2]));
+                    }
+                }
             }
         }
         reader.close();
@@ -193,10 +259,10 @@ class DsLTC {
 };
 
 void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
-    ds.insert("INT2", "21-22", 2, 1, 1, 100);
-    ds.insert("INT3", "22-23", 2, 1, 1, 100);
-    ds.insert("ENG1", "20-21", 2, 1, 1, 100);
-    ds.insert("ENG2", "20-21", 2, 1, 1, 123);
+    ds.insert("INT2", "21-22", 2, 1, 1, 100, 0, -1);
+    ds.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
+    ds.insert("ENG1", "20-21", 2, 1, 1, 100, true, -1);
+    ds.insert("ENG2", "20-21", 2, 1, 1, 123, 0, -1);
     // ds.print();
 
     // LTC *a = ds.search("3", "20-21", 2, 1);
@@ -205,11 +271,12 @@ void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
     // ds.remove("2", "22-23", 2, 1);
     ds.print();
     ds.write();
-
 }
 
 void testDSLTC(DsLTC &ds) {
     // ds.write();
+    ds.read();
+    ds.print();
 }
 
 #endif

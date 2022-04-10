@@ -17,13 +17,13 @@ int main() {
     // testDSMH(dsmh);
     // initMHTab(dsmh);
 
-    DSSV dssv;
+    // DSSV dssv;
 
-    DsDangKy dsdk;
-    testDSDK(dsdk);
+    // DsDangKy dsdk;
+    // testDSDK(dsdk);
 
     DsLTC dsltc;
-    testDSLTC(dsltc, dsdk);
+    // testDSLTC(dsltc, dsdk);
     testDSLTC(dsltc);
 
     return 0;

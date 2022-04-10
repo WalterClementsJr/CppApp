@@ -56,6 +56,7 @@
         "xtr1common": "cpp",
         "*.tcc": "cpp",
         "bitset": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "array": "cpp"
     }
 }
