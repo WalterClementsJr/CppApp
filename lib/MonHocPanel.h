@@ -14,13 +14,11 @@
 
 using namespace std;
 
-const int INSERT_X = DETAIL_X, INSERT_Y = DETAIL_Y + 1;
-
 const string MH_FIELDS[] = {"Ma so: ", "Ten MH: ", "SLTC LT: ", "SLTC TH: "};
 
 const unsigned int MH_FIELD_LIMITS[] = {10, 50, 2, 2};
 
-const regex MSMH_REGEX("[a-zA-Z]{3}\\d{3,7}");
+const regex MSMH_REGEX("[a-zA-Z]{3}\\d{2,7}");
 
 void highlightIndex(MonHoc *list[], int index) {
     SetColor(GREY, BLACK);
@@ -608,22 +606,22 @@ int initMHTab(DsMonHoc &dsmh) {
                 } else if (key == KEY_LEFT) {
                     // prev page
                     index =
-                        (currentPage > 0 ? currentPage - 1 : 0) * MAX_TABLE_ROW;
-                    clearTable();
+                        (currentPage > 0 ? currentPage - 1 : nPage) * MAX_TABLE_ROW;
+                    clearTableContent();
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == KEY_RIGHT) {
                     // next page
                     currentPage =
-                        currentPage >= nPage ? nPage : currentPage + 1;
+                        currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
-                    clearTable();
+                    clearTableContent();
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == INSERT) {
                     // insert
                     insertMonHoc(dsmh, list);
-                    clearTable();
+                    clearTableContent();
                     dsLength = dsmh.getSize();
                     index = 0;
                     loadMonHocToTable(list, dsLength, index);
@@ -631,7 +629,7 @@ int initMHTab(DsMonHoc &dsmh) {
                 } else if (key == DEL) {
                     // remove
                     deleteMonHoc(dsmh, list, index);
-                    clearTable();
+                    clearTableContent();
                     dsLength = dsmh.getSize();
                     index = 0;
                     loadMonHocToTable(list, dsLength, index);
@@ -647,7 +645,7 @@ int initMHTab(DsMonHoc &dsmh) {
             // edit row
             editMonHoc(dsmh, list, index);
             index = 0;
-            clearTable();
+            clearTableContent();
             loadMonHocToTable(list, dsLength, index);
             highlightIndex(list, index);
         } else if (key == ESC) {

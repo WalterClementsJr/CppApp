@@ -97,6 +97,9 @@ const int MAX_TABLE_ROW = 15;
 // Details
 const int DETAIL_X = 110, DETAIL_Y = 10;
 
+// Insert area
+const int INSERT_X = DETAIL_X, INSERT_Y = DETAIL_Y + 1;
+
 // Notification
 const int NOTIF_X = 110, NOTIF_Y = 40;
 const int NOTIF_WORD_PER_LINE = 60;

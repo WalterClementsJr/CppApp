@@ -242,7 +242,11 @@ void clearArea(int x, int y, int width, int height) {
     }
 }
 
-void clearTable() { clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH, LAST_ROW); }
+void clearTable() { clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH + 1, LAST_ROW); }
+
+void clearTableContent() {
+    clearArea(TABLE_X, TABLE_Y + 1, TABLE_WIDTH + 1, LAST_ROW);
+}
 
 void clearDetail() { clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27); }
 
