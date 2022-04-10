@@ -194,7 +194,6 @@ class DsLTC {
             // read currentMax
             getline(reader, line);
             currentMax = stoi(line);
-            cout << "\ncurrent max" << currentMax << endl;
 
             while (getline(reader, line)) {
                 index = 0;
@@ -218,10 +217,6 @@ class DsLTC {
                     }
                 }
                 int dsdkLength = stoi(ltcData[8]);
-
-                for (int i = 0; i < 9; i++) {
-                    cout << ltcData[i] << endl;
-                }
 
                 LTC *lop =
                     insert(ltcData[1], ltcData[2], stoi(ltcData[3]),
@@ -267,7 +262,7 @@ void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
 
     // LTC *a = ds.search("3", "20-21", 2, 1);
     // if (a) a->max = 999;
-    ds.dsltc[0]->dsdk = &dsdk;
+    ds.dsltc[1]->dsdk = &dsdk;
     // ds.remove("2", "22-23", 2, 1);
     ds.print();
     ds.write();
