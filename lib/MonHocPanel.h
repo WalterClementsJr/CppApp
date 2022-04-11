@@ -21,14 +21,13 @@ const unsigned int MH_FIELD_LIMITS[] = {10, 50, 2, 2};
 const regex MSMH_REGEX("[a-zA-Z]{3}\\d{2,7}");
 
 void highlightIndex(MonHoc *list[], int index) {
-    SetColor(GREY, BLACK);
+    SetColor(BLACK, BLUE);
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left << setw(MH_FIELD_LIMITS[0]) << list[index]->ms
-         << setw(MH_FIELD_LIMITS[1] + 2) << list[index]->ten
-         << setw(MH_FIELD_LIMITS[2] + 6) << list[index]->sltclt
-         << setw(MH_FIELD_LIMITS[2] + 6) << list[index]->sltcth;
+    cout << setfill(' ') << left << setw(15) << list[index]->ms << setw(60)
+         << list[index]->ten << setw(10) << list[index]->sltclt << setw(6)
+         << list[index]->sltcth;
 
     SetColor();
 }
@@ -38,11 +37,30 @@ void dehighlightIndex(MonHoc *list[], int index) {
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left << setw(MH_FIELD_LIMITS[0]) << list[index]->ms
-         << setw(MH_FIELD_LIMITS[1] + 2) << list[index]->ten
-         << setw(MH_FIELD_LIMITS[2] + 6) << list[index]->sltclt
-         << setw(MH_FIELD_LIMITS[2] + 6) << list[index]->sltcth;
+    cout << setfill(' ') << left << setw(15) << list[index]->ms << setw(60)
+         << list[index]->ten << setw(10) << list[index]->sltclt << setw(6)
+         << list[index]->sltcth;
     SetColor();
+}
+
+// display MonHoc to table based on index
+void loadMonHocToTable(MonHoc *list[], int length, int index) {
+    ShowCur(false);
+
+    int x = TABLE_X, y = TABLE_Y + 2;
+    int currentPage = index / MAX_TABLE_ROW;
+
+    int rowsLeft = length - currentPage * MAX_TABLE_ROW;
+    rowsLeft = rowsLeft > MAX_TABLE_ROW ? MAX_TABLE_ROW : rowsLeft;
+
+    for (int i = 0; i < rowsLeft; i++) {
+        gotoxy(x, y);
+        cout << setfill(' ') << left << setw(15) << list[index + i]->ms
+             << setw(60) << list[index + i]->ten << setw(10)
+             << list[index + i]->sltclt << setw(6) << list[index + i]->sltcth;
+        drawRow(x, y + 1, TABLE_WIDTH);
+        y += 2;
+    }
 }
 
 void clearInsertField(int index) {
@@ -56,6 +74,8 @@ void printInsertMHField(int index, string input) {
     clearInsertField(index);
     gotoxy(INSERT_X + MH_FIELDS[index].length(), INSERT_Y + index * 2);
     cout << input;
+    gotoxy(INSERT_X + MH_FIELDS[index].length() + input.length(),
+           INSERT_Y + index * 2);
 
     ShowCur(true);
 }
@@ -81,24 +101,22 @@ string insertMonHoc(DsMonHoc &dsmh, MonHoc *list[]) {
     unsigned key;
     unsigned exit = 0;
 
-    bool pass = true;
-
     while (exit == 0) {
-        pass = true;
         key = _getch();
 
         // catch special input first
         if (key == 224 || key == 0) {
             key = _getch();
+            // left/right: move while editing text, up/down: move between lines
             if (key == KEY_UP) {
                 index = index <= 0 ? 3 : index - 1;
-                count = !input[index].empty() ? input[index].length() : 0;
+                count = input[index].length();
                 gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
                        INSERT_Y + index * 2);
                 printInsertMHField(index, input[index]);
             } else if (key == KEY_DOWN) {
                 index = index >= 3 ? 0 : index + 1;
-                count = !input[index].empty() ? input[index].length() : 0;
+                count = input[index].length();
                 gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
                        INSERT_Y + index * 2);
                 printInsertMHField(index, input[index]);
@@ -120,19 +138,21 @@ string insertMonHoc(DsMonHoc &dsmh, MonHoc *list[]) {
             input[index].erase(count - 1, 1);
             count--;
             printInsertMHField(index, input[index]);
-
-            // move cursor
-            gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                   INSERT_Y + index * 2);
         } else if (key == ESC) {
             clearDetail();
             break;
         } else if (key == ENTER) {
             if (index == 3) {
+                clearNotification();
+
                 // check if one of the inputs is empty
                 for (string s : input) {
                     if (s.empty()) {
-                        pass = false;
+                        displayNotification("Hay dien day du thong tin.", RED);
+                        index = 0;
+                        count = input[index].length();
+                        printInsertMHField(index, input[index]);
+                        continue;
                         break;
                     }
                 }
@@ -142,64 +162,62 @@ string insertMonHoc(DsMonHoc &dsmh, MonHoc *list[]) {
                     displayNotification(
                         "MS mon hoc khong dung dinh dang (VD: ABC12345)");
                     index = 0;
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
+                    count = input[index].length();
+                    printInsertMHField(index, input[index]);
                     continue;
                 }
 
-                if (!pass) {
-                    displayNotification("Hay dien day du thong tin.", RED);
+                // check if ms already exist
+                if (dsmh.search(input[0]) != NULL) {
+                    displayNotification("MS mon hoc da ton tai.", RED);
+                    index = 0;
+                    count = input[index].length();
+                    printInsertMHField(index, input[index]);
                     continue;
-                } else {
-                    // check if ms already exist
-                    if (dsmh.search(input[0]) != NULL) {
-                        displayNotification("MS mon hoc da ton tai.", RED);
-                        index = 0;
-                        gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                               INSERT_Y + index * 2);
-                        continue;
+                }
+
+                // confirm insert
+                clearNotification();
+                SetColor(BLACK, RED);
+                gotoxy(INSERT_X, INSERT_Y + 10);
+                cout << "Xac nhan them? Y/N";
+                SetColor();
+                key = _getch();
+
+                while (key != ESC) {
+                    if (key == 0 || key == 224) _getch();
+                    // yes
+                    else if (key == 'y' || key == 'Y') {
+                        gotoxy(INSERT_X, INSERT_Y + 10);
+                        cout << string(40, ' ');
+
+                        // insert to dsmh and update list and length
+                        dsmh.insert(input[0], input[1], stoi(input[2]),
+                                    stoi(input[3]));
+                        dsmh.toArray(list);
+                        dsmh.write();
+                        exit = 1;
+                        ms = input[0];
+                        break;
                     }
+                    // no
+                    else if (key == 'n' || key == 'N') {
+                        gotoxy(INSERT_X, INSERT_Y + 10);
+                        cout << string(40, ' ');
 
-                    // confirm insert
-                    clearNotification();
-                    SetColor(BLACK, RED);
-                    gotoxy(INSERT_X, INSERT_Y + 10);
-                    cout << "Xac nhan them? Y/N";
-                    SetColor();
-                    key = _getch();
-
-                    while (key != ESC) {
-                        if (key == 0 || key == 224) _getch();
-                        // yes
-                        else if (key == 'y' || key == 'Y') {
-                            gotoxy(INSERT_X, INSERT_Y + 10);
-                            cout << string(40, ' ');
-
-                            // insert to dsmh and update list and length
-                            dsmh.insert(input[0], input[1], stoi(input[2]),
-                                        stoi(input[3]));
-                            dsmh.toArray(list);
-                            dsmh.write();
-                            exit = 1;
-                            ms = input[0];
-                            break;
-                        }
-                        // no
-                        else if (key == 'n' || key == 'N') {
-                            gotoxy(INSERT_X, INSERT_Y + 10);
-                            cout << string(40, ' ');
-                            break;
-                        } else {
-                            key = _getch();
-                        }
+                        index = 0;
+                        count = input[index].length();
+                        printInsertMHField(index, input[index]);
+                        break;
+                    } else {
+                        key = _getch();
                     }
                 }
             } else {
                 index++;
                 // move to end of next row if input is not empty
-                count = !input[index].empty() ? input[index].length() : 0;
-                gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+                count = input[index].length();
+                printInsertMHField(index, input[index]);
             }
         } else {
             // catch character input
@@ -216,8 +234,8 @@ string insertMonHoc(DsMonHoc &dsmh, MonHoc *list[]) {
                     input[index].insert(count, 1, toupper(char(key)));
                     count++;
                     printInsertMHField(index, input[index]);
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
+                    // gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
+                    //        INSERT_Y + index * 2);
                 }
             } else if (index == 1) {
                 // field is ten
@@ -229,12 +247,9 @@ string insertMonHoc(DsMonHoc &dsmh, MonHoc *list[]) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertMHField(index, input[index]);
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
-
-            } else if (index == 2) {
-                // field is sltclt
+            } else if (index == 2 || index == 3) {
+                // sltc lt - sltc th
                 if (key >= '0' && key <= '9') {
                     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
                         continue;
@@ -242,20 +257,6 @@ string insertMonHoc(DsMonHoc &dsmh, MonHoc *list[]) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertMHField(index, input[index]);
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
-                }
-            } else if (index == 3) {
-                // field is sltcth
-                if (key >= '0' && key <= '9') {
-                    if (input[index].length() >= MH_FIELD_LIMITS[index]) {
-                        continue;
-                    }
-                    input[index].insert(count, 1, char(key));
-                    count++;
-                    printInsertMHField(index, input[index]);
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             }
         }
@@ -286,10 +287,7 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
     unsigned key;
     unsigned exit = 0;
 
-    bool pass = true;
-
     while (exit == 0) {
-        pass = true;
         key = _getch();
 
         // catch special input first
@@ -297,18 +295,18 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
             key = _getch();
             if (key == KEY_UP) {
                 index = index <= 0 ? 3 : index - 1;
-                count = !input[index].empty() ? input[index].length() : 0;
+                count = input[index].length();
                 gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
                        INSERT_Y + index * 2);
                 printInsertMHField(index, input[index]);
             } else if (key == KEY_DOWN) {
                 index = index >= 3 ? 0 : index + 1;
-                count = !input[index].empty() ? input[index].length() : 0;
+                count = input[index].length();
                 gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
                        INSERT_Y + index * 2);
                 printInsertMHField(index, input[index]);
             } else if (key == KEY_LEFT) {
-                count = count <= 0 ? input[index].length() : (count - 1);
+                count <= 0 ? input[index].length() : (count - 1);
                 gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
                        INSERT_Y + index * 2);
             } else if (key == KEY_RIGHT) {
@@ -325,20 +323,21 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
             input[index].erase(count - 1, 1);
             count--;
             printInsertMHField(index, input[index]);
-
-            // move cursor
-            gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                   INSERT_Y + index * 2);
         } else if (key == ESC) {
             clearDetail();
             break;
         } else if (key == ENTER) {
             if (index == 3) {
+                clearNotification();
                 // check if one of the inputs is empty
                 for (string s : input) {
                     if (s.empty()) {
-                        pass = false;
-                        break;
+                        displayNotification("Hay dien day du thong tin.", RED);
+                        index = 0;
+                        count = input[index].length();
+                        printInsertMHField(index, input[index]);
+
+                        continue;
                     }
                 }
 
@@ -347,73 +346,72 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                     displayNotification(
                         "MS mon hoc khong dung dinh dang (VD: ABC123)");
                     index = 0;
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
+                    count = input[index].length();
+                    printInsertMHField(index, input[index]);
                     continue;
                 }
 
-                if (!pass) {
-                    displayNotification("Hay dien day du thong tin.", RED);
-                    continue;
-                } else {
-                    // check ms already exist
-                    if (dsmh.search(input[0]) != NULL) {
-                        if (input[0] != m->ms) {
-                            displayNotification("MS mon hoc da ton tai.", RED);
-                            index = 0;
-                            gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                                   INSERT_Y);
-                            continue;
-                        }
+                // check ms already exist
+                if (dsmh.search(input[0]) != NULL) {
+                    if (input[0] != m->ms) {
+                        displayNotification("MS mon hoc da ton tai.", RED);
+                        index = 0;
+                        count = input[index].length();
+                        printInsertMHField(index, input[index]);
+                        continue;
                     }
+                }
 
-                    // confirm update
-                    clearNotification();
-                    SetColor(BLACK, RED);
-                    gotoxy(INSERT_X, INSERT_Y + 10);
-                    cout << "Xac nhan sua? Y/N";
-                    SetColor();
-                    key = _getch();
+                // confirm update
+                clearNotification();
+                SetColor(BLACK, RED);
+                gotoxy(INSERT_X, INSERT_Y + 10);
+                cout << "Xac nhan sua? Y/N";
+                SetColor();
+                key = _getch();
 
-                    while (key != ESC) {
-                        if (key == 0 || key == 224) _getch();
-                        // yes
-                        else if (key == 'y' || key == 'Y') {
-                            gotoxy(INSERT_X, INSERT_Y + 10);
-                            cout << string(40, ' ');
+                while (key != ESC) {
+                    if (key == 0 || key == 224) _getch();
+                    // yes
+                    else if (key == 'y' || key == 'Y') {
+                        gotoxy(INSERT_X, INSERT_Y + 10);
+                        cout << string(40, ' ');
 
-                            // update if ms is the same, else remove and insert
-                            // with new ms
-                            if (m->ms == input[0]) {
-                                m->ten = input[1];
-                                m->sltclt = stoi(input[2]);
-                                m->sltcth = stoi(input[3]);
-                            } else {
-                                dsmh.remove(m->ms);
-                                dsmh.insert(input[0], input[1], stoi(input[2]),
-                                            stoi(input[3]));
-                                // dsmh.update(m->ms, input[1], stoi(input[2]),
-                                // stoi(input[3]), input[0]);
-                            }
-                            dsmh.write();
-                            exit = 1;
-                            ms = input[0];
-                            break;
-                        }
-                        // no
-                        else if (key == 'n' || key == 'N') {
-                            gotoxy(INSERT_X, INSERT_Y + 10);
-                            cout << string(40, ' ');
-                            break;
+                        // update if ms is the same, else remove and insert
+                        // with new ms
+                        if (m->ms == input[0]) {
+                            m->ten = input[1];
+                            m->sltclt = stoi(input[2]);
+                            m->sltcth = stoi(input[3]);
                         } else {
-                            key = _getch();
+                            dsmh.remove(m->ms);
+                            dsmh.insert(input[0], input[1], stoi(input[2]),
+                                        stoi(input[3]));
+                            // dsmh.update(m->ms, input[1], stoi(input[2]),
+                            // stoi(input[3]), input[0]);
                         }
+                        dsmh.write();
+                        exit = 1;
+                        break;
+                    }
+                    // no
+                    else if (key == 'n' || key == 'N') {
+                        gotoxy(INSERT_X, INSERT_Y + 10);
+                        cout << string(40, ' ');
+                        index = 0;
+                        count = input[index].length();
+                        printInsertMHField(index, input[index]);
+
+                        break;
+                    } else {
+                        key = _getch();
                     }
                 }
+
             } else {
                 index++;
                 // move to end of next row if input is not empty
-                count = !input[index].empty() ? input[index].length() : 0;
+                count = input[index].length();
                 gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
                        INSERT_Y + index * 2);
             }
@@ -432,8 +430,6 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                     input[index].insert(count, 1, toupper(char(key)));
                     count++;
                     printInsertMHField(index, input[index]);
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             } else if (index == 1) {
                 // field is ten
@@ -445,12 +441,9 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertMHField(index, input[index]);
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
 
-            } else if (index == 2) {
-                // field is sltclt
+            } else if (index == 2 || index == 3) {
                 if (key >= '0' && key <= '9') {
                     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
                         continue;
@@ -458,20 +451,6 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertMHField(index, input[index]);
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
-                }
-            } else if (index == 3) {
-                // field is sltcth
-                if (key >= '0' && key <= '9') {
-                    if (input[index].length() >= MH_FIELD_LIMITS[index]) {
-                        continue;
-                    }
-                    input[index].insert(count, 1, char(key));
-                    count++;
-                    printInsertMHField(index, input[index]);
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             }
         }
@@ -502,38 +481,16 @@ void deleteMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index) {
     }
 }
 
-// display MonHoc to table based on index
-void loadMonHocToTable(MonHoc *list[], int length, int index) {
-    ShowCur(false);
-
-    int x = TABLE_X, y = TABLE_Y + 2;
-    int currentPage = index / MAX_TABLE_ROW;
-
-    int rowsLeft = length - currentPage * MAX_TABLE_ROW;
-    rowsLeft = rowsLeft > MAX_TABLE_ROW ? MAX_TABLE_ROW : rowsLeft;
-
-    for (int i = 0; i < rowsLeft; i++) {
-        gotoxy(x, y);
-        cout << setfill(' ') << left << setw(MH_FIELD_LIMITS[0])
-             << list[index + i]->ms << setw(MH_FIELD_LIMITS[1] + 2)
-             << list[index + i]->ten << setw(MH_FIELD_LIMITS[2] + 6)
-             << list[index + i]->sltclt << setw(MH_FIELD_LIMITS[2] + 6)
-             << list[index + i]->sltcth;
-        drawRow(x, y + 1, TABLE_WIDTH);
-        y += 2;
-    }
-}
-
 int initMHTab(DsMonHoc &dsmh) {
     SetColor(BLACK, WHITE);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma so";
-    gotoxy(TABLE_X + MH_FIELD_LIMITS[0], TABLE_Y);
+    gotoxy(TABLE_X + 15, TABLE_Y);
     cout << "Ten mon hoc";
-    gotoxy(TABLE_X + 62, TABLE_Y);
+    gotoxy(TABLE_X + 75, TABLE_Y);
     cout << "STC LT";
-    gotoxy(TABLE_X + 70, TABLE_Y);
+    gotoxy(TABLE_X + 85, TABLE_Y);
     cout << "STC TH";
 
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
@@ -605,15 +562,14 @@ int initMHTab(DsMonHoc &dsmh) {
                     }
                 } else if (key == KEY_LEFT) {
                     // prev page
-                    index =
-                        (currentPage > 0 ? currentPage - 1 : nPage) * MAX_TABLE_ROW;
+                    index = (currentPage > 0 ? currentPage - 1 : nPage) *
+                            MAX_TABLE_ROW;
                     clearTableContent();
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == KEY_RIGHT) {
                     // next page
-                    currentPage =
-                        currentPage >= nPage ? 0 : currentPage + 1;
+                    currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
                     clearTableContent();
                     loadMonHocToTable(list, dsLength, index);

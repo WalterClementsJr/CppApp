@@ -353,16 +353,15 @@ void drawSelectedTab(int index) {
 
 void initUI() {
     clrscr();
-    resizeConsole(1500, 1000);
-    SetScreenBufferSize(1500, 1000);
+    resizeConsole(1450, 1000);
     DisableResizeWindow();
     DisableTitleBarControls(0, 0, 1);
     DisableSelection();
     ShowScrollbar(0);
-    SetTextColor(WHITE);
     ShowCur(false);
 
     gotoxy(UI_LIMIT_X / 2, 2);
+    SetTextColor(WHITE);
     cout << "PTIT TP.HCM";
 
     drawRec(1, 1, UI_LIMIT_X, UI_LIMIT_Y);
@@ -386,17 +385,23 @@ void initUI() {
     SetTextColor(DARKWHITE);
     cout << " Select";
 
-    gotoxy(105, UI_LIMIT_Y);
+    gotoxy(95, UI_LIMIT_Y);
+    SetTextColor(BLUE);
+    cout << "INS";
+    SetTextColor(DARKWHITE);
+    cout << " INSERT";
+
+    gotoxy(115, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "DEL";
     SetTextColor(DARKWHITE);
     cout << " Delete";
 
-    gotoxy(125, UI_LIMIT_Y);
+    gotoxy(135, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "ESC";
     SetTextColor(DARKWHITE);
-    cout << " Exit/Cancel/Back";
+    cout << " Exit";
 
     for (size_t i = 10; i <= UI_LIMIT_Y - 2; i++) {
         gotoxy(NOTIF_X - 1, i);

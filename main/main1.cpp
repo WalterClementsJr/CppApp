@@ -11,25 +11,30 @@
 using namespace std;
 
 int main() {
-    // initUI();
+    initUI();
     // drawSelectedTab(0);
 
-    // DsMonHoc dsmh;
+    DsMonHoc dsmh;
+    dsmh.read();
     // testDSMH(dsmh);
-    // initMHTab(dsmh);
 
-    DSSV dssv;
-    testDSSV(dssv);
+    // DSSV dssv;
+    // dssv.docFile();
 
     // DsDangKy dsdk;
     // testDSDK(dsdk);
 
     // DsLTC dsltc;
-    // testDSLTC(dsltc, dsdk);
-    // testDSLTC(dsltc);
     // dsltc.read();
+    // testDSLTC(dsltc, dsdk, dssv);
+    // testDSLTC(dsltc);
 
-    // initLTCPanel(dsltc);
+    initMHTab(dsmh);
+    // initLTCTab(dsltc, dsmh, dssv);
 
     return 0;
 }
+
+// int main() {
+//     initUI();
+// }
