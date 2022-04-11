@@ -561,7 +561,7 @@ int initMHTab(DsMonHoc &dsmh) {
 
     while (exit == 0) {
         currentPage = index / MAX_TABLE_ROW;
-        nPage = dsmh.getSize() / MAX_TABLE_ROW;
+        nPage = dsLength / MAX_TABLE_ROW;
         nOfRowRemains = dsLength - currentPage * MAX_TABLE_ROW;
         nOfRowRemains =
             nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;

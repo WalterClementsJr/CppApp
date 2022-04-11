@@ -368,37 +368,31 @@ void initUI() {
     drawRec(1, 1, UI_LIMIT_X, UI_LIMIT_Y);
     drawRec(2, 9, UI_LIMIT_X - 2, UI_LIMIT_Y - 10);
 
-    gotoxy(4, UI_LIMIT_Y);
+    gotoxy(15, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << char(17) << " " << char(16);
     SetTextColor(DARKWHITE);
     cout << " PrevPage/NextPage";
 
-    gotoxy(33, UI_LIMIT_Y);
+    gotoxy(45, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << char(30) << " " << char(31);
     SetTextColor(DARKWHITE);
     cout << " Up/Down";
 
-    gotoxy(53, UI_LIMIT_Y);
+    gotoxy(75, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "ENTER";
     SetTextColor(DARKWHITE);
     cout << " Select";
 
-    gotoxy(80, UI_LIMIT_Y);
+    gotoxy(105, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "DEL";
     SetTextColor(DARKWHITE);
     cout << " Delete";
 
-    gotoxy(98, UI_LIMIT_Y);
-    SetTextColor(BLUE);
-    cout << "TAB";
-    SetTextColor(DARKWHITE);
-    cout << " Find/Search";
-
-    gotoxy(120, UI_LIMIT_Y);
+    gotoxy(125, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "ESC";
     SetTextColor(DARKWHITE);
