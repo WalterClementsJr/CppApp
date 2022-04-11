@@ -64,6 +64,7 @@ class DSSV {
                     string soDT, string maLop);
     int insertOrder(string maSV, string ho, string ten, string phai,
                     string soDT, string maLop);
+    PTRSinhVien search(string maSV);
     int ghiFile();
 };
 
@@ -128,6 +129,16 @@ int DSSV::insertOrder(string maSV, string ho, string ten, string phai,
     dem++;
     return 1;
 }
+
+PTRSinhVien DSSV::search(string maSV) {
+    for (PTRSinhVien p = First; p != NULL; p = p->next) {
+        if (p->sinhVien.maSV == maSV) {
+            return p;
+        }
+    }
+    return NULL;
+}
+
 
 void DSSV::duyet() {
     PTRSinhVien p;
