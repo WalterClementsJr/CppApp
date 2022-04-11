@@ -162,7 +162,7 @@ void DsMonHoc::write() {
             curr = queue.front();
             queue.dequeue();
 
-            cout << curr->monhoc.toString() << endl;
+            writer << curr->monhoc.toString() << endl;
 
             if (curr->left) {
                 queue.enqueue(curr->left);
@@ -414,9 +414,9 @@ void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &index) {
 
 void testDSMH(DsMonHoc &ds) {
     ds.read();
-    // ds.write();
+    ds.write();
 
-    ds.displayLevelOrder();
+    // ds.displayLevelOrder();
     // ds.update("6", "HDH123", 2, 1, "6");
     // MonHoc *m = ds.search("6");
     // ds.remove("3");
