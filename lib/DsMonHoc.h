@@ -8,6 +8,7 @@
 
 #include "Helper.h"
 #include "MonHoc.h"
+#include "MonHocQueue.h"
 
 using namespace std;
 
@@ -42,7 +43,6 @@ class DsMonHoc {
 
     void traverseInOrder(NodeMonHoc *root);
     void traversePostOrder(NodeMonHoc *root);
-    bool traverseLevel(NodeMonHoc *root, int level);
 
     NodeMonHoc *insertNode(NodeMonHoc *root, MonHoc m);
     NodeMonHoc *findLeft(NodeMonHoc *root);
@@ -54,7 +54,6 @@ class DsMonHoc {
     NodeMonHoc *RotateRL(NodeMonHoc *n3);
 
     NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream &reader);
-    bool writeToFile(NodeMonHoc *root, ofstream &writer, int level);
     void addNodeToArray(NodeMonHoc *root, MonHoc *arr[], int &index);
 };
 
@@ -101,12 +100,29 @@ void DsMonHoc::displayPostOrder() {
 
 void DsMonHoc::displayLevelOrder() {
     cout << "\n\tDisplay level order\n";
-    // start from level 1 — till the height of the tree
-    int level = 1;
 
-    // run till printLevel() returns false
-    while (traverseLevel(root, level)) {
-        level++;
+    if (root == NULL) {
+        return;
+    }
+
+    // create an empty queue and enqueue the root
+    MonHocQueue queue;
+    queue.enqueue(root);
+
+    NodeMonHoc *curr = NULL;
+
+    while (!queue.isEmpty()) {
+        curr = queue.front();
+        queue.dequeue();
+
+        cout << curr->monhoc.toString() << endl;
+
+        if (curr->left) {
+            queue.enqueue(curr->left);
+        }
+        if (curr->right) {
+            queue.enqueue(curr->right);
+        }
     }
 }
 
@@ -131,14 +147,30 @@ void DsMonHoc::read() {
 void DsMonHoc::write() {
     ofstream writer("./build/data/monhoc.csv");
 
-    // if (fileWriter.is_open()) {
-    //     writeToFile(root, fileWriter);
-    // }
-    int level = 1;
+    if (writer.is_open()) {
+        if (root == NULL) {
+            return;
+        }
 
-    // run till printLevel() returns false
-    while (writeToFile(root, writer, level)) {
-        level++;
+        // create an empty queue and enqueue the root
+        MonHocQueue queue;
+        queue.enqueue(root);
+
+        NodeMonHoc *curr = NULL;
+
+        while (!queue.isEmpty()) {
+            curr = queue.front();
+            queue.dequeue();
+
+            cout << curr->monhoc.toString() << endl;
+
+            if (curr->left) {
+                queue.enqueue(curr->left);
+            }
+            if (curr->right) {
+                queue.enqueue(curr->right);
+            }
+        }
     }
     writer.close();
 }
@@ -199,24 +231,6 @@ void DsMonHoc::traversePostOrder(NodeMonHoc *root) {
         traversePostOrder(root->left);
         traversePostOrder(root->right);
     }
-}
-
-bool DsMonHoc::traverseLevel(NodeMonHoc *root, int level) {
-    if (root == NULL) {
-        return false;
-    }
-
-    if (level == 1) {
-        cout << root->monhoc.toString() << endl;
-
-        // return true if at least one node is present at a given level
-        return true;
-    }
-
-    bool left = traverseLevel(root->left, level - 1);
-    bool right = traverseLevel(root->right, level - 1);
-
-    return left || right;
 }
 
 // set all tree's nodes to null
@@ -387,31 +401,6 @@ NodeMonHoc *DsMonHoc::readFromFile(NodeMonHoc *root, ifstream &reader) {
     return root;
 }
 
-bool DsMonHoc::writeToFile(NodeMonHoc *root, ofstream &writer, int level) {
-    // write level order
-    // if (root != NULL) {
-    //     writer << root->monhoc.toString() << endl;
-    //     writeToFile(root->left, writer);
-    //     writeToFile(root->right, writer);
-    // }
-
-    if (root == NULL) {
-        return false;
-    }
-
-    if (level == 1) {
-        writer << root->monhoc.toString() << endl;
-
-        // return true if at least one node is present at a given level
-        return true;
-    }
-
-    bool left = writeToFile(root->left, writer, level - 1);
-    bool right = writeToFile(root->right, writer, level - 1);
-
-    return left || right;
-}
-
 void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &index) {
     if (root == NULL) {
         return;
@@ -425,16 +414,12 @@ void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &index) {
 
 void testDSMH(DsMonHoc &ds) {
     ds.read();
-    ds.write();
+    // ds.write();
 
     ds.displayLevelOrder();
     // ds.update("6", "HDH123", 2, 1, "6");
     // MonHoc *m = ds.search("6");
     // ds.remove("3");
-
-    // ds.displayPostOrder();
-
-    // ds.displayPostOrder();
 
     // int len = ds.getSize();
     // cout << "Number of mh: " << len << endl;
