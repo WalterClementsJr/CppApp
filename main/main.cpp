@@ -1,8 +1,8 @@
 #include "LTC.h"
-#include "TabLTC.h"
 #include "MonHoc.h"
-#include "TabMonHoc.h"
 #include "SinhVien.h"
+#include "TabLTC.h"
+#include "TabMonHoc.h"
 #include "drawing.h"
 #include "import.h"
 
@@ -41,6 +41,15 @@ int main() {
                 break;
             case KEY_F5:
                 drawSelectedTab(4);
+                break;
+            case KEY_F6:
+                drawSelectedTab(5);
+                break;
+            case KEY_F7:
+                drawSelectedTab(6);
+                break;
+            case KEY_F8:
+                drawSelectedTab(7);
                 break;
         }
 

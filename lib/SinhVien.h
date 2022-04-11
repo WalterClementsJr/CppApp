@@ -112,7 +112,6 @@ int DSSV::insertOrder(string maSV, string ho, string ten, string phai,
     while (current != NULL) {
         // neu masv trung -> return 0
         if (current->sinhVien.maSV == maSV) {
-            cout << "\n found trung \n";
             return 0;
         } else if (current->sinhVien.maSV > maSV) {
             break;
@@ -165,7 +164,6 @@ int DSSV::docFile() {
     ifstream reader("./build/data/sinhvien.csv");
 
     if (reader.is_open()) {
-        cout << "open file";
         string line;
         int index;
         string temp;

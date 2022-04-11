@@ -245,7 +245,7 @@ void clearArea(int x, int y, int width, int height) {
 void clearTable() { clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH + 1, LAST_ROW); }
 
 void clearTableContent() {
-    clearArea(TABLE_X, TABLE_Y + 1, TABLE_WIDTH + 1, LAST_ROW);
+    clearArea(TABLE_X, TABLE_Y + 1, TABLE_WIDTH + 1, LAST_ROW - 1);
 }
 
 void clearDetail() { clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27); }
@@ -275,7 +275,7 @@ void clearTab() {
 }
 
 void drawTab(int x, int y, string title, string key, bool selected = false) {
-    int dai = 15, rong = 2;
+    int dai = 20, rong = 2;
     SetTextColor(WHITE);
 
     gotoxy(x, y);
@@ -341,9 +341,10 @@ void drawSelectedTab(int index) {
     SetTextColor(WHITE);
     drawRow(tabx, taby + rong, space * 4);
 
-    const string tabName[] = {"DS Mon hoc", "DS Lop", "DS SV", "DS Dang ky",
-                              "Thong ke"};
-    const string shortcut[] = {"F1", "F2", "F3", "F4", "F5"};
+    const string tabName[] = {"DS Mon hoc",   "DS Lop",       "DS SV",
+                              "DS Dang ky",   "Thong ke lop", "Thong ke diem",
+                              "Thong ke (k)", "Thong ke (l)"};
+    const string shortcut[] = {"F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"};
 
     for (unsigned int i = 0; i < sizeof(tabName) / sizeof(tabName[0]); i++) {
         drawTab(tabx + space * i, taby, tabName[i], shortcut[i],

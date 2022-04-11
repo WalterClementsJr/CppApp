@@ -228,7 +228,6 @@ class DsLTC {
                     // get dsdk
                     for (int i = 0; i < dsdkLength; i++) {
                         getline(reader, line);
-                        cout << line << endl;
                         temp = "";
                         index = 0;
 
@@ -255,18 +254,18 @@ class DsLTC {
 };
 
 void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
-    ds.insert("INT2", "21-22", 2, 1, 1, 100, 0, -1);
-    ds.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
-    ds.insert("ENG1", "20-21", 2, 1, 1, 100, true, -1);
-    ds.insert("ENG2", "20-21", 2, 1, 1, 123, 0, -1);
+    // ds.insert("INT2", "21-22", 2, 1, 1, 100, 0, -1);
+    // ds.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
+    // ds.insert("ENG1", "20-21", 2, 1, 1, 100, true, -1);
+    // ds.insert("ENG2", "20-21", 2, 1, 1, 123, 0, -1);
     // ds.print();
 
     // LTC *a = ds.search("3", "20-21", 2, 1);
     // if (a) a->max = 999;
-    ds.dsltc[1]->dsdk = &dsdk;
+    // ds.dsltc[1]->dsdk = &dsdk;
     // ds.remove("2", "22-23", 2, 1);
-    ds.print();
-    ds.write();
+    // ds.print();
+    // ds.write();
 }
 
 void testDSLTC(DsLTC &ds) {

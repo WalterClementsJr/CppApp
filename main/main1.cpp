@@ -1,5 +1,3 @@
-// walterclements's main
-
 #include "DsMonHoc.h"
 #include "LTC.h"
 #include "TabLTC.h"
@@ -11,7 +9,7 @@
 using namespace std;
 
 int main() {
-    // initUI();
+    initUI();
     // drawSelectedTab(0);
 
     DsMonHoc dsmh;
@@ -19,23 +17,24 @@ int main() {
     dsmh.write();
     // testDSMH(dsmh);
 
-    // DSSV dssv;
-    // dssv.docFile();
+    DSSV dssv;
+    dssv.docFile();
 
     // DsDangKy dsdk;
     // testDSDK(dsdk);
 
-    // DsLTC dsltc;
-    // dsltc.read();
+    DsLTC dsltc;
+    dsltc.read();
     // testDSLTC(dsltc, dsdk, dssv);
     // testDSLTC(dsltc);
 
     // initMHTab(dsmh);
-    // initLTCTab(dsltc, dsmh, dssv);
+    initLTCTab(dsltc, dsmh, dssv);
 
     return 0;
 }
 
 // int main() {
-//     initUI();
+//     // initUI();
+//     keyTest();
 // }

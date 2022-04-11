@@ -33,12 +33,10 @@ struct MonHoc {
 class NodeMonHoc {
    public:
     MonHoc monhoc;
-    int height;
     NodeMonHoc *left;
     NodeMonHoc *right;
 
     NodeMonHoc() {
-        height = 0;
         left = NULL;
         right = NULL;
     }

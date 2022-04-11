@@ -43,6 +43,10 @@
 #define KEY_F3 61
 #define KEY_F4 62
 #define KEY_F5 63
+#define KEY_F6 64
+#define KEY_F7 65
+#define KEY_F8 66
+#define KEY_F9 67
 #define KEY_F10 68
 
 // with extra keycode 224
