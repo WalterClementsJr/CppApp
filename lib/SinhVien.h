@@ -66,6 +66,7 @@ class DSSV {
                     string soDT, string maLop);
     PTRSinhVien search(string maSV);
     int ghiFile();
+    int docFile();
 };
 
 DSSV::DSSV() {
@@ -139,7 +140,6 @@ PTRSinhVien DSSV::search(string maSV) {
     return NULL;
 }
 
-
 void DSSV::duyet() {
     PTRSinhVien p;
     cout << "\n\tDuyet dssv, so sv: " << dem << endl;
@@ -157,17 +157,47 @@ int DSSV::ghiFile() {
     } else {
         return 0;
     }
-
     writer.close();
     return 1;
 }
 
-void testDSSV(DSSV &ds) {
-    ds.insertOrder("2", "A", "N", "nam", "2", "524");
-    ds.insertOrder("1", "B", "N", "nam", "21", "234");
-    ds.insertOrder("1", "C", "N", "nam", "3", "523");
-    ds.insertOrder("3", "D", "N", "nam", "23", "34");
+int DSSV::docFile() {
+    ifstream reader("./build/data/sinhvien.csv");
 
+    if (reader.is_open()) {
+        cout << "open file";
+        string line;
+        int index;
+        string temp;
+
+        while (getline(reader, line)) {
+            string data[6] = {""};
+            index = 0;
+            temp = "";
+
+            for (unsigned i = 0; i < line.size(); i++) {
+                if (line[i] == ',') {
+                    data[index] = temp;
+                    temp = "";
+                    index++;
+                } else if (i == line.size() - 1) {
+                    temp += line[i];
+                    data[index] = temp;
+                } else {
+                    temp += line[i];
+                }
+            }
+            insertOrder(data[0], data[1], data[2], data[3], data[4], data[5]);
+        }
+    } else {
+        return 0;
+    }
+    reader.close();
+    return 1;
+}
+
+void testDSSV(DSSV &ds) {
+    ds.docFile();
     ds.duyet();
     // ds.ghiFile();
 }

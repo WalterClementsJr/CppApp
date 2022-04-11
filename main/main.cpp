@@ -1,6 +1,8 @@
 #include "LTC.h"
+#include "LTCPanel.h"
 #include "MonHoc.h"
 #include "MonHocPanel.h"
+#include "SinhVien.h"
 #include "drawing.h"
 #include "import.h"
 
@@ -15,6 +17,12 @@ int main() {
     DsMonHoc dsmh;
     dsmh.read();
 
+    DSSV dssv;
+    dssv.docFile();
+
+    DsLTC dsltc;
+    dsltc.read();
+
     // start first tab: MonHoc
     int key = initMHTab(dsmh);
 
@@ -23,6 +31,7 @@ int main() {
         switch (key) {
             case KEY_F2:
                 drawSelectedTab(1);
+                initLTCTab(dsltc, dsmh, dssv);
                 break;
             case KEY_F3:
                 drawSelectedTab(2);

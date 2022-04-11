@@ -14,11 +14,12 @@ int main() {
     // initUI();
     // drawSelectedTab(0);
 
-    DsMonHoc dsmh;
-    testDSMH(dsmh);
+    // DsMonHoc dsmh;
+    // testDSMH(dsmh);
     // initMHTab(dsmh);
 
-    // DSSV dssv;
+    DSSV dssv;
+    testDSSV(dssv);
 
     // DsDangKy dsdk;
     // testDSDK(dsdk);
