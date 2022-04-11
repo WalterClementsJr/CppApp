@@ -2,8 +2,8 @@
 
 #include "DsMonHoc.h"
 #include "LTC.h"
-#include "LTCPanel.h"
-#include "MonHocPanel.h"
+#include "TabLTC.h"
+#include "TabMonHoc.h"
 #include "SinhVien.h"
 #include "drawing.h"
 #include "import.h"
@@ -11,11 +11,12 @@
 using namespace std;
 
 int main() {
-    initUI();
+    // initUI();
     // drawSelectedTab(0);
 
     DsMonHoc dsmh;
     dsmh.read();
+    dsmh.write();
     // testDSMH(dsmh);
 
     // DSSV dssv;
@@ -29,7 +30,7 @@ int main() {
     // testDSLTC(dsltc, dsdk, dssv);
     // testDSLTC(dsltc);
 
-    initMHTab(dsmh);
+    // initMHTab(dsmh);
     // initLTCTab(dsltc, dsmh, dssv);
 
     return 0;
