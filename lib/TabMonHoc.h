@@ -240,7 +240,8 @@ string insertMonHoc(DsMonHoc &dsmh, MonHoc *list[]) {
             } else if (index == 1) {
                 // field is ten
                 if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                    (key >= '0' && key <= '9') || key == ' ') {
+                    (key >= '0' && key <= '9') || key == ' ' || key == '-' ||
+                    key == ',') {
                     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
                         continue;
                     }
@@ -387,9 +388,8 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                             dsmh.remove(m->ms);
                             dsmh.insert(input[0], input[1], stoi(input[2]),
                                         stoi(input[3]));
-                            // dsmh.update(m->ms, input[1], stoi(input[2]),
-                            // stoi(input[3]), input[0]);
                         }
+                        clearDetail();
                         dsmh.write();
                         exit = 1;
                         break;
@@ -407,7 +407,6 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                         key = _getch();
                     }
                 }
-
             } else {
                 index++;
                 // move to end of next row if input is not empty
@@ -434,7 +433,8 @@ string editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
             } else if (index == 1) {
                 // field is ten
                 if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                    (key >= '0' && key <= '9') || key == ' ') {
+                    (key >= '0' && key <= '9') || key == ' ' || key == '-' ||
+                    key == ',') {
                     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
                         continue;
                     }

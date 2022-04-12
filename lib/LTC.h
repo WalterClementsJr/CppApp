@@ -132,12 +132,10 @@ class DsLTC {
         return 1;
     }
 
-    int remove(string maMH, string nienKhoa, int hocKy, int nhom) {
+    int remove(string key) {
         if (count == 0) {
             return 0;
         }
-
-        string key = maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
         bool found = false;
 
         for (int i = 0; i < count; i++) {
