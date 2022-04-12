@@ -10,26 +10,27 @@ using namespace std;
 
 int main() {
     initUI();
+
     // drawSelectedTab(0);
 
     DsMonHoc dsmh;
     dsmh.read();
-    dsmh.write();
+    // dsmh.write();
     // testDSMH(dsmh);
 
-    DSSV dssv;
-    dssv.docFile();
+    // DSSV dssv;
+    // dssv.docFile();
 
     // DsDangKy dsdk;
     // testDSDK(dsdk);
 
-    DsLTC dsltc;
-    dsltc.read();
+    // DsLTC dsltc;
+    // dsltc.read();
     // testDSLTC(dsltc, dsdk, dssv);
     // testDSLTC(dsltc);
 
-    // initMHTab(dsmh);
-    initLTCTab(dsltc, dsmh, dssv);
+    initMHTab(dsmh);
+    // initLTCTab(dsltc, dsmh, dssv);
 
     return 0;
 }

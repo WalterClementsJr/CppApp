@@ -56,6 +56,8 @@ void loadLTCToTable(LTC *list[], int length, int index) {
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
 
+    showPageNumber(currentPage, length / MAX_TABLE_ROW);
+
     int rowsLeft = length - currentPage * MAX_TABLE_ROW;
     rowsLeft = rowsLeft > MAX_TABLE_ROW ? MAX_TABLE_ROW : rowsLeft;
 

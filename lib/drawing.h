@@ -248,6 +248,17 @@ void clearTableContent() {
     clearArea(TABLE_X, TABLE_Y + 1, TABLE_WIDTH + 1, LAST_ROW - 1);
 }
 
+void clearPageNumber() {
+    // gotoxy(TABLE_X, LAST_ROW - 1);
+    clearArea(TABLE_X, LAST_ROW - 1, TABLE_WIDTH, 0);
+}
+
+void showPageNumber(int current, int total) {
+    clearPageNumber();
+    gotoxy(TABLE_X, LAST_ROW - 1);
+    cout << "Page " << ++current << "/"<< ++total;
+}
+
 void clearDetail() { clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27); }
 
 void clearNotification() {
@@ -380,13 +391,13 @@ void initUI() {
     SetTextColor(DARKWHITE);
     cout << " Up/Down";
 
-    gotoxy(75, UI_LIMIT_Y);
+    gotoxy(65, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "ENTER";
     SetTextColor(DARKWHITE);
     cout << " Select";
 
-    gotoxy(95, UI_LIMIT_Y);
+    gotoxy(85, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "INS";
     SetTextColor(DARKWHITE);
