@@ -27,7 +27,7 @@ struct DangKy {
     string toString() {
         stringstream ss;
         ss << diem;
-        return maSV + "," + ss.str() + "," + to_string(huy);
+        return maSV + "|" + ss.str() + "|" + to_string(huy);
     }
 };
 

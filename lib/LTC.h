@@ -51,9 +51,9 @@ struct LTC {
     ~LTC() { delete dsdk; }
 
     string toString() {
-        return to_string(maLTC) + "," + maMH + "," + nienKhoa + "," +
-               to_string(hocKy) + "," + to_string(nhom) + "," + to_string(min) +
-               "," + to_string(max) + "," + to_string(huy);
+        return to_string(maLTC) + "|" + maMH + "|" + nienKhoa + "|" +
+               to_string(hocKy) + "|" + to_string(nhom) + "|" + to_string(min) +
+               "|" + to_string(max) + "|" + to_string(huy);
     }
 
     string getKey() {
@@ -115,6 +115,7 @@ class DsLTC {
             dsltc[count] = lop;
         } else {
             lop = new LTC(maLTC, maMH, nienKhoa, hocKy, nhom, min, max, huy);
+            currentMax = currentMax > maLTC ? currentMax : maLTC;
             dsltc[count] = lop;
         }
         count += 1;
@@ -166,17 +167,14 @@ class DsLTC {
     }
 
     void write() {
-        ofstream writer("./build/data/loptinchi.csv");
+        ofstream writer("./build/data/loptinchi1.csv");
 
         if (writer.is_open()) {
-            // write currentMax
-            writer << currentMax << endl;
-
             // write LTC and dsdk on new lines
             for (int i = 0; i < count; i++) {
                 LTC *temp = dsltc[i];
                 // write data and number of DangKy in dsdk
-                writer << temp->toString() << "," << temp->dsdk->count << endl;
+                writer << temp->toString() << "|" << temp->dsdk->count << endl;
                 writer << temp->dsdk->toString();
             }
         }
@@ -185,65 +183,56 @@ class DsLTC {
 
     void read() {
         ifstream reader("./build/data/loptinchi.csv");
-        if (reader.is_open()) {
-            string temp;
-            string line;
+
+        if (!reader.is_open()) {
+            return;
+        }
+        string line;
+        string delim = "|";
+
+        while (getline(reader, line)) {
+            string ltcData[9] = {""};
+
             int index = 0;
+            size_t start = 0;
+            size_t end = line.find(delim, start);
 
-            // read currentMax
-            getline(reader, line);
-            currentMax = stoi(line);
+            while (end != string::npos) {
+                ltcData[index] = line.substr(start, end - start);
+                start = end + delim.length();
+                end = line.find(delim, start);
+                index++;
+            }
 
-            while (getline(reader, line)) {
-                index = 0;
-                temp = "";
+            ltcData[index] = line.substr(start, end);
 
-                string ltcData[9] = {""};
-                string dkData[3] = {""};
+            int dsdkLength = stoi(ltcData[index]);
 
-                // read data for ltc ','
-                for (unsigned i = 0; i < line.size(); i++) {
-                    if (line[i] == ',') {
-                        ltcData[index] = temp;
-                        temp = "";
+            LTC *lop =
+                insert(ltcData[1], ltcData[2], stoi(ltcData[3]),
+                       stoi(ltcData[4]), stoi(ltcData[5]), stoi(ltcData[6]),
+                       stoi(ltcData[7]), stoi(ltcData[0]));
+            // endl; insert success
+            if (lop) {
+                // get dsdk
+                for (int i = 0; i < dsdkLength; i++) {
+                    string dkData[3] = {""};
+
+                    getline(reader, line);
+                    index = 0;
+                    start = 0;
+                    end = line.find(delim, start);
+
+                    while (end != string::npos) {
+                        dkData[index] = line.substr(start, end - start);
+                        start = end + delim.length();
+                        end = line.find(delim, start);
                         index++;
-                    } else if (i == line.size() - 1) {
-                        // if end of line => last string
-                        temp += line[i];
-                        ltcData[index] = temp;
-                    } else {
-                        temp += line[i];
                     }
-                }
-                int dsdkLength = stoi(ltcData[8]);
+                    dkData[index] = line.substr(start, end);
 
-                LTC *lop =
-                    insert(ltcData[1], ltcData[2], stoi(ltcData[3]),
-                           stoi(ltcData[4]), stoi(ltcData[5]), stoi(ltcData[6]),
-                           stoi(ltcData[7]), stoi(ltcData[0]));
-                // insert success
-                if (lop) {
-                    // get dsdk
-                    for (int i = 0; i < dsdkLength; i++) {
-                        getline(reader, line);
-                        temp = "";
-                        index = 0;
-
-                        for (unsigned j = 0; j < line.size(); j++) {
-                            if (line[j] == ',') {
-                                dkData[index] = temp;
-                                temp = "";
-                                index++;
-                            } else if (j == line.size() - 1) {
-                                // if end of line => last string
-                                temp += line[j];
-                                dkData[index] = temp;
-                            } else {
-                                temp += line[j];
-                            }
-                        }
-                        lop->dsdk->insertOrder(dkData[0], stoi(dkData[1]), stoi(dkData[2]));
-                    }
+                    lop->dsdk->insertOrder(dkData[0], stoi(dkData[1]),
+                                           stoi(dkData[2]));
                 }
             }
         }
@@ -267,8 +256,13 @@ void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
 }
 
 void testDSLTC(DsLTC &ds) {
-    // ds.write();
     ds.read();
+    ds.write();
+    // ds.insert("INT2", "21-22", 2, 1, 1, 100, 0, -1);
+    // ds.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
+    // ds.insert("ENG1", "20-21", 2, 1, 1, 100, true, -1);
+    // ds.insert("ENG2", "20-21", 2, 1, 1, 123, 0, -1);
+    // ds.write();
     ds.print();
 }
 

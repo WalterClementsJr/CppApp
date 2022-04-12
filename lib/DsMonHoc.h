@@ -372,18 +372,17 @@ NodeMonHoc *DsMonHoc::readFromFile(NodeMonHoc *root, ifstream &reader) {
 
     while (getline(reader, line)) {
         string data[4] = {""};
-        string temp = "";
 
         int index = 0;
-        unsigned start = 0;
-        unsigned end = line.find(delim);
+        size_t start = 0;
+        size_t end = line.find(delim, start);
 
-        do {
+        while (end != string::npos) {
             data[index] = line.substr(start, end - start);
             start = end + delim.length();
             end = line.find(delim, start);
             index++;
-        } while (end != string::npos);
+        }
 
         data[index] = line.substr(start, end);
         MonHoc m(data[0], data[1], stoi(data[2]), stoi(data[3]));
@@ -408,7 +407,7 @@ void testDSMH(DsMonHoc &ds) {
     ds.read();
     ds.write();
 
-    // ds.displayLevelOrder();
+    ds.displayLevelOrder();
     // ds.update("6", "HDH123", 2, 1, "6");
     // MonHoc *m = ds.search("6");
     // ds.remove("3");
