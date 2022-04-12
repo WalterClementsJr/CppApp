@@ -145,7 +145,7 @@ void DsMonHoc::read() {
 }
 
 void DsMonHoc::write() {
-    ofstream writer("./build/data/monhoc1.csv");
+    ofstream writer("./build/data/monhoc.csv");
 
     if (writer.is_open()) {
         if (root == NULL) {
@@ -368,34 +368,26 @@ NodeMonHoc *DsMonHoc::RotateRL(NodeMonHoc *n3) {
 
 NodeMonHoc *DsMonHoc::readFromFile(NodeMonHoc *root, ifstream &reader) {
     string line;
-    string data[4] = {""};
-    int index;
-    string temp;
+    string delim = "|";
 
     while (getline(reader, line)) {
-        index = 0;
-        data[0] = "";
-        data[1] = "";
-        data[2] = "";
-        data[3] = "";
+        string data[4] = {""};
+        string temp = "";
 
-        temp = "";
+        int index = 0;
+        unsigned start = 0;
+        unsigned end = line.find(delim);
 
-        // read every character to find ','
-        for (unsigned i = 0; i < line.size(); i++) {
-            if (line[i] == ',') {
-                data[index] = temp;
-                temp = "";
-                index++;
-            } else if (i == line.size() - 1) {
-                // if end of line => last string
-                temp += line[i];
-                data[index] = temp;
-            } else {
-                temp += line[i];
-            }
-        }
+        do {
+            data[index] = line.substr(start, end - start);
+            start = end + delim.length();
+            end = line.find(delim, start);
+            index++;
+        } while (end != string::npos);
+
+        data[index] = line.substr(start, end);
         MonHoc m(data[0], data[1], stoi(data[2]), stoi(data[3]));
+
         root = insertNode(root, m);
     }
     return root;

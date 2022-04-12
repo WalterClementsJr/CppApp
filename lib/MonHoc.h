@@ -24,14 +24,14 @@ struct MonHoc {
         this->sltclt = sltclt;
         this->sltcth = sltcth;
     }
+
     string toString() {
-        return ms + "," + ten + "," + to_string(sltclt) + "," +
+        return ms + "|" + ten + "|" + to_string(sltclt) + "|" +
                to_string(sltcth);
     }
 };
 
-class NodeMonHoc {
-   public:
+struct NodeMonHoc {
     MonHoc monhoc;
     NodeMonHoc *left;
     NodeMonHoc *right;

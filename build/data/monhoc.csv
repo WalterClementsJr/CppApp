@@ -1,38 +1,38 @@
-INT28,Electrical Engineer,9,6
-INT18,Product Management,9,4
-INT69,Legal,9,1
-INT08,Accounting,9,10
-INT21,Support,9,4
-INT45,Engineering,3,7
-INT80,Research and Development,9,10
-INT05,Sales,1,8
-INT15,Accounting,7,7
-INT20,Research and Development,4,7
-INT25,Sales,9,9
-INT30,Pharmacist,1,5
-INT52,Sales,9,5
-INT77,Engineering,5,3
-INT88,Training,6,8
-INT0,Business Development,9,8
-INT10,Marketing,5,4
-INT17,Marketing,7,8
-INT2,Product B2,2,3
-INT24,Training,3,1
-INT3,Research and Development,3,3
-INT34,Training,2,1
-INT50,Math,9,7
-INT6,Services,2,5
-INT73,Research and Development,6,6
-INT79,Accounting,3,3
-INT85,Business Development,2,5
-INT95,Legal,8,2
-INT29,Business Development,8,4
-INT41,Lenin,4,8
-INT5,English A,10,7
-INT54,Training,2,3
-INT66,Chemical,3,2
-INT7,Product A1,2,2
-INT78,Research and Development,3,1
-INT8,Accounting,6,5
-INT9,Human,1,2
-INT96,Training,2,3
+INT28|Electrical Engineer|9|6
+INT18|Product Management|9|4
+INT69|Legal|9|1
+INT08|Accounting|9|10
+INT21|Support|9|4
+INT45|Engineering|3|7
+INT80|Research and Development|9|10
+INT05|Sales|1|8
+INT15|Accounting|7|7
+INT20|Research and Development|4|7
+INT25|Sales|9|9
+INT30|Pharmacist|1|5
+INT52|Sales|9|5
+INT77|Engineering|5|3
+INT88|Training|6|8
+INT0|Business Development|9|8
+INT10|Marketing|5|4
+INT17|Marketing|7|8
+INT2|Product B2|2|3
+INT24|Training|3|1
+INT3|Research and Development|3|3
+INT34|Training|2|1
+INT50|Math|9|7
+INT6|Services|2|5
+INT73|Research and Development|6|6
+INT79|Accounting|3|3
+INT85|Business Development|2|5
+INT95|Legal|8|2
+INT29|Business Development|8|4
+INT41|Lenin|4|8
+INT5|English A|10|7
+INT54|Training|2|3
+INT66|Chemical|3|2
+INT7|Product A1|2|2
+INT78|Research and Development|3|1
+INT8|Accounting|6|5
+INT9|Human|1|2
+INT96|Training|2|3
