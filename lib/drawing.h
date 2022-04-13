@@ -262,11 +262,13 @@ void showPageNumber(int current, int total) {
 void clearDetail() { clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27); }
 
 void clearNotification() {
+    ShowCur(false);
     clearArea(NOTIF_X, NOTIF_Y, NOTIF_WORD_PER_LINE, UI_LIMIT_Y - NOTIF_Y - 2);
 }
 
 // in thông báo, auto xuống dòng (60 từ/dòng)
 void displayNotification(string message, int color = WHITE) {
+    ShowCur(false);
     clearNotification();
 
     SetColor(BLACK, color);

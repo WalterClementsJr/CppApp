@@ -11,7 +11,7 @@
 using namespace std;
 
 int main() {
-    // initUI();
+    initUI();
 
     // drawSelectedTab(0);
 
