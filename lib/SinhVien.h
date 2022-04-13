@@ -67,6 +67,7 @@ class DSSV {
     PTRSinhVien search(string maSV);
     int ghiFile();
     int docFile();
+    void filterSinhVienTheoMaLop(SinhVien *list[], int &dsLength, string maLop);
 };
 
 DSSV::DSSV() {
@@ -194,10 +195,51 @@ int DSSV::docFile() {
     return 1;
 }
 
-void testDSSV(DSSV &ds) {
-    ds.docFile();
-    ds.duyet();
+void DSSV::filterSinhVienTheoMaLop(SinhVien *list[], int &listLength,
+                                   string maLop) {
+    int index = 0;
+    listLength = 0;
+
+    for (NodeSinhVien *p = First; p != NULL; p = p->next) {
+        if (p->sinhVien.maLop == maLop) {
+            // TODO: insert with order
+            // empty
+            if (listLength == 0) {
+                list[listLength++] = &p->sinhVien;
+            } else {
+                SinhVien *temp = NULL;
+                string hoten = p->sinhVien.ten + p->sinhVien.ho;
+                list[listLength] = &p->sinhVien;
+
+                for (int i = listLength - 1; i >= 0; i--) {
+                    if (list[i]->ten + list[i]->ho < hoten) {
+                        break;
+                    }
+                    temp = list[i + 1];
+                    list[i + 1] = list[i];
+                    list[i] = temp;
+                }
+                listLength++;
+            }
+        }
+    }
+}
+
+void testDSSV(DSSV &dssv) {
+    dssv.docFile();
+    // dssv.duyet();
     // ds.ghiFile();
+
+    int dsLength = 0;
+
+    SinhVien *list[dssv.dem];
+    // dssv.duyet();
+
+    dssv.filterSinhVienTheoMaLop(list, dsLength, "D18CQCP02");
+
+    for (int i = 0; i < dsLength; i++) {
+        cout << list[i]->toString() << endl;
+    }
 }
 
 #endif

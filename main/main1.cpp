@@ -3,23 +3,26 @@
 #include "TabLTC.h"
 #include "TabMonHoc.h"
 #include "SinhVien.h"
+#include "TabThongKeSV.h"
+#include "TabThongKeDiem.h"
 #include "drawing.h"
 #include "import.h"
 
 using namespace std;
 
 int main() {
-    initUI();
+    // initUI();
 
     // drawSelectedTab(0);
 
-    DsMonHoc dsmh;
-    dsmh.read();
+    // DsMonHoc dsmh;
+    // dsmh.read();
     // dsmh.write();
     // testDSMH(dsmh);
 
-    // DSSV dssv;
-    // dssv.docFile();
+    DSSV dssv;
+    dssv.docFile();
+    // testDSSV(dssv);
 
     // DsDangKy dsdk;
     // testDSDK(dsdk);
@@ -29,8 +32,9 @@ int main() {
     // testDSLTC(dsltc, dsdk, dssv);
     // testDSLTC(dsltc);
 
-    initMHTab(dsmh);
+    // initMHTab(dsmh);
     // initLTCTab(dsltc, dsmh, dssv);
+    initThongKeSVTab(dssv);
 
     return 0;
 }
