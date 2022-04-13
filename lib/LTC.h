@@ -100,12 +100,6 @@ class DsLTC {
         if (count >= DSLTC_MAX) {
             return NULL;
         }
-        // string key = maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
-
-        // check exist
-        // if (search(maMH, nienKhoa, hocKy, nhom) != NULL) {
-        //     return 0;
-        // }
         LTC *lop = NULL;
 
         // insert with auto increment on
@@ -118,7 +112,7 @@ class DsLTC {
             currentMax = currentMax > maLTC ? currentMax : maLTC;
             dsltc[count] = lop;
         }
-        count += 1;
+        count++;
         return lop;
     }
 
@@ -149,8 +143,10 @@ class DsLTC {
                 dsltc[i] = dsltc[i + 1];
             }
         }
+
         if (found) {
-            delete dsltc[count--];
+            delete dsltc[count];
+            count--;
         }
         return found;
     }
@@ -158,10 +154,10 @@ class DsLTC {
     void print() {
         cout << "\n\tDSLTC, size: " << count << endl;
         for (int i = 0; i < count; i++) {
-            cout << i << ": " << dsltc[i]->toString() << endl;
+            cout << dsltc[i]->toString() << endl;
             if (dsltc[i]->dsdk->count > 0) {
-                cout << "\n\t Dsdk\n";
-                cout << dsltc[i]->dsdk->toString();
+                cout << "\n\tDsdk\n";
+                cout << dsltc[i]->dsdk->toString() << endl;
             }
         }
     }
@@ -243,8 +239,8 @@ class DsLTC {
 void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
     // ds.insert("INT2", "21-22", 2, 1, 1, 100, 0, -1);
     // ds.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
-    // ds.insert("ENG1", "20-21", 2, 1, 1, 100, true, -1);
-    // ds.insert("ENG2", "20-21", 2, 1, 1, 123, 0, -1);
+    // ds.insert("INT0", "20-21", 2, 1, 1, 100, true, -1);
+    // ds.insert("INT1", "20-21", 2, 1, 1, 123, 0, -1);
     // ds.print();
 
     // LTC *a = ds.search("3", "20-21", 2, 1);
@@ -257,13 +253,15 @@ void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
 
 void testDSLTC(DsLTC &ds) {
     ds.read();
-    ds.write();
-    // ds.insert("INT2", "21-22", 2, 1, 1, 100, 0, -1);
-    // ds.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
-    // ds.insert("ENG1", "20-21", 2, 1, 1, 100, true, -1);
-    // ds.insert("ENG2", "20-21", 2, 1, 1, 123, 0, -1);
+
     // ds.write();
+    ds.insert("INT2", "22-23", 2, 1, 12, 100, 0, -1);
+    // ds.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
+    // ds.insert("INT0", "20-21", 2, 1, 1, 100, true, -1);
+    // ds.insert("INT1", "20-21", 2, 1, 1, 123, 0, -1);
     ds.print();
+
+    // ds.write();
 }
 
 #endif
