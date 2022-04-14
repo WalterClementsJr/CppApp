@@ -36,7 +36,7 @@ struct SinhVien {
     }
 
     string toString() {
-        return maSV + "," + ho + "," + ten + "," + phai + "," + soDT + "," +
+        return maSV + "|" + ho + "|" + ten + "|" + phai + "|" + soDT + "|" +
                maLop;
     }
 };
@@ -165,27 +165,24 @@ int DSSV::docFile() {
     ifstream reader("./build/data/sinhvien.csv");
 
     if (reader.is_open()) {
+        string delim = "|";
         string line;
-        int index;
-        string temp;
 
         while (getline(reader, line)) {
             string data[6] = {""};
-            index = 0;
-            temp = "";
 
-            for (unsigned i = 0; i < line.size(); i++) {
-                if (line[i] == ',') {
-                    data[index] = temp;
-                    temp = "";
-                    index++;
-                } else if (i == line.size() - 1) {
-                    temp += line[i];
-                    data[index] = temp;
-                } else {
-                    temp += line[i];
-                }
+            int index = 0;
+            size_t start = 0;
+            size_t end = line.find(delim, start);
+
+            while (end != string::npos) {
+                data[index] = line.substr(start, end - start);
+                start = end + delim.length();
+                end = line.find(delim, start);
+                index++;
             }
+            data[index] = line.substr(start, end);
+
             insertOrder(data[0], data[1], data[2], data[3], data[4], data[5]);
         }
     } else {
@@ -225,19 +222,19 @@ void DSSV::filterSinhVienTheoMaLop(SinhVien *list[], int &listLength,
 
 void testDSSV(DSSV &dssv) {
     dssv.docFile();
-    // dssv.duyet();
-    // ds.ghiFile();
+    dssv.duyet();
+    dssv.ghiFile();
 
-    int dsLength = 0;
+    // int dsLength = 0;
 
-    SinhVien *list[dssv.dem];
-    // dssv.duyet();
+    // SinhVien *list[dssv.dem];
+    // // dssv.duyet();
 
-    dssv.filterSinhVienTheoMaLop(list, dsLength, "D18CQCP02");
+    // dssv.filterSinhVienTheoMaLop(list, dsLength, "D18CQCP02");
 
-    for (int i = 0; i < dsLength; i++) {
-        cout << list[i]->toString() << endl;
-    }
+    // for (int i = 0; i < dsLength; i++) {
+    //     cout << list[i]->toString() << endl;
+    // }
 }
 
 #endif
