@@ -526,6 +526,7 @@ void deleteLTC(DsLTC &dsltc, LTC *ltc) {
 }
 
 int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
+    clearTable();
     SetColor(BLACK, WHITE);
 
     gotoxy(TABLE_X, TABLE_Y);

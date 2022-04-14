@@ -482,6 +482,7 @@ void deleteMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index) {
 }
 
 int initMHTab(DsMonHoc &dsmh) {
+    clearTable();
     SetColor(BLACK, WHITE);
 
     gotoxy(TABLE_X, TABLE_Y);
@@ -566,7 +567,7 @@ int initMHTab(DsMonHoc &dsmh) {
                     // prev page
                     index = (currentPage > 0 ? currentPage - 1 : nPage) *
                             MAX_TABLE_ROW;
-                    clearTableContent();
+                        
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == KEY_RIGHT) {
@@ -590,9 +591,9 @@ int initMHTab(DsMonHoc &dsmh) {
                     }
                     // remove
                     deleteMonHoc(dsmh, list, index);
-                    clearTableContent();
                     dsLength = dsmh.getSize();
                     index = 0;
+
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 }

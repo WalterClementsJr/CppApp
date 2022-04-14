@@ -110,6 +110,7 @@ void loadSinhVienToTable(SinhVien *list[], int length, int index) {
 }
 
 int initThongKeSVTab(DSSV dssv) {
+    clearTable();
     SetColor(BLACK, WHITE);
 
     gotoxy(TABLE_X, TABLE_Y);
@@ -160,14 +161,10 @@ int initThongKeSVTab(DSSV dssv) {
                 if (key == KEY_LEFT) {
                     index = (currentPage > 0 ? currentPage - 1 : nPage) *
                             MAX_TABLE_ROW;
-
-                    clearTableContent();
                     loadSinhVienToTable(list, dsLength, index);
                 } else if (key == KEY_RIGHT) {
                     currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
-
-                    clearTableContent();
                     loadSinhVienToTable(list, dsLength, index);
                 } else if (key == INSERT) {
                     string maLop = inputMaLop();
@@ -178,7 +175,6 @@ int initThongKeSVTab(DSSV dssv) {
                         displayNotification("Lop khong ton tai");
                         index = 0;
                     } else {
-                        clearTableContent();
                         index = 0;
                         loadSinhVienToTable(list, dsLength, index);
                     }

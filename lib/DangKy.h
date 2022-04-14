@@ -53,6 +53,7 @@ class DsDangKy {
     DangKy *search(string maSV);
     int remove(string maSV);
     string toString();
+    void toArray(DangKy *list[], int &length);
 };
 
 DsDangKy::DsDangKy() {
@@ -172,6 +173,15 @@ string DsDangKy::toString() {
     }
     return result;
 }
+
+void DsDangKy::toArray(DangKy *list[], int &length) {
+    length = 0;
+
+    for (NodeDangKy *temp = first; temp != NULL; temp = temp->next) {
+        list[length++] = &temp->dk;
+    }
+}
+
 
 void testDSDK(DsDangKy &dsdk) {
     dsdk.insertOrder("N1", 2, 1);
