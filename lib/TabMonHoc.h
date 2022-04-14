@@ -46,6 +46,7 @@ void dehighlightIndex(MonHoc *list[], int index) {
 // display MonHoc to table based on index
 void loadMonHocToTable(MonHoc *list[], int length, int index) {
     ShowCur(false);
+    clearTableContent();
 
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
@@ -509,7 +510,7 @@ int initMHTab(DsMonHoc &dsmh) {
     dsmh.toArray(list);
     int dsLength = dsmh.getSize();
 
-    // highlight if not empty
+    // if not empty
     if (dsLength > 0) {
         loadMonHocToTable(list, dsLength, index);
         highlightIndex(list, index);
@@ -572,18 +573,21 @@ int initMHTab(DsMonHoc &dsmh) {
                     // next page
                     currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
-                    clearTableContent();
+
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == INSERT) {
                     // insert
                     insertMonHoc(dsmh, list);
-                    clearTableContent();
+
                     dsLength = dsmh.getSize();
                     index = 0;
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == DEL) {
+                    if (dsLength == 0) {
+                        continue;
+                    }
                     // remove
                     deleteMonHoc(dsmh, list, index);
                     clearTableContent();
@@ -593,16 +597,14 @@ int initMHTab(DsMonHoc &dsmh) {
                     highlightIndex(list, index);
                 }
             }
-        } else if (key == TAB) {
-            // search + edit
-            // searchMonHoc(dsmh);
-            loadMonHocToTable(list, dsLength, index);
-            highlightIndex(list, index);
         } else if (key == ENTER) {
+            if (dsLength == 0) {
+                continue;
+            }
             // edit row
             editMonHoc(dsmh, list, index);
             index = 0;
-            clearTableContent();
+
             loadMonHocToTable(list, dsLength, index);
             highlightIndex(list, index);
         } else if (key == ESC) {

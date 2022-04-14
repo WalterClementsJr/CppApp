@@ -89,6 +89,7 @@ string inputMaLop() {
 
 void loadSinhVienToTable(SinhVien *list[], int length, int index) {
     ShowCur(false);
+    clearTableContent();
 
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;

@@ -52,6 +52,7 @@ void dehighlightIndex(LTC *list[], int index) {
 
 void loadLTCToTable(LTC *list[], int length, int index) {
     ShowCur(false);
+    clearTableContent();
 
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
@@ -75,15 +76,12 @@ void loadLTCToTable(LTC *list[], int length, int index) {
     }
 }
 
-void clearLTCField(int index) {
-    gotoxy(INSERT_X + LTC_FIELDS[index].length(), INSERT_Y + index * 2);
-    cout << string(LTC_LIMITS[index], ' ');
-}
-
 void printInsertLTCField(int index, string input) {
     ShowCur(false);
 
-    clearLTCField(index);
+    gotoxy(INSERT_X + LTC_FIELDS[index].length(), INSERT_Y + index * 2);
+    cout << string(LTC_LIMITS[index], ' ');
+
     gotoxy(INSERT_X + LTC_FIELDS[index].length(), INSERT_Y + index * 2);
     cout << input;
 
@@ -615,27 +613,27 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                     // prev page
                     index = (currentPage > 0 ? currentPage - 1 : nPage) *
                             MAX_TABLE_ROW;
-                    clearTableContent();
+
                     loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                     highlightIndex(dsltc.dsltc, index);
                 } else if (key == KEY_RIGHT) {
                     // next page
                     currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
-                    clearTableContent();
                     loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                     highlightIndex(dsltc.dsltc, index);
                 } else if (key == INSERT) {
                     // insert
                     insertLTC(dsltc, dsmh);
-                    clearTableContent();
                     index = 0;
                     loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                     highlightIndex(dsltc.dsltc, index);
                 } else if (key == DEL) {
                     // remove
+                    if (dsltc.count == 0) {
+                        continue;
+                    }
                     deleteLTC(dsltc, dsltc.dsltc[index]);
-                    clearTableContent();
                     index = 0;
                     loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                     highlightIndex(dsltc.dsltc, index);
@@ -644,6 +642,9 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
         } else if (key == TAB) {
             // TODO: view dsdk
         } else if (key == ENTER) {
+            if (dsltc.count == 0) {
+                continue;
+            }
             // edit
             editLTC(dsltc, dsmh, dsltc.dsltc[index]);
             index = 0;
