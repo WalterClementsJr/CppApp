@@ -25,7 +25,7 @@ class DsMonHoc {
     int getSize();
     void read();
     void write();
-    void toArray(MonHoc *arr[]);
+    void toArray(MonHoc *arr[], int &length);
 
     // debugging
     void displayPostOrder();
@@ -54,7 +54,7 @@ class DsMonHoc {
     NodeMonHoc *RotateRL(NodeMonHoc *n3);
 
     NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream &reader);
-    void addNodeToArray(NodeMonHoc *root, MonHoc *arr[], int &index);
+    void addNodeToArray(NodeMonHoc *root, MonHoc *arr[], int &length);
 };
 
 // public
@@ -130,9 +130,9 @@ bool DsMonHoc::isEmpty() { return root != NULL; }
 
 int DsMonHoc::getSize() { return getSize(root); }
 
-void DsMonHoc::toArray(MonHoc *arr[]) {
-    int index = 0;
-    addNodeToArray(root, arr, index);
+void DsMonHoc::toArray(MonHoc *arr[], int &length) {
+    length = 0;
+    addNodeToArray(root, arr, length);
 }
 
 void DsMonHoc::read() {
@@ -392,31 +392,31 @@ NodeMonHoc *DsMonHoc::readFromFile(NodeMonHoc *root, ifstream &reader) {
     return root;
 }
 
-void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &index) {
+void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &length) {
     if (root == NULL) {
         return;
     }
-    addNodeToArray(root->left, array, index);
+    addNodeToArray(root->left, array, length);
 
-    array[index] = &root->monhoc;
-    index++;
-    addNodeToArray(root->right, array, index);
+    array[length] = &root->monhoc;
+    length++;
+    addNodeToArray(root->right, array, length);
 }
 
 void testDSMH(DsMonHoc &ds) {
     ds.read();
     ds.write();
 
-    ds.displayLevelOrder();
+    // ds.displayLevelOrder();
     // ds.update("6", "HDH123", 2, 1, "6");
     // MonHoc *m = ds.search("6");
     // ds.remove("3");
 
-    // int len = ds.getSize();
+    // int len;
+    // MonHoc *arr[10000];
+    // ds.toArray(arr, len);
     // cout << "Number of mh: " << len << endl;
-
-    // MonHoc *arr[len];
-    // ds.toArray(arr);
+    // cout << "Number of getsize: " << ds.getSize() << endl;
 
     // for (unsigned i = 0; i < len; i++) {
     //     cout << arr[i]->toString() << endl;

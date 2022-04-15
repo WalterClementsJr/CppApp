@@ -70,7 +70,7 @@ void loadLTCToTable(LTC *list[], int length, int index) {
              << setw(8) << list[index + i]->nhom << setw(10)
              << list[index + i]->min << setw(10) << list[index + i]->max
              << setw(10) << list[index + i]->huy << setw(10)
-             << list[index]->dsdk->count;
+             << list[index + i]->dsdk->count;
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
     }
@@ -169,7 +169,7 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
                            INSERT_Y + index * 2);
                     continue;
-                } else if (stoi(input[3]) > stoi(input[4])) {
+                } else if (stoi(input[4]) > stoi(input[5])) {
                     // check min > max
                     displayNotification("So sv min > so sv max. Hay nhap lai.",
                                         RED);
@@ -180,39 +180,19 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                 }
 
                 // confirm insert
-                clearNotification();
-                SetColor(BLACK, RED);
-                gotoxy(INSERT_X, INSERT_Y + 20);
-                cout << "Xac nhan them? Y/N";
-                SetColor();
-                key = _getch();
-
-                while (key != ESC) {
-                    if (key == 0 || key == 224) {
-                        _getch();
-                    } else if (key == 'y' || key == 'Y') {
-                        gotoxy(INSERT_X, INSERT_Y + 20);
-                        cout << string(40, ' ');
-
-                        // insert to dsltc
-                        LTC *ltc = dsltc.insert(
-                            input[0], input[1], stoi(input[2]), stoi(input[3]),
-                            stoi(input[4]), stoi(input[5]), stoi(input[6]));
-                        if (ltc) {
-                            displayNotification("Luu lop tin chi thanh cong");
-                            dsltc.write();
-                        } else {
-                            displayNotification(
-                                "Luu lop tin chi khong thanh cong");
-                        }
-                        return;
-                    } else if (key == 'n' || key == 'N') {
-                        gotoxy(INSERT_X, INSERT_Y + 20);
-                        cout << string(40, ' ');
-                        break;
+                if (showConfirmDialog("Xac nhan them? Y/N")) {
+                    LTC *ltc = dsltc.insert(input[0], input[1], stoi(input[2]),
+                                            stoi(input[3]), stoi(input[4]),
+                                            stoi(input[5]), stoi(input[6]));
+                    if (ltc) {
+                        displayNotification("Luu lop tin chi thanh cong");
+                        dsltc.write();
                     } else {
-                        key = _getch();
+                        displayNotification("Luu lop tin chi khong thanh cong");
                     }
+                } else {
+                    clearNotification();
+                    continue;
                 }
             } else {
                 index++;
@@ -363,82 +343,83 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                 // check fields
                 if (dsmh.search(input[0]) == NULL) {
                     // check mamh
-                    displayNotification("MS mon hoc khong ton tai.", RED);
+                    displayNotification("Ma mon hoc khong ton tai.", RED);
                     index = 0;
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
+                    printInsertLTCField(index, input[index]);
+
                     continue;
-                } else if (stoi(input[3]) > stoi(input[4])) {
+                } else if (stoi(input[4]) > stoi(input[5])) {
                     // check min > max
                     displayNotification("So sv min > so sv max. Hay nhap lai.",
                                         RED);
                     index = 4;
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
+                    printInsertLTCField(index, input[index]);
+
                     continue;
                 }
 
-                // confirm insert
-                clearNotification();
-                SetColor(BLACK, RED);
-                gotoxy(INSERT_X, INSERT_Y + 20);
-                cout << "Xac nhan sua? Y/N";
-                SetColor();
-                key = _getch();
-
-                while (key != ESC) {
-                    if (key == 0 || key == 224) {
-                        _getch();
-                    } else if (key == 'y' || key == 'Y') {
-                        gotoxy(INSERT_X, INSERT_Y + 20);
-                        cout << string(40, ' ');
-
-                        // if key doesnt change -> edit properties
-                        if (oldKey ==
-                            (input[0] + input[1] + input[2] + input[3])) {
-                            ltc->min = stoi(input[4]);
-                            ltc->max = stoi(input[5]);
-                            ltc->huy = stoi(input[6]);
-                            displayNotification(
-                                "Chinh sua lop tin chi thanh cong");
-                            clearDetail();
-                            dsltc.write();
-                            return;
-                        }
-                        // remove old ltc
-                        int isRemoved = dsltc.remove(oldKey);
-
-                        if (isRemoved) {
-                            // insert to dsltc
-                            LTC *newLTC =
-                                dsltc.insert(input[0], input[1], stoi(input[2]),
-                                             stoi(input[3]), stoi(input[4]),
-                                             stoi(input[5]), stoi(input[6]));
-                            if (newLTC) {
-                                displayNotification(
-                                    "Chinh sua lop tin chi thanh cong");
-                                newLTC->dsdk = ltc->dsdk;
-                                clearDetail();
-                                dsltc.write();
-                            } else {
-                                displayNotification(
-                                    "Chinh sua lop tin chi khong thanh cong");
-                                break;
-                            }
-                        } else {
-                            displayNotification(
-                                "Chinh sua lop tin chi khong thanh cong");
-                            break;
-                        }
-
-                        return;
-                    } else if (key == 'n' || key == 'N') {
-                        gotoxy(INSERT_X, INSERT_Y + 20);
-                        cout << string(40, ' ');
-                        break;
-                    } else {
-                        key = _getch();
+                // check exist
+                LTC *searchLTC =
+                    dsltc.search(input[0] + input[1] + input[2] + input[3]);
+                if (searchLTC) {
+                    if (ltc->maLTC != searchLTC->maLTC) {
+                        displayNotification("LTC da ton tai.", RED);
+                        index = 0;
+                        printInsertLTCField(index, input[index]);
+                        continue;
                     }
+                }
+
+                // confirm insert
+                if (showConfirmDialog("Xac nhan sua? Y/N")) {
+                    ltc->maMH = input[0];
+                    ltc->nienKhoa = input[1];
+                    ltc->hocKy = stoi(input[2]);
+                    ltc->nhom = stoi(input[3]);
+
+                    ltc->min = stoi(input[4]);
+                    ltc->max = stoi(input[5]);
+                    ltc->huy = stoi(input[6]);
+
+                    displayNotification("Chinh sua lop tin chi thanh cong");
+                    clearDetail();
+                    dsltc.write();
+                    return;
+
+                    // copy dsdk before delete
+                    // DsDangKy *tempDSDK = new DsDangKy;
+                    // *tempDSDK = *ltc->dsdk;
+                    // // remove old ltc then insert with new key
+                    // if (dsltc.remove(oldKey)) {
+                    //     // insert to dsltc
+                    //     LTC *newLTC = dsltc.insert(
+                    //         input[0], input[1], stoi(input[2]),
+                    //         stoi(input[3]), stoi(input[4]), stoi(input[5]),
+                    //         stoi(input[6]));
+
+                    //     if (newLTC) {
+                    //         displayNotification(
+                    //             "Chinh sua lop tin chi thanh cong");
+                    //         *newLTC->dsdk = *tempDSDK;
+                    //         dsltc.write();
+
+                    //         clearDetail();
+                    //     } else {
+                    //         displayNotification(
+                    //             "Chinh sua lop tin chi khong thanh cong");
+                    //     }
+                    // } else {
+                    //     displayNotification(
+                    //         "Chinh sua lop tin chi khong thanh cong");
+                    // }
+                    // delete tempDSDK;
+                } else {
+                    clearNotification();
+
+                    index = 0;
+                    count = input[index].length();
+                    printInsertLTCField(index, input[index]);
+                    continue;
                 }
             } else {
                 index++;
@@ -501,26 +482,6 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                            INSERT_Y + index * 2);
                 }
             }
-        }
-    }
-}
-
-void deleteLTC(DsLTC &dsltc, LTC *ltc) {
-    // TODO: delete with dsdk not empty
-    displayNotification("Xac nhan xoa LTC " + ltc->maMH + "? Y/N", RED);
-    int key = _getch();
-
-    while (true) {
-        if (key == 0 || key == 224) {
-            _getch();
-        } else if (key == 'y' || key == 'Y') {
-            dsltc.remove(ltc->getKey());
-            dsltc.write();
-            break;
-        } else if (key == 'n' || key == 'N') {
-            break;
-        } else {
-            key = _getch();
         }
     }
 }
@@ -634,10 +595,23 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                     if (dsltc.count == 0) {
                         continue;
                     }
-                    deleteLTC(dsltc, dsltc.dsltc[index]);
-                    index = 0;
-                    loadLTCToTable(dsltc.dsltc, dsltc.count, index);
-                    highlightIndex(dsltc.dsltc, index);
+
+                    if (showConfirmDialog("Xac nhan xoa LTC? Y/N")) {
+                        if (dsltc.remove(dsltc.dsltc[index]->getKey())) {
+                            dsltc.write();
+                            displayNotification("Xoa ltc thanh cong");
+
+                            index = 0;
+                            loadLTCToTable(dsltc.dsltc, dsltc.count, index);
+                            highlightIndex(dsltc.dsltc, index);
+                        } else {
+                            displayNotification("Xoa ltc thanh cong");
+                        }
+
+                    } else {
+                        clearNotification();
+                        continue;
+                    }
                 }
             }
         } else if (key == TAB) {

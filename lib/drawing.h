@@ -256,7 +256,7 @@ void clearPageNumber() {
 void showPageNumber(int current, int total) {
     clearPageNumber();
     gotoxy(TABLE_X, LAST_ROW - 1);
-    cout << "Page " << ++current << "/"<< ++total;
+    cout << "Page " << ++current << "/" << ++total;
 }
 
 void clearDetail() { clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27); }
@@ -362,6 +362,24 @@ void drawSelectedTab(int index) {
     for (unsigned int i = 0; i < sizeof(tabName) / sizeof(tabName[0]); i++) {
         drawTab(tabx + space * i, taby, tabName[i], shortcut[i],
                 (i == (unsigned)index));
+    }
+}
+
+int showConfirmDialog(string message, int color = RED) {
+    displayNotification(message, color);
+
+    int key = _getch();
+
+    while (true) {
+        if (key == 0 || key == 224) {
+            _getch();
+        } else if (key == 'y' || key == 'Y') {
+            return 1;
+        } else if (key == 'n' || key == 'N') {
+            return 0;
+        } else {
+            key = _getch();
+        }
     }
 }
 
