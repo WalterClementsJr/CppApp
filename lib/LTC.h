@@ -85,8 +85,8 @@ class DsLTC {
 
     bool isFull() { return count == DSLTC_MAX; }
 
-    LTC *search(string maMH, string nienKhoa, int hocKy, int nhom) {
-        string key = maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
+    LTC *search(string key) {
+        // string key = maMH + nienKhoa + to_string(hocKy) + to_string(nhom);
         for (int i = 0; i < count; i++) {
             if (dsltc[i]->getKey() == key) {
                 return dsltc[i];
@@ -116,17 +116,6 @@ class DsLTC {
         return lop;
     }
 
-    int edit(int maLTC, string maMH, string nienKhoa, int hocKy, int nhom,
-             int min, int max, bool huy) {
-        // TODO: not implemented
-        LTC *lop = search(maMH, nienKhoa, hocKy, nhom);
-
-        if (lop == NULL) {
-            return 0;
-        }
-        return 1;
-    }
-
     int remove(string key) {
         if (count == 0) {
             return 0;
@@ -137,6 +126,7 @@ class DsLTC {
             if (!found) {
                 if (dsltc[i]->getKey() == key) {
                     found = true;
+                    delete dsltc[i];
                     dsltc[i] = dsltc[i + 1];
                 }
             } else {
@@ -152,7 +142,7 @@ class DsLTC {
     }
 
     void print() {
-        cout << "\n\tDSLTC, size: " << count << endl;
+        cout << "\tDSLTC, size: " << count << endl;
         for (int i = 0; i < count; i++) {
             cout << dsltc[i]->toString() << endl;
             if (dsltc[i]->dsdk->count > 0) {
@@ -163,7 +153,7 @@ class DsLTC {
     }
 
     void write() {
-        ofstream writer("./build/data/loptinchi1.csv");
+        ofstream writer("./build/data/loptinchi.csv");
 
         if (writer.is_open()) {
             // write LTC and dsdk on new lines
@@ -251,15 +241,18 @@ void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
     // ds.write();
 }
 
-void testDSLTC(DsLTC &ds) {
-    ds.read();
+void testDSLTC(DsLTC &dsltc) {
+    dsltc.read();
+    dsltc.print();
 
-    // ds.write();
-    ds.insert("INT2", "22-23", 2, 1, 12, 100, 0, -1);
-    // ds.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
-    // ds.insert("INT0", "20-21", 2, 1, 1, 100, true, -1);
-    // ds.insert("INT1", "20-21", 2, 1, 1, 123, 0, -1);
-    ds.print();
+    // dsltc.insert("INT2", "22-23", 2, 1, 12, 100, 0, -1);
+    // dsltc.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
+    // dsltc.insert("INT0", "20-21", 2, 1, 1, 100, true, -1);
+    // dsltc.insert("INT1", "20-21", 2, 1, 1, 123, 0, -1);
+    // LTC *ltc = dsltc.search("INT022-2321");
+
+    // dsltc.remove("INT022-2321");
+    // dsltc.print();
 
     // ds.write();
 }
