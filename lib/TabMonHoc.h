@@ -48,6 +48,10 @@ void loadMonHocToTable(MonHoc *list[], int length, int index) {
     ShowCur(false);
     clearTableContent();
 
+    if (length == 0) {
+        return;
+    }
+
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
     showPageNumber(currentPage, length / MAX_TABLE_ROW);
@@ -483,6 +487,9 @@ int initMHTab(DsMonHoc &dsmh) {
                 key = _getch();
                 if (key == KEY_UP) {
                     // first row -> last row
+                    if (dsLength == 0) {
+                        continue;
+                    }
                     if (index <= currentPage * MAX_TABLE_ROW) {
                         dehighlightIndex(list, index);
                         index = currentPage * MAX_TABLE_ROW + nOfRowRemains - 1;
@@ -493,6 +500,9 @@ int initMHTab(DsMonHoc &dsmh) {
                         highlightIndex(list, index);
                     }
                 } else if (key == KEY_DOWN) {
+                    if (dsLength == 0) {
+                        continue;
+                    }
                     // last row -> first row
                     if (index >=
                         currentPage * MAX_TABLE_ROW + nOfRowRemains - 1) {
@@ -505,6 +515,9 @@ int initMHTab(DsMonHoc &dsmh) {
                         highlightIndex(list, index);
                     }
                 } else if (key == KEY_LEFT) {
+                    if (dsLength == 0) {
+                        continue;
+                    }
                     // prev page
                     index = (currentPage > 0 ? currentPage - 1 : nPage) *
                             MAX_TABLE_ROW;
@@ -512,6 +525,9 @@ int initMHTab(DsMonHoc &dsmh) {
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == KEY_RIGHT) {
+                    if (dsLength == 0) {
+                        continue;
+                    }
                     // next page
                     currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
@@ -522,7 +538,10 @@ int initMHTab(DsMonHoc &dsmh) {
                     // insert
                     insertMonHoc(dsmh, list, dsLength);
 
-                    dsLength = dsmh.getSize();
+                    if (dsLength == 0) {
+                        continue;
+                    }
+
                     index = 0;
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
@@ -536,6 +555,11 @@ int initMHTab(DsMonHoc &dsmh) {
                         dsmh.remove(list[index]->ms);
                         dsmh.toArray(list, dsLength);
                         dsmh.write();
+
+                        if (dsLength == 0) {
+                            clearTableContent();
+                            continue;
+                        }
 
                         index = 0;
                         clearNotification();

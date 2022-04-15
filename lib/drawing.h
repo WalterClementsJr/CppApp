@@ -245,7 +245,7 @@ void clearArea(int x, int y, int width, int height) {
 void clearTable() { clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH + 1, LAST_ROW); }
 
 void clearTableContent() {
-    clearArea(TABLE_X, TABLE_Y + 1, TABLE_WIDTH + 1, LAST_ROW - 1);
+    clearArea(TABLE_X, TABLE_Y + 1, TABLE_WIDTH + 1, MAX_TABLE_ROW * 2);
 }
 
 void clearPageNumber() {
