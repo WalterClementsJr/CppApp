@@ -182,7 +182,6 @@ void DsDangKy::toArray(DangKy *list[], int &length) {
     }
 }
 
-
 void testDSDK(DsDangKy &dsdk) {
     dsdk.insertOrder("N1", 2, 1);
     dsdk.insertOrder("N2", 1, 1);

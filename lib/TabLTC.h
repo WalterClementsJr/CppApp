@@ -13,6 +13,7 @@
 #include "LTC.h"
 #include "MonHoc.h"
 #include "SinhVien.h"
+#include "TabDangKy.h"
 #include "drawing.h"
 
 using namespace std;
@@ -54,13 +55,16 @@ void loadLTCToTable(LTC *list[], int length, int index) {
     ShowCur(false);
     clearTableContent();
 
+    if (length == 0) {
+        return;
+    }
+
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
-
-    showPageNumber(currentPage, length / MAX_TABLE_ROW);
-
     int rowsLeft = length - currentPage * MAX_TABLE_ROW;
     rowsLeft = rowsLeft > MAX_TABLE_ROW ? MAX_TABLE_ROW : rowsLeft;
+
+    showPageNumber(currentPage, length / MAX_TABLE_ROW);
 
     for (int i = 0; i < rowsLeft; i++) {
         gotoxy(x, y);
@@ -382,11 +386,13 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     ltc->huy = stoi(input[6]);
 
                     displayNotification("Chinh sua lop tin chi thanh cong");
-                    clearDetail();
                     dsltc.write();
+
+                    clearDetail();
                     return;
 
-                    // copy dsdk before delete
+                    /*
+                    //copy dsdk before delete
                     // DsDangKy *tempDSDK = new DsDangKy;
                     // *tempDSDK = *ltc->dsdk;
                     // // remove old ltc then insert with new key
@@ -396,7 +402,6 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     //         input[0], input[1], stoi(input[2]),
                     //         stoi(input[3]), stoi(input[4]), stoi(input[5]),
                     //         stoi(input[6]));
-
                     //     if (newLTC) {
                     //         displayNotification(
                     //             "Chinh sua lop tin chi thanh cong");
@@ -413,6 +418,7 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     //         "Chinh sua lop tin chi khong thanh cong");
                     // }
                     // delete tempDSDK;
+                    */
                 } else {
                     clearNotification();
 
@@ -509,22 +515,23 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
     gotoxy(TABLE_X + 93, TABLE_Y);
     cout << "So DK";
 
-    int key, exit = 0,
-             // số hàng còn lại
-        nOfRowRemains,
-             // index trong list
-        index = 0,
-             // current page
-        currentPage,
-             // max number of pages
-        nPage;
+    int key;
+    // số hàng còn lại
+    int nOfRowRemains;
+    // index trong list
+    int index = 0;
+    // current page
+    int currentPage;
+    // max number of pages
+    int nPage;
+    int dsLength = 0;
 
     if (dsltc.count > 0) {
         loadLTCToTable(dsltc.dsltc, dsltc.count, index);
         highlightIndex(dsltc.dsltc, index);
     }
 
-    while (exit == 0) {
+    while (true) {
         currentPage = index / MAX_TABLE_ROW;
         nPage = dsltc.count / MAX_TABLE_ROW;
         nOfRowRemains = dsltc.count - currentPage * MAX_TABLE_ROW;
@@ -549,6 +556,9 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                 // "224" keys
                 key = _getch();
                 if (key == KEY_UP) {
+                    if (dsltc.count == 0) {
+                        continue;
+                    }
                     // first row -> last row
                     if (index <= currentPage * MAX_TABLE_ROW) {
                         dehighlightIndex(dsltc.dsltc, index);
@@ -560,6 +570,9 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                         dehighlightIndex(dsltc.dsltc, index + 1);
                     }
                 } else if (key == KEY_DOWN) {
+                    if (dsltc.count == 0) {
+                        continue;
+                    }
                     // last row -> first row
                     if (index >=
                         currentPage * MAX_TABLE_ROW + nOfRowRemains - 1) {
@@ -572,6 +585,9 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                         dehighlightIndex(dsltc.dsltc, index - 1);
                     }
                 } else if (key == KEY_LEFT) {
+                    if (dsltc.count == 0) {
+                        continue;
+                    }
                     // prev page
                     index = (currentPage > 0 ? currentPage - 1 : nPage) *
                             MAX_TABLE_ROW;
@@ -579,6 +595,9 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                     loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                     highlightIndex(dsltc.dsltc, index);
                 } else if (key == KEY_RIGHT) {
+                    if (dsltc.count == 0) {
+                        continue;
+                    }
                     // next page
                     currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
@@ -587,6 +606,12 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                 } else if (key == INSERT) {
                     // insert
                     insertLTC(dsltc, dsmh);
+
+                    if (dsltc.count == 0) {
+                        clearTableContent();
+                        continue;
+                    }
+
                     index = 0;
                     loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                     highlightIndex(dsltc.dsltc, index);
@@ -600,6 +625,10 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                         if (dsltc.remove(dsltc.dsltc[index]->getKey())) {
                             dsltc.write();
                             displayNotification("Xoa ltc thanh cong");
+
+                            if (dsltc.count == 0) {
+                                continue;
+                            }
 
                             index = 0;
                             loadLTCToTable(dsltc.dsltc, dsltc.count, index);
@@ -615,7 +644,16 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                 }
             }
         } else if (key == TAB) {
+            if (dsltc.count == 0) {
+                continue;
+            }
             // TODO: view dsdk
+            // load dsdk
+            initDKTab(dsltc, dsltc.dsltc[index]);
+
+            index = 0;
+            loadLTCToTable(dsltc.dsltc, dsltc.count, index);
+            highlightIndex(dsltc.dsltc, index);
         } else if (key == ENTER) {
             if (dsltc.count == 0) {
                 continue;
@@ -630,8 +668,7 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
             return ESC;
         }
     }
-
-    return 1;
+    return 0;
 }
 
 #endif
