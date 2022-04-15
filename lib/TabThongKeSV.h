@@ -91,6 +91,10 @@ void loadSinhVienToTable(SinhVien *list[], int length, int index) {
     ShowCur(false);
     clearTableContent();
 
+    if (length == 0) {
+        return;
+    }
+
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
     int rowsLeft = length - currentPage * MAX_TABLE_ROW;
@@ -159,21 +163,31 @@ int initThongKeSVTab(DSSV dssv) {
                 key = _getch();
 
                 if (key == KEY_LEFT) {
+                    if (dsLength == 0) {
+                        continue;
+                    }
                     index = (currentPage > 0 ? currentPage - 1 : nPage) *
                             MAX_TABLE_ROW;
                     loadSinhVienToTable(list, dsLength, index);
                 } else if (key == KEY_RIGHT) {
+                    if (dsLength == 0) {
+                        continue;
+                    }
+
                     currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
                     loadSinhVienToTable(list, dsLength, index);
                 } else if (key == INSERT) {
                     string maLop = inputMaLop();
 
+                    if (maLop.empty()) {
+                        continue;
+                    }
+
                     dssv.filterSinhVienTheoMaLop(list, dsLength, maLop);
 
                     if (dsLength == 0) {
                         displayNotification("Lop khong ton tai");
-                        index = 0;
                     } else {
                         index = 0;
                         loadSinhVienToTable(list, dsLength, index);
@@ -181,6 +195,7 @@ int initThongKeSVTab(DSSV dssv) {
                 }
             }
         } else if (key == ESC) {
+            clearTable();
             return ESC;
         }
     }
