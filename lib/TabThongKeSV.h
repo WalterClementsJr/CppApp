@@ -129,8 +129,8 @@ int initThongKeSVTab(DSSV dssv) {
     cout << "SDT";
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
 
-    gotoxy(TABLE_X + 10, TABLE_Y + 3);
-    cout << "Nhan INSERT de nhap ma lop can xem";
+    gotoxy(TABLE_X, LAST_ROW + 1);
+    cout << "CTRL + F de tim ma lop can xem";
 
     int key;
     int index = 0;
@@ -177,30 +177,27 @@ int initThongKeSVTab(DSSV dssv) {
                     currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
                     loadSinhVienToTable(list, dsLength, index);
-                } else if (key == INSERT) {
-                    string maLop = inputMaLop();
-
-                    if (maLop.empty()) {
-                        continue;
-                    }
-
-                    dssv.filterSinhVienTheoMaLop(list, dsLength, maLop);
-
-                    if (dsLength == 0) {
-                        displayNotification("Lop khong ton tai");
-                    } else {
-                        index = 0;
-                        loadSinhVienToTable(list, dsLength, index);
-                    }
                 }
             }
+        } else if (key == CTRL_F) {
+            string maLop = inputMaLop();
+
+            if (maLop.empty()) {
+                continue;
+            }
+
+            dssv.filterSinhVienTheoMaLop(list, dsLength, maLop);
+
+            if (dsLength == 0) {
+                displayNotification("Lop khong ton tai");
+            } else {
+                index = 0;
+                loadSinhVienToTable(list, dsLength, index);
+            }
         } else if (key == ESC) {
-            clearTable();
             return ESC;
         }
     }
-
-    SetColor();
     return 0;
 }
 

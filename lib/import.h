@@ -32,6 +32,7 @@
 #define ESC 27
 #define ENTER 13
 #define BACKSPACE 8
+#define CTRL_F 6
 #define CTRL_S 19
 // a-z: 97-122
 // A-Z: 65-90
