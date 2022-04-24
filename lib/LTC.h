@@ -217,7 +217,7 @@ class DsLTC {
                     }
                     dkData[index] = line.substr(start, end);
 
-                    lop->dsdk->insertOrder(dkData[0], stoi(dkData[1]),
+                    lop->dsdk->insertOrder(dkData[0], stod(dkData[1]),
                                            stoi(dkData[2]));
                 }
             }

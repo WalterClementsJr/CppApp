@@ -13,10 +13,8 @@ using namespace std;
 int main() {
     initUI();
 
-    // drawSelectedTab(0);
-
-    // DsMonHoc dsmh;
-    // dsmh.read();
+    DsMonHoc dsmh;
+    dsmh.read();
     // dsmh.write();
     // testDSMH(dsmh);
 
@@ -24,17 +22,14 @@ int main() {
     dssv.docFile();
     // testDSSV(dssv);
 
-    // DsDangKy dsdk;
-    // testDSDK(dsdk);
-
-    // DsLTC dsltc;
-    // dsltc.read();
+    DsLTC dsltc;
+    dsltc.read();
     // testDSLTC(dsltc, dsdk, dssv);
     // testDSLTC(dsltc);
 
     // initMHTab(dsmh);
-    // initLTCTab(dsltc, dsmh, dssv);
-    initThongKeSVTab(dssv);
+    initLTCTab(dsltc, dsmh, dssv);
+    // initThongKeSVTab(dssv);
 
     return 0;
 }

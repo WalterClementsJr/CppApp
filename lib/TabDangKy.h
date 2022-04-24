@@ -6,6 +6,7 @@
 #include <string>
 
 #include "DangKy.h"
+#include "DsMonHoc.h"
 #include "LTC.h"
 #include "drawing.h"
 
@@ -15,28 +16,44 @@ const string DK_FIELDS[] = {"MSSV: ", "Diem: ", "Huy (0: false, 1: true): "};
 
 const unsigned DK_LIMITS[] = {10, 2, 1};
 
-void highlightIndex(DangKy *list[], int index) {
+void getHoTenSV(DSSV dssv, DangKy *list[], string *hoten[], int length) {
+    for (int i = 0; i < length; i++) {
+        NodeSinhVien *s = dssv.search(list[i]->maSV);
+
+        hoten[i] = new string(s->sinhVien.ho + " " + s->sinhVien.ten);
+    }
+}
+
+void deleteHoTen(string *hoten[], int length) {
+    for (int i = 0; i < length; i++) {
+        delete hoten[i];
+    }
+}
+
+void highlightIndex(DangKy *list[], string *hoten[], int index) {
     SetColor(BLACK, BLUE);
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left << setw(20) << list[index]->maSV << setw(10)
-         << list[index]->diem << setw(10) << to_string(list[index]->huy);
+    cout << setfill(' ') << left << setw(20) << list[index]->maSV << setw(50)
+         << *hoten[index] << setw(10) << list[index]->diem << setw(10)
+         << to_string(list[index]->huy);
 
     SetColor();
 }
 
-void dehighlightIndex(DangKy *list[], int index) {
+void dehighlightIndex(DangKy *list[], string *hoten[], int index) {
     SetColor(BLACK, WHITE);
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left << setw(20) << list[index]->maSV << setw(10)
-         << list[index]->diem << setw(10) << to_string(list[index]->huy);
+    cout << setfill(' ') << left << setw(20) << list[index]->maSV << setw(50)
+         << *hoten[index] << setw(10) << list[index]->diem << setw(10)
+         << to_string(list[index]->huy);
     SetColor();
 }
 
-void loadDSDKToTable(DangKy *list[], int length, int index) {
+void loadDSDKToTable(DangKy *list[], string *hoten[], int length, int index) {
     ShowCur(false);
     clearTableContent();
 
@@ -50,7 +67,8 @@ void loadDSDKToTable(DangKy *list[], int length, int index) {
     for (int i = 0; i < rowsLeft; i++) {
         gotoxy(x, y);
         cout << setfill(' ') << left << setw(20) << list[index + i]->maSV
-             << setw(10) << list[index + i]->diem << setw(10)
+             << setw(50) << *hoten[index + i] << setw(10)
+             << list[index + i]->diem << setw(10)
              << to_string(list[index + i]->huy);
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
@@ -69,20 +87,25 @@ void printDKField(int index, string input) {
     ShowCur(true);
 }
 
-void initDKTab(DsLTC &dsltc, LTC *ltc) {
+void initDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc, LTC *ltc) {
     clearTable();
     SetColor(BLACK, WHITE);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma SV";
     gotoxy(TABLE_X + 20, TABLE_Y);
+    cout << "Ho ten";
+    gotoxy(TABLE_X + 70, TABLE_Y);
     cout << "Diem";
-    gotoxy(TABLE_X + 30, TABLE_Y);
+    gotoxy(TABLE_X + 80, TABLE_Y);
     cout << "Huy";
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
 
+    // TODO: search ten mh
+    MonHoc *mh = dsmh.search(ltc->maMH);
+
     gotoxy(TABLE_X, LAST_ROW + 1);
-    cout << "DSDK Mon: " << ltc->maMH << ", nien khoa: " << ltc->nienKhoa
+    cout << "DSDK Mon: " << mh->ten << ", nien khoa: " << ltc->nienKhoa
          << ", hoc ky: " << ltc->hocKy << ", nhom: " << ltc->nhom;
 
     int key;
@@ -92,12 +115,14 @@ void initDKTab(DsLTC &dsltc, LTC *ltc) {
     int dsLength = 0;
 
     DangKy *list[10000];
+    string *hoten[10000];
 
     ltc->dsdk->toArray(list, dsLength);
+    getHoTenSV(dssv, list, hoten, dsLength);
 
     if (dsLength > 0) {
-        loadDSDKToTable(list, dsLength, index);
-        highlightIndex(list, index);
+        loadDSDKToTable(list, hoten, dsLength, index);
+        highlightIndex(list, hoten, index);
     }
 
     while (true) {
@@ -121,13 +146,13 @@ void initDKTab(DsLTC &dsltc, LTC *ltc) {
                         continue;
                     }
                     if (index <= currentPage * MAX_TABLE_ROW) {
-                        dehighlightIndex(list, index);
+                        dehighlightIndex(list, hoten, index);
                         index = currentPage * MAX_TABLE_ROW + nOfRowRemains - 1;
-                        highlightIndex(list, index);
+                        highlightIndex(list, hoten, index);
                     } else {
                         index--;
-                        highlightIndex(list, index);
-                        dehighlightIndex(list, index + 1);
+                        highlightIndex(list, hoten, index);
+                        dehighlightIndex(list, hoten, index + 1);
                     }
                 } else if (key == KEY_DOWN) {
                     if (dsLength == 0) {
@@ -135,13 +160,13 @@ void initDKTab(DsLTC &dsltc, LTC *ltc) {
                     }
                     if (index >=
                         currentPage * MAX_TABLE_ROW + nOfRowRemains - 1) {
-                        dehighlightIndex(list, index);
+                        dehighlightIndex(list, hoten, index);
                         index = currentPage * MAX_TABLE_ROW;
-                        highlightIndex(list, index);
+                        highlightIndex(list, hoten, index);
                     } else {
                         index++;
-                        highlightIndex(list, index);
-                        dehighlightIndex(list, index - 1);
+                        highlightIndex(list, hoten, index);
+                        dehighlightIndex(list, hoten, index - 1);
                     }
                 } else if (key == KEY_LEFT) {
                     // prev page
@@ -151,8 +176,8 @@ void initDKTab(DsLTC &dsltc, LTC *ltc) {
                     index = (currentPage > 0 ? currentPage - 1 : nPage) *
                             MAX_TABLE_ROW;
 
-                    loadDSDKToTable(list, dsLength, index);
-                    highlightIndex(list, index);
+                    loadDSDKToTable(list, hoten, dsLength, index);
+                    highlightIndex(list, hoten, index);
                 } else if (key == KEY_RIGHT) {
                     if (dsLength == 0) {
                         continue;
@@ -161,8 +186,8 @@ void initDKTab(DsLTC &dsltc, LTC *ltc) {
                     currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
 
-                    loadDSDKToTable(list, dsLength, index);
-                    highlightIndex(list, index);
+                    loadDSDKToTable(list, hoten, dsLength, index);
+                    highlightIndex(list, hoten, index);
                 } else if (key == INSERT) {
                     // TODO insert
 
@@ -170,8 +195,8 @@ void initDKTab(DsLTC &dsltc, LTC *ltc) {
                         continue;
                     }
                     index = 0;
-                    loadDSDKToTable(list, dsLength, index);
-                    highlightIndex(list, index);
+                    loadDSDKToTable(list, hoten, dsLength, index);
+                    highlightIndex(list, hoten, index);
                 } else if (key == DEL) {
                     if (dsLength == 0) {
                         continue;
@@ -179,8 +204,13 @@ void initDKTab(DsLTC &dsltc, LTC *ltc) {
                     // delete
                     if (showConfirmDialog("Xac nhan xoa dk cua " +
                                           list[index]->maSV + "? Y/N")) {
+                        deleteHoTen(hoten, dsLength);
+
                         ltc->dsdk->remove(list[index]->maSV);
                         ltc->dsdk->toArray(list, dsLength);
+
+                        getHoTenSV(dssv, list, hoten, dsLength);
+
                         dsltc.write();
 
                         if (dsLength == 0) {
@@ -190,8 +220,8 @@ void initDKTab(DsLTC &dsltc, LTC *ltc) {
 
                         index = 0;
                         clearNotification();
-                        loadDSDKToTable(list, dsLength, index);
-                        highlightIndex(list, index);
+                        loadDSDKToTable(list, hoten, dsLength, index);
+                        highlightIndex(list, hoten, index);
                     } else {
                         clearNotification();
                         continue;
@@ -207,13 +237,16 @@ void initDKTab(DsLTC &dsltc, LTC *ltc) {
             // editDK(dsmh, list, index);
             index = 0;
 
-            loadDSDKToTable(list, dsLength, index);
-            highlightIndex(list, index);
+            loadDSDKToTable(list, hoten, dsLength, index);
+            highlightIndex(list, hoten, index);
         } else if (key == ESC) {
             clearTable();
-            return;
+            break;
         }
     }
+
+    // TODO: delete hoten
+    deleteHoTen(hoten, dsLength);
     SetColor();
 }
 

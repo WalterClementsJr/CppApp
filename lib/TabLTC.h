@@ -515,6 +515,9 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
     gotoxy(TABLE_X + 93, TABLE_Y);
     cout << "So DK";
 
+    gotoxy(TABLE_X, LAST_ROW + 1);
+    cout << "Nhan TAB de xem dsdk";
+
     int key;
     // số hàng còn lại
     int nOfRowRemains;
@@ -649,7 +652,7 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
             }
             // TODO: view dsdk
             // load dsdk
-            initDKTab(dsltc, dsltc.dsltc[index]);
+            initDKTab(dsmh, dssv, dsltc, dsltc.dsltc[index]);
 
             index = 0;
             loadLTCToTable(dsltc.dsltc, dsltc.count, index);
