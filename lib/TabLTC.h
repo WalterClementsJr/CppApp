@@ -515,9 +515,6 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
     gotoxy(TABLE_X + 93, TABLE_Y);
     cout << "So DK";
 
-    gotoxy(TABLE_X, LAST_ROW + 1);
-    cout << "Nhan TAB de xem dsdk";
-
     int key;
     // số hàng còn lại
     int nOfRowRemains;
@@ -527,7 +524,6 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
     int currentPage;
     // max number of pages
     int nPage;
-    int dsLength = 0;
 
     if (dsltc.count > 0) {
         loadLTCToTable(dsltc.dsltc, dsltc.count, index);
@@ -542,22 +538,19 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
             nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
 
         key = _getch();
-        // special keys
+
         if (key == 0 || key == 224) {
-            // "0" keys
             if (key == 0) {
                 key = _getch();
-                // change tab keys
+
                 if (key == KEY_F1 || key == KEY_F2 || key == KEY_F4 ||
                     key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
                     key == KEY_F8) {
-                    clearTable();
-
                     return key;
                 }
             } else if (key == 224) {
-                // "224" keys
                 key = _getch();
+
                 if (key == KEY_UP) {
                     if (dsltc.count == 0) {
                         continue;
@@ -646,31 +639,35 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                     }
                 }
             }
-        } else if (key == TAB) {
-            if (dsltc.count == 0) {
-                continue;
-            }
-            // TODO: view dsdk
-            // load dsdk
-            initDKTab(dsmh, dssv, dsltc, dsltc.dsltc[index]);
+        } else if (key == CTRL_F) {
+            // if (dsltc.count == 0) {
+            //     displayNotification("DSLTC empty");
+            //     continue;
+            // }
+            // // load dsdk
 
-            index = 0;
-            loadLTCToTable(dsltc.dsltc, dsltc.count, index);
-            highlightIndex(dsltc.dsltc, index);
+            // initDKTab(dsmh, dssv, dsltc, index);
+
+            // index = 0;
+            // loadLTCToTable(dsltc.dsltc, dsltc.count, index);
+            // highlightIndex(dsltc.dsltc, index);
         } else if (key == ENTER) {
             if (dsltc.count == 0) {
                 continue;
             }
             // edit
             editLTC(dsltc, dsmh, dsltc.dsltc[index]);
+
             index = 0;
-            clearTableContent();
             loadLTCToTable(dsltc.dsltc, dsltc.count, index);
             highlightIndex(dsltc.dsltc, index);
         } else if (key == ESC) {
+            displayNotification("LTC: ESC detected");
+
             return ESC;
         }
     }
+    displayNotification("LTC completed");
     return 0;
 }
 

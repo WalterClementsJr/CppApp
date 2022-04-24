@@ -18,7 +18,7 @@ const string MH_FIELDS[] = {"Ma so: ", "Ten MH: ", "SLTC LT: ", "SLTC TH: "};
 
 const unsigned int MH_FIELD_LIMITS[] = {10, 50, 2, 2};
 
-const regex MSMH_REGEX("[a-zA-Z]{3}\\d{2,7}");
+const regex MSMH_REGEX("[a-zA-Z]{3}\\d{1,7}");
 
 void highlightIndex(MonHoc *list[], int index) {
     SetColor(BLACK, BLUE);
@@ -577,16 +577,14 @@ int initMHTab(DsMonHoc &dsmh) {
             }
             // edit row
             editMonHoc(dsmh, list, index);
-            index = 0;
 
+            index = 0;
             loadMonHocToTable(list, dsLength, index);
             highlightIndex(list, index);
         } else if (key == ESC) {
             return ESC;
         }
     }
-
-    SetColor();
     return 0;
 }
 

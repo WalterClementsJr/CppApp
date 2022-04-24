@@ -245,7 +245,7 @@ void clearArea(int x, int y, int width, int height) {
 void clearTable() { clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH + 1, LAST_ROW); }
 
 void clearTableContent() {
-    clearArea(TABLE_X, TABLE_Y + 1, TABLE_WIDTH + 1, MAX_TABLE_ROW * 2);
+    clearArea(TABLE_X, TABLE_Y + 1, TABLE_WIDTH + 1, 31);
 }
 
 void clearPageNumber() {
@@ -354,10 +354,12 @@ void drawSelectedTab(int index) {
     SetTextColor(WHITE);
     drawRow(tabx, taby + rong, space * 4);
 
-    const string tabName[] = {"DS Mon hoc",   "DS Lop",       "DS SV",
-                              "DS Dang ky",   "Thong ke lop", "Thong ke diem",
-                              "Thong ke (k)", "Thong ke (l)"};
-    const string shortcut[] = {"F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"};
+    const string tabName[] = {"DS Mon Hoc",   "DS LTC",       "DSSV",
+                              "Dang ky LTC",  "In DSDK",      "Nhap diem",
+                              "Thong ke lop", "Thong ke (i)", "Thong ke (j)",
+                              "Thong ke (k)", "Thong ke (l)", "Thong ke (?)"};
+    const string shortcut[] = {"F1", "F2", "F3", "F4",  "F5",  "F6",
+                               "F7", "F8", "F9", "F10", "F11", "F12"};
 
     for (unsigned int i = 0; i < sizeof(tabName) / sizeof(tabName[0]); i++) {
         drawTab(tabx + space * i, taby, tabName[i], shortcut[i],
