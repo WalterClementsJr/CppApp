@@ -104,9 +104,8 @@ void insertMonHoc(DsMonHoc &dsmh, MonHoc *list[], int &dsLength) {
     unsigned index = 0;
     unsigned count = 0;
     unsigned key;
-    unsigned exit = 0;
 
-    while (exit == 0) {
+    while (true) {
         key = _getch();
 
         // catch special input first
@@ -116,14 +115,12 @@ void insertMonHoc(DsMonHoc &dsmh, MonHoc *list[], int &dsLength) {
             if (key == KEY_UP) {
                 index = index <= 0 ? 3 : index - 1;
                 count = input[index].length();
-                gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+
                 printInsertMHField(index, input[index]);
             } else if (key == KEY_DOWN) {
                 index = index >= 3 ? 0 : index + 1;
                 count = input[index].length();
-                gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+
                 printInsertMHField(index, input[index]);
             } else if (key == KEY_LEFT) {
                 count = count <= 0 ? input[index].length() : (count - 1);
@@ -183,11 +180,6 @@ void insertMonHoc(DsMonHoc &dsmh, MonHoc *list[], int &dsLength) {
 
                 // confirm insert
                 clearNotification();
-                SetColor(BLACK, RED);
-                gotoxy(INSERT_X, INSERT_Y + 10);
-                cout << "Xac nhan them? Y/N";
-                SetColor();
-                key = _getch();
 
                 if (showConfirmDialog("Xac nhan them mon hoc? Y/N")) {
                     dsmh.insert(input[0], input[1], stoi(input[2]),
@@ -213,9 +205,6 @@ void insertMonHoc(DsMonHoc &dsmh, MonHoc *list[], int &dsLength) {
                 printInsertMHField(index, input[index]);
             }
         } else {
-            // catch character input
-            printInsertMHField(index, input[index]);
-
             if (index == 0) {
                 // field is ms
                 if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
@@ -253,7 +242,6 @@ void insertMonHoc(DsMonHoc &dsmh, MonHoc *list[], int &dsLength) {
             }
         }
     }
-    return;
 }
 
 void editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
@@ -276,9 +264,8 @@ void editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
     unsigned index = 0;
     unsigned count = 0;
     unsigned key;
-    unsigned exit = 0;
 
-    while (exit == 0) {
+    while (true) {
         key = _getch();
 
         // catch special input first
@@ -379,8 +366,7 @@ void editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
                 index++;
                 // move to end of next row if input is not empty
                 count = input[index].length();
-                gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+                printInsertMHField(index, input[index]);
             }
         } else {
             // catch character input
