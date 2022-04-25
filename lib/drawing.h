@@ -249,8 +249,7 @@ void clearTableContent() {
 }
 
 void clearPageNumber() {
-    // gotoxy(TABLE_X, LAST_ROW - 1);
-    clearArea(TABLE_X, LAST_ROW - 1, TABLE_WIDTH, 0);
+    clearArea(TABLE_X, LAST_ROW - 1, 20, 0);
 }
 
 void showPageNumber(int current, int total) {
@@ -279,6 +278,11 @@ void displayNotification(string message, int color = WHITE) {
         j++;
     }
     SetColor();
+}
+
+void clearInfo() {
+    ShowCur(false);
+    clearArea(TABLE_X, LAST_ROW + 3, 80, 4);
 }
 
 void clearTab() {

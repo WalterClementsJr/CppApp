@@ -70,6 +70,53 @@
         },
         {
             "type": "cppbuild",
+            "label": "Debug main1",
+            "command": "g++",
+            "args": [
+                "-ggdb",
+                "-O0",
+                "-I",
+                "${workspaceFolder}\\lib",
+                "${workspaceFolder}\\main\\main1.cpp",
+                "-o",
+                "${workspaceFolder}\\build\\main1.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "clear": false,
+                "showReuseMessage": false
+            },
+            "problemMatcher": [
+                {
+                    "source": "gcc",
+                    "owner": "cpptools",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder}"
+                    ],
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(?:fatal\\s+)?(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                    }
+                }
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "type": "cppbuild",
             "label": "Build & run main1",
             "command": "g++",
             "args": [

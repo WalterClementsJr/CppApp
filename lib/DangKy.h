@@ -182,6 +182,14 @@ void DsDangKy::toArray(DangKy *list[], int &length) {
     }
 }
 
+void printDSDK(DangKy *list[], int length) {
+    cout << "\nPrinting dsdk\n";
+
+    for (int i = 0; i < length; i++) {
+        cout << list[i]->toString() << endl;
+    }
+}
+
 void testDSDK(DsDangKy &dsdk) {
     dsdk.insertOrder("N1", 2, 1);
     dsdk.insertOrder("N2", 1, 1);
