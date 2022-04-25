@@ -32,7 +32,8 @@ int main() {
     // initDKTab(dsmh, dssv, dsltc, dsltc.dsltc[1]);
 
     // initThongKeSVTab(dssv);
-    initXemDSDKTab(dsmh, dssv, dsltc);
+    initLTCTab(dsmh, dssv, dsltc);
+    // initXemDSDKTab(dsmh, dssv, dsltc);
     // displayNotification(inputThongTinLop(dsmh));
 
     return 0;

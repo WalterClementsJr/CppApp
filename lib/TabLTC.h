@@ -82,6 +82,7 @@ void loadLTCToTable(LTC *list[], int length, int index) {
 
 void printInsertLTCField(int index, string input) {
     ShowCur(false);
+    SetColor();
 
     gotoxy(INSERT_X + LTC_FIELDS[index].length(), INSERT_Y + index * 2);
     cout << string(LTC_LIMITS[index], ' ');
@@ -101,7 +102,6 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
     unsigned index = 0;
     unsigned count = 0;
     unsigned key;
-    unsigned exit = 0;
 
     for (unsigned i = 0; i <= fieldMaxIndex; i++) {
         gotoxy(INSERT_X, INSERT_Y + i * 2);
@@ -111,7 +111,7 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
 
     gotoxy(INSERT_X + LTC_FIELDS[0].length(), INSERT_Y);
 
-    while (exit == 0) {
+    while (true) {
         key = _getch();
 
         // catch special input first
@@ -120,14 +120,12 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
             if (key == KEY_UP) {
                 index = index <= 0 ? fieldMaxIndex : index - 1;
                 count = !input[index].empty() ? input[index].length() : 0;
-                gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+
                 printInsertLTCField(index, input[index]);
             } else if (key == KEY_DOWN) {
                 index = index >= fieldMaxIndex ? 0 : index + 1;
                 count = !input[index].empty() ? input[index].length() : 0;
-                gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+
                 printInsertLTCField(index, input[index]);
             } else if (key == KEY_LEFT) {
                 count = count <= 0 ? input[index].length() : (count - 1);
@@ -147,10 +145,6 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
             input[index].erase(count - 1, 1);
             count--;
             printInsertLTCField(index, input[index]);
-
-            // move cursor
-            gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                   INSERT_Y + index * 2);
         } else if (key == ESC) {
             clearDetail();
             break;
@@ -170,16 +164,16 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     // check mamh
                     displayNotification("MS mon hoc khong ton tai.", RED);
                     index = 0;
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
+                    printInsertLTCField(index, input[index]);
+
                     continue;
                 } else if (stoi(input[4]) > stoi(input[5])) {
                     // check min > max
                     displayNotification("So sv min > so sv max. Hay nhap lai.",
                                         RED);
                     index = 4;
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
+                    printInsertLTCField(index, input[index]);
+
                     continue;
                 }
 
@@ -191,18 +185,26 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     if (ltc) {
                         displayNotification("Luu lop tin chi thanh cong");
                         dsltc.write();
+                        return;
                     } else {
                         displayNotification("Luu lop tin chi khong thanh cong");
+
+                        index = 0;
+                        count = input[index].length();
+                        printInsertLTCField(index, input[index]);
                     }
                 } else {
                     clearNotification();
+                    index = 0;
+                    count = input[index].length();
+                    printInsertLTCField(index, input[index]);
+
                     continue;
                 }
             } else {
                 index++;
                 count = input[index].length();
-                gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+                printInsertLTCField(index, input[index]);
             }
         } else {
             // catch character input
@@ -219,8 +221,6 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     input[index].insert(count, 1, toupper(char(key)));
                     count++;
                     printInsertLTCField(index, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             } else if (index == 1) {
                 // Nien khoa
@@ -231,8 +231,6 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertLTCField(index, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             } else if (index == 2 || index == 3 || index == 4 || index == 5) {
                 // hoc ky / nhom / min / max
@@ -243,8 +241,6 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertLTCField(index, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             } else if (index == 6) {
                 // huy
@@ -255,8 +251,6 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertLTCField(index, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             }
         }
@@ -280,7 +274,6 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
     unsigned index = 0;
     unsigned count = 0;
     unsigned key;
-    unsigned exit = 0;
 
     for (unsigned i = 0; i <= fieldMaxIndex; i++) {
         gotoxy(INSERT_X, INSERT_Y + i * 2);
@@ -290,7 +283,7 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
 
     gotoxy(INSERT_X + LTC_FIELDS[0].length(), INSERT_Y);
 
-    while (exit == 0) {
+    while (true) {
         key = _getch();
 
         // catch special input first
@@ -299,14 +292,12 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
             if (key == KEY_UP) {
                 index = index <= 0 ? fieldMaxIndex : index - 1;
                 count = !input[index].empty() ? input[index].length() : 0;
-                gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+
                 printInsertLTCField(index, input[index]);
             } else if (key == KEY_DOWN) {
                 index = index >= fieldMaxIndex ? 0 : index + 1;
                 count = !input[index].empty() ? input[index].length() : 0;
-                gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+
                 printInsertLTCField(index, input[index]);
             } else if (key == KEY_LEFT) {
                 count = count <= 0 ? input[index].length() : (count - 1);
@@ -326,10 +317,6 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
             input[index].erase(count - 1, 1);
             count--;
             printInsertLTCField(index, input[index]);
-
-            // move cursor
-            gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                   INSERT_Y + index * 2);
         } else if (key == ESC) {
             clearDetail();
             break;
@@ -370,10 +357,10 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                         displayNotification("LTC da ton tai.", RED);
                         index = 0;
                         printInsertLTCField(index, input[index]);
+
                         continue;
                     }
                 }
-
                 // confirm insert
                 if (showConfirmDialog("Xac nhan sua? Y/N")) {
                     ltc->maMH = input[0];
@@ -425,13 +412,11 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     index = 0;
                     count = input[index].length();
                     printInsertLTCField(index, input[index]);
-                    continue;
                 }
             } else {
                 index++;
                 count = input[index].length();
-                gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                       INSERT_Y + index * 2);
+                printInsertLTCField(index, input[index]);
             }
         } else {
             // catch character input
@@ -448,8 +433,6 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     input[index].insert(count, 1, toupper(char(key)));
                     count++;
                     printInsertLTCField(index, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             } else if (index == 1) {
                 // Nien khoa
@@ -460,8 +443,6 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertLTCField(index, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             } else if (index == 2 || index == 3 || index == 4 || index == 5) {
                 // hoc ky / nhom / min / max
@@ -472,8 +453,6 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertLTCField(index, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             } else if (index == 6) {
                 // huy
@@ -484,15 +463,13 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertLTCField(index, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
                 }
             }
         }
     }
 }
 
-int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
+int initLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
     clearTable();
     SetColor(BLACK, WHITE);
 
@@ -630,27 +607,13 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
                             loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                             highlightIndex(dsltc.dsltc, index);
                         } else {
-                            displayNotification("Xoa ltc thanh cong");
+                            displayNotification("Xoa ltc k thanh cong");
                         }
-
                     } else {
                         clearNotification();
-                        continue;
                     }
                 }
             }
-        } else if (key == CTRL_F) {
-            // if (dsltc.count == 0) {
-            //     displayNotification("DSLTC empty");
-            //     continue;
-            // }
-            // // load dsdk
-
-            // initDKTab(dsmh, dssv, dsltc, index);
-
-            // index = 0;
-            // loadLTCToTable(dsltc.dsltc, dsltc.count, index);
-            // highlightIndex(dsltc.dsltc, index);
         } else if (key == ENTER) {
             if (dsltc.count == 0) {
                 continue;
@@ -662,12 +625,9 @@ int initLTCTab(DsLTC &dsltc, DsMonHoc &dsmh, DSSV &dssv) {
             loadLTCToTable(dsltc.dsltc, dsltc.count, index);
             highlightIndex(dsltc.dsltc, index);
         } else if (key == ESC) {
-            displayNotification("LTC: ESC detected");
-
             return ESC;
         }
     }
-    displayNotification("LTC completed");
     return 0;
 }
 
