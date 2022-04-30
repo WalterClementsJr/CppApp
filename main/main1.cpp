@@ -25,7 +25,6 @@ int main() {
     DsLTC dsltc;
     dsltc.read();
     // testDSLTC(dsltc, dsdk, dssv);
-    // testDSLTC(dsltc);
 
     // initMHTab(dsmh);
     // initLTCTab(dsltc, dsmh, dssv);
@@ -33,8 +32,8 @@ int main() {
 
     // initThongKeSVTab(dssv);
     // initLTCTab(dsmh, dssv, dsltc);
-    initXemDSDKTab(dsmh, dssv, dsltc);
-    // displayNotification(inputThongTinLop(dsmh));
+    // initXemDSDKTab(dsmh, dssv, dsltc);
+    initThongKeDiemTab(dsmh, dssv, dsltc);
 
     return 0;
 }
