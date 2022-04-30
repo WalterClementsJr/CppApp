@@ -142,8 +142,7 @@ void highlightIndex(DangKy *list[], string *hoten, int index) {
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
     cout << setfill(' ') << left << setw(20) << list[index]->maSV << setw(50)
-         << hoten[index] << setw(10) << list[index]->diem << setw(10)
-         << to_string(list[index]->huy);
+         << hoten[index];
 
     SetColor();
 }
@@ -154,8 +153,7 @@ void dehighlightIndex(DangKy *list[], string *hoten, int index) {
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
     cout << setfill(' ') << left << setw(20) << list[index]->maSV << setw(50)
-         << hoten[index] << setw(10) << list[index]->diem << setw(10)
-         << to_string(list[index]->huy);
+         << hoten[index];
     SetColor();
 }
 
@@ -173,9 +171,7 @@ void loadDSDKToTable(DangKy *list[], string *hoten, int length, int index) {
     for (int i = 0; i < rowsLeft; i++) {
         gotoxy(x, y);
         cout << setfill(' ') << left << setw(20) << list[index + i]->maSV
-             << setw(50) << hoten[index + i] << setw(10)
-             << list[index + i]->diem << setw(10)
-             << to_string(list[index + i]->huy);
+             << setw(50) << hoten[index + i];
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
     }
@@ -189,10 +185,6 @@ int initXemDSDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
     cout << "Ma SV";
     gotoxy(TABLE_X + 20, TABLE_Y);
     cout << "Ho ten";
-    gotoxy(TABLE_X + 70, TABLE_Y);
-    cout << "Diem";
-    gotoxy(TABLE_X + 80, TABLE_Y);
-    cout << "Huy";
     gotoxy(TABLE_X, LAST_ROW + 1);
     cout << "CTRL + F de tim lop";
 
@@ -313,7 +305,7 @@ int initXemDSDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
             cout << "Nien khoa: " << ltc->nienKhoa << ", HK: " << ltc->hocKy
                  << ", Nhom: " << ltc->nhom;
 
-            ltc->dsdk->toArray(list, dsLength);
+            ltc->dsdk->filterDSDK(list, dsLength);
 
             for (int i = 0; i < dsLength; i++) {
                 NodeSinhVien *sv = dssv.search(list[i]->maSV);
@@ -333,127 +325,6 @@ int initXemDSDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
             }
         }
     }
-    // deleteHoTen(hoten, dsLength);
-    delete[] hoten;
-    return 0;
-}
-
-void printHoten(string *hoten, int len) {
-    cout << "\nprinting hoten[]\n";
-
-    for (int i = 0; i < len; i++) {
-        cout << hoten[i] << endl;
-    }
-}
-
-void getHoTenSV(DSSV dssv, DangKy *list[], string *hoten, int length) {
-    cout << "\ngetting hoten[] " + to_string(length) << endl;
-
-    for (int i = 0; i < length; i++) {
-        NodeSinhVien *sv = dssv.search(list[i]->maSV);
-
-        if (sv) {
-            hoten[i] = sv->sinhVien.ho + " " + sv->sinhVien.ten;
-        } else {
-            hoten[i] = "";
-        }
-    }
-}
-
-void deleteHoTen(string *hoten[], int &length) {
-    cout << "\ndeleting hoten[] " + to_string(length) << endl;
-
-    for (int i = 0; i < length; i++) {
-        cout << hoten[i] << " deleted" << endl;
-        delete hoten[i];
-    }
-    length = 0;
-}
-
-int initXemDSDKTab2(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
-    dsltc.print();
-
-    int len = 0;
-    // int len = 0;
-    // int len = 0;
-
-    DangKy *list[100];
-    // DangKy **list = vlist;
-
-    // DangKy *vlist[100];
-    // DangKy **list = vlist;
-
-    // DangKy *vlist[100];
-    // DangKy **list = vlist;
-
-    string *hoten = new string[1000];
-    // string *hoten[100];
-
-    // INT0|22-23|2|1 trr
-    // INT9|21-22|2|1 human
-    // INT8|20-21|2|1 account
-
-    LTC *ltc = dsltc.search("INT022-2321");
-    MonHoc *mh = dsmh.search(ltc->maMH);
-    cout << "\nDSDK Mon: " << mh->ten << ", Nien khoa: " << ltc->nienKhoa
-         << ", HK: " << ltc->hocKy << ", Nhom: " << ltc->nhom << endl;
-
-    ltc->dsdk->toArray(list, len);
-    printDSDK(list, len);
-
-    for (int i = 0; i < len; i++) {
-        NodeSinhVien *sv = dssv.search(list[i]->maSV);
-
-        if (sv) {
-            hoten[i] = sv->sinhVien.ho + " " + sv->sinhVien.ten;
-        } else {
-            hoten[i] = "";
-        }
-    }
-    printHoten(hoten, len);
-
-    // deleteHoTen(hoten, len);
-
-    LTC *ltc1 = dsltc.search("INT921-2221");
-    MonHoc *mh1 = dsmh.search(ltc1->maMH);
-    cout << "\nDSDK Mon: " << mh1->ten << ", Nien khoa: " << ltc1->nienKhoa
-         << ", HK: " << ltc1->hocKy << ", Nhom: " << ltc1->nhom << endl;
-
-    ltc1->dsdk->toArray(list, len);
-    printDSDK(list, len);
-
-    // getHoTenSV(dssv, list, hoten, len);
-    for (int i = 0; i < len; i++) {
-        NodeSinhVien *sv = dssv.search(list[i]->maSV);
-
-        if (sv) {
-            hoten[i] = sv->sinhVien.ho + " " + sv->sinhVien.ten;
-        } else {
-            hoten[i] = "";
-        }
-    }
-    printHoten(hoten, len);
-
-    LTC *ltc2 = dsltc.search("INT022-2321");
-    MonHoc *mh2 = dsmh.search(ltc2->maMH);
-    cout << "\nDSDK Mon: " << mh2->ten << ", Nien khoa: " << ltc2->nienKhoa
-         << ", HK: " << ltc2->hocKy << ", Nhom: " << ltc2->nhom << endl;
-
-    ltc2->dsdk->toArray(list, len);
-    printDSDK(list, len);
-
-    // getHoTenSV(dssv, list, hoten, len);
-    for (int i = 0; i < len; i++) {
-        NodeSinhVien *sv = dssv.search(list[i]->maSV);
-
-        if (sv) {
-            hoten[i] = sv->sinhVien.ho + " " + sv->sinhVien.ten;
-        } else {
-            hoten[i] = "";
-        }
-    }
-    printHoten(hoten, len);
-
     delete[] hoten;
     return 0;
 }

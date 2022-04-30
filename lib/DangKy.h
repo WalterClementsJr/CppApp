@@ -54,6 +54,7 @@ class DsDangKy {
     int remove(string maSV);
     string toString();
     void toArray(DangKy *list[], int &length);
+    void filterDSDK(DangKy *list[], int &length);
 };
 
 DsDangKy::DsDangKy() {
@@ -179,6 +180,16 @@ void DsDangKy::toArray(DangKy *list[], int &length) {
 
     for (NodeDangKy *temp = first; temp != NULL; temp = temp->next) {
         list[length++] = &temp->dk;
+    }
+}
+
+void DsDangKy::filterDSDK(DangKy *list[], int &length) {
+    length = 0;
+
+    for (NodeDangKy *temp = first; temp != NULL; temp = temp->next) {
+        if (temp->dk.huy == 0) {
+            list[length++] = &temp->dk;
+        }
     }
 }
 
