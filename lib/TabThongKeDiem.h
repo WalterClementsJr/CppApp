@@ -15,6 +15,123 @@
 
 using namespace std;
 
+void printDiemInput(string input) {
+    SetColor();
+    ShowCur(false);
+    string label = "Nhap Diem: ";
+
+    gotoxy(INSERT_X + label.length(), INSERT_Y);
+    cout << string(10, ' ');
+
+    gotoxy(INSERT_X + label.length(), INSERT_Y);
+    cout << string(10, ' ');
+
+    gotoxy(INSERT_X + label.length(), INSERT_Y);
+    cout << input;
+
+    gotoxy(INSERT_X + label.length() + input.length(), INSERT_Y);
+    ShowCur(true);
+}
+
+float inputDiem(float diem) {
+    clearDetail();
+
+    stringstream ss;
+    ss << diem;
+    string input = ss.str();
+
+    unsigned limit = 5;
+    unsigned index = 0;
+    unsigned count = input.length();
+    unsigned key;
+
+    bool dot;
+
+    if (input.find('.') != string::npos)
+        dot = true;
+    else
+        dot = false;
+
+    gotoxy(INSERT_X, INSERT_Y);
+    cout << "Nhap Diem: ";
+    gotoxy(INSERT_X, INSERT_Y + 2);
+    cout << "Theo format #.# (vd: 8.25)";
+
+    printDiemInput(input);
+
+    while (true) {
+        key = _getch();
+
+        // catch special input first
+        if (key == 224 || key == 0) {
+            key = _getch();
+
+            if (key == KEY_LEFT) {
+                count = count <= 0 ? input.length() : (count - 1);
+                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
+            } else if (key == KEY_RIGHT) {
+                count = count >= input.length() ? 0 : (count + 1);
+                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
+            }
+        } else if (key == BACKSPACE) {
+            // if input is empty
+            if (input.empty() || count == 0) {
+                continue;
+            }
+            if (input[count - 1] == '.') {
+                dot = false;
+            }
+
+            input.erase(count - 1, 1);
+            count--;
+            printDiemInput(input);
+        } else if (key == ESC) {
+            displayNotification("Hay nhap diem");
+            continue;
+        } else if (key == ENTER) {
+            // check
+            if (input.empty()) {
+                displayNotification("Hay nhap diem");
+                continue;
+            }
+            diem = stof(input);
+            if (diem > 10) {
+                displayNotification("Diem > 10. Hay nhap lai");
+                printDiemInput(input);
+
+                continue;
+            }
+            clearDetail();
+            return diem;
+        } else {
+            // printInput(input);
+            if ((key >= '0' && key <= '9') || key == '.') {
+                // out of range
+                if (input.length() >= limit) {
+                    continue;
+                }
+
+                if (key == '.') {
+                    if (!dot) {
+                        dot = true;
+                        input.insert(count, 1, key);
+                        count++;
+                        printDiemInput(input);
+                        continue;
+                    } else {
+                        continue;
+                    }
+                }
+
+                input.insert(count, 1, key);
+                count++;
+                printDiemInput(input);
+            }
+        }
+    }
+    return 0;
+}
+
 void highlightIndex(string *hoten, DangKy *list[], int index) {
     SetColor(BLACK, BLUE);
     ShowCur(false);
@@ -156,6 +273,22 @@ int initThongKeDiemTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
                     highlightIndex(hoten, list, index);
                 }
             }
+        } else if (key == ENTER) {
+            if (dsLength == 0) {
+                continue;
+            }
+            // nhap diem
+
+            float diem = inputDiem(list[index]->diem);
+
+            if (list[index]->diem != diem) {
+                list[index]->diem = diem;
+                dsltc.write();
+            }
+
+            index = 0;
+            loadDiemToTable(hoten, list, dsLength, index);
+            highlightIndex(hoten, list, index);
         } else if (key == ESC) {
             delete[] hoten;
 

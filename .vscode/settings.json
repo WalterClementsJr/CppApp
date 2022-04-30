@@ -58,6 +58,13 @@
         "bitset": "cpp",
         "string_view": "cpp",
         "array": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "cstdarg": "cpp",
+        "cwctype": "cpp",
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "map": "cpp",
+        "memory_resource": "cpp",
+        "optional": "cpp"
     }
 }
