@@ -219,6 +219,11 @@ int initXemDSDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
                     delete[] hoten;
 
                     return key;
+                } else if (key == ALT_F4) {
+                    clearTab();
+                    delete[] hoten;
+
+                    return ALT_F4;
                 }
             } else if (key == 224) {
                 key = _getch();
@@ -272,10 +277,6 @@ int initXemDSDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
                     highlightIndex(list, hoten, index);
                 }
             }
-        } else if (key == ESC) {
-            delete[] hoten;
-
-            return ESC;
         } else if (key == CTRL_F) {
             string search = inputThongTinLop(dsmh);
 

@@ -471,7 +471,7 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
 
 int initLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
     clearTable();
-    SetColor(BLACK, WHITE);
+    SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma LTC";
@@ -524,6 +524,9 @@ int initLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
                     key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
                     key == KEY_F8) {
                     return key;
+                } else if (key == ALT_F4) {
+                    clearTab();
+                    return ALT_F4;
                 }
             } else if (key == 224) {
                 key = _getch();
@@ -624,8 +627,6 @@ int initLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
             index = 0;
             loadLTCToTable(dsltc.dsltc, dsltc.count, index);
             highlightIndex(dsltc.dsltc, index);
-        } else if (key == ESC) {
-            return ESC;
         }
     }
     return 0;

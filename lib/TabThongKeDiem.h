@@ -178,6 +178,8 @@ void loadDiemToTable(string *hoten, DangKy *list[], int length, int index) {
 
 int initThongKeDiemTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
     clearTable();
+    SetColor();
+
     gotoxy(TABLE_X, TABLE_Y);
     cout << "STT";
     gotoxy(TABLE_X + 10, TABLE_Y);
@@ -220,6 +222,9 @@ int initThongKeDiemTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
                     delete[] hoten;
 
                     return key;
+                } else if (key == ALT_F4) {
+                    clearTab();
+                    return ALT_F4;
                 }
             } else if (key == 224) {
                 key = _getch();
@@ -289,10 +294,6 @@ int initThongKeDiemTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
             index = 0;
             loadDiemToTable(hoten, list, dsLength, index);
             highlightIndex(hoten, list, index);
-        } else if (key == ESC) {
-            delete[] hoten;
-
-            return ESC;
         } else if (key == CTRL_F) {
             string search = inputThongTinLop(dsmh);
 
@@ -309,6 +310,7 @@ int initThongKeDiemTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
             MonHoc *mh = dsmh.search(ltc->maMH);
 
             if (!mh) {
+                displayNotification("Khong tim thay mon hoc");
                 continue;
             }
 
@@ -345,4 +347,5 @@ int initThongKeDiemTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
     delete[] hoten;
     return 0;
 }
+
 #endif

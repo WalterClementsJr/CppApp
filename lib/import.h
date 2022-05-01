@@ -50,6 +50,8 @@
 #define KEY_F9 67
 #define KEY_F10 68
 
+#define ALT_F4 107
+
 // with extra keycode 224
 #define KEY_UP 72
 #define KEY_DOWN 80

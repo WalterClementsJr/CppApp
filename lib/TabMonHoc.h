@@ -414,7 +414,7 @@ void editMonHoc(DsMonHoc &dsmh, MonHoc *list[], int index_arr) {
 
 int initMHTab(DsMonHoc &dsmh) {
     clearTable();
-    SetColor(BLACK, WHITE);
+    SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma so";
@@ -466,6 +466,9 @@ int initMHTab(DsMonHoc &dsmh) {
                     key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
                     key == KEY_F8) {
                     return key;
+                } else if (key == ALT_F4) {
+                    clearTab();
+                    return ALT_F4;
                 }
             } else if (key == 224) {
                 // "224" keys
@@ -566,8 +569,6 @@ int initMHTab(DsMonHoc &dsmh) {
             index = 0;
             loadMonHocToTable(list, dsLength, index);
             highlightIndex(list, index);
-        } else if (key == ESC) {
-            return ESC;
         }
     }
     return 0;

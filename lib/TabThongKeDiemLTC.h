@@ -106,6 +106,11 @@ int initThongKeDiemLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
                     delete[] diem;
 
                     return key;
+                } else if (key == ALT_F4) {
+                    clearTab();
+                    delete[] diem;
+
+                    return ALT_F4;
                 }
             } else if (key == 224) {
                 key = _getch();

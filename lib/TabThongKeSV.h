@@ -11,6 +11,7 @@
 using namespace std;
 
 void printMaLopInput(string input) {
+    SetColor();
     ShowCur(false);
     string label = "Nhap ma lop: ";
 
@@ -21,11 +22,11 @@ void printMaLopInput(string input) {
     cout << input;
 
     gotoxy(INSERT_X + label.length() + input.length(), INSERT_Y);
-
     ShowCur(true);
 }
 
 string inputMaLop() {
+    SetColor();
     clearDetail();
 
     string input = "";
@@ -114,7 +115,7 @@ void loadSinhVienToTable(SinhVien *list[], int length, int index) {
 
 int initThongKeSVTab(DSSV dssv) {
     clearTable();
-    SetColor(BLACK, WHITE);
+    SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "STT";
@@ -159,6 +160,9 @@ int initThongKeSVTab(DSSV dssv) {
                     key == KEY_F8) {
                     clearTable();
                     return key;
+                } else if (key == ALT_F4) {
+                    clearTab();
+                    return ALT_F4;
                 }
             } else if (key == 224) {
                 key = _getch();
@@ -195,8 +199,6 @@ int initThongKeSVTab(DSSV dssv) {
                 index = 0;
                 loadSinhVienToTable(list, dsLength, index);
             }
-        } else if (key == ESC) {
-            return ESC;
         }
     }
     return 0;

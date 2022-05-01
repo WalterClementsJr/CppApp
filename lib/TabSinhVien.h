@@ -10,34 +10,30 @@
 
 using namespace std;
 
-
 void highlightIndex(SinhVien *list[], int index) {
     SetColor(BLACK, BLUE);
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left << setw(15) << list[index]->maSV
-             << setw(20) << list[index]->ho << setw(20)
-             << list[index]->ten << setw(10) << list[index]->phai
-             << setw(20) << list[index]->soDT << setw(10)
-             << list[index]->maLop;
+    cout << setfill(' ') << left << setw(15) << list[index]->maSV << setw(20)
+         << list[index]->ho << setw(20) << list[index]->ten << setw(10)
+         << list[index]->phai << setw(20) << list[index]->soDT << setw(10)
+         << list[index]->maLop;
 
     SetColor();
 }
 
 void dehighlightIndex(SinhVien *list[], int index) {
-    SetColor(BLACK, WHITE);
+    SetColor();
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left << setw(15) << list[index]->maSV
-             << setw(20) << list[index]->ho << setw(20)
-             << list[index]->ten << setw(10) << list[index]->phai
-             << setw(20) << list[index]->soDT << setw(10)
-             << list[index]->maLop;
+    cout << setfill(' ') << left << setw(15) << list[index]->maSV << setw(20)
+         << list[index]->ho << setw(20) << list[index]->ten << setw(10)
+         << list[index]->phai << setw(20) << list[index]->soDT << setw(10)
+         << list[index]->maLop;
     SetColor();
 }
-
 
 void loadSVToTable(SinhVien *list[], int length, int index) {
     ShowCur(false);
@@ -64,7 +60,7 @@ void loadSVToTable(SinhVien *list[], int length, int index) {
 
 int initSVTab(DSSV &dssv) {
     clearTable();
-    SetColor(BLACK, WHITE);
+    SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma SV";

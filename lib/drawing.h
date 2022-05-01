@@ -359,8 +359,8 @@ void drawSelectedTab(int index) {
     drawRow(tabx, taby + rong, space * 4);
 
     const string tabName[] = {"DS Mon Hoc",   "DS LTC",       "DSSV",
-                              "Dang ky LTC",  "In DSDK",      "Nhap diem",
-                              "Thong ke lop", "Thong ke (i)", "Thong ke (j)",
+                              "Dang ky LTC",  "In DSDK",      "TK/nhap diem LTC",
+                              "TK SV lop", "TK diem", "Thong ke (j)",
                               "Thong ke (k)", "Thong ke (l)", "Thong ke (?)"};
     const string shortcut[] = {"F1", "F2", "F3", "F4",  "F5",  "F6",
                                "F7", "F8", "F9", "F10", "F11", "F12"};
@@ -437,7 +437,7 @@ void initUI() {
 
     gotoxy(135, UI_LIMIT_Y);
     SetTextColor(BLUE);
-    cout << "ESC";
+    cout << "ALT + F4";
     SetTextColor(DARKWHITE);
     cout << " Exit";
 
