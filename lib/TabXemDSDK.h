@@ -30,7 +30,7 @@ string inputThongTinLop(DsMonHoc dsmh) {
         printInsertLTCField(i, input[i]);
     }
 
-    gotoxy(INSERT_X + LTC_FIELDS[0].length(), INSERT_Y);
+    gotoxy(INSERT_X + LTC_FIELDS[0].length() + count, INSERT_Y);
 
     while (true) {
         key = _getch();
@@ -65,7 +65,10 @@ string inputThongTinLop(DsMonHoc dsmh) {
 
             input[index].erase(count - 1, 1);
             count--;
+            
             printInsertLTCField(index, input[index]);
+            gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                   INSERT_Y + index * 2);
         } else if (key == ESC) {
             clearDetail();
             break;
@@ -108,7 +111,10 @@ string inputThongTinLop(DsMonHoc dsmh) {
                     }
                     input[index].insert(count, 1, toupper(char(key)));
                     count++;
+
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             } else if (index == 1) {
                 // Nien khoa
@@ -119,6 +125,8 @@ string inputThongTinLop(DsMonHoc dsmh) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             } else if (index == 2 || index == 3) {
                 // hoc ky / nhom
@@ -129,6 +137,8 @@ string inputThongTinLop(DsMonHoc dsmh) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             }
         }

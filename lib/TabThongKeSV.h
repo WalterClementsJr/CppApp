@@ -58,10 +58,11 @@ string inputMaLop() {
             if (input.empty() || count == 0) {
                 continue;
             }
-
             input.erase(count - 1, 1);
             count--;
+
             printMaLopInput(input);
+            gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
         } else if (key == ESC) {
             clearDetail();
             break;
@@ -79,12 +80,14 @@ string inputMaLop() {
                 }
                 input.insert(count, 1, toupper(char(key)));
                 count++;
+
                 printMaLopInput(input);
+                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
             }
         }
     }
     ShowCur(false);
-    return input;
+    return "";
 }
 
 void loadSinhVienToTable(SinhVien *list[], int length, int index) {
@@ -104,10 +107,10 @@ void loadSinhVienToTable(SinhVien *list[], int length, int index) {
 
     for (int i = 0; i < rowsLeft; i++) {
         gotoxy(x, y);
-        cout << setfill(' ') << left << setw(10) << index + i + 1<< setw(15) << list[index + i]->maSV
-             << setw(20) << list[index + i]->ho << setw(20)
-             << list[index + i]->ten << setw(10) << list[index + i]->phai
-             << setw(10) << list[index + i]->soDT;
+        cout << setfill(' ') << left << setw(10) << index + i + 1 << setw(15)
+             << list[index + i]->maSV << setw(20) << list[index + i]->ho
+             << setw(20) << list[index + i]->ten << setw(10)
+             << list[index + i]->phai << setw(10) << list[index + i]->soDT;
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
     }

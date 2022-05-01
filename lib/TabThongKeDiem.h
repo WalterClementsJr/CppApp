@@ -85,6 +85,7 @@ float inputDiem(float diem) {
             input.erase(count - 1, 1);
             count--;
             printDiemInput(input);
+            gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
         } else if (key == ESC) {
             displayNotification("Hay nhap diem");
             continue;
@@ -116,7 +117,10 @@ float inputDiem(float diem) {
                         dot = true;
                         input.insert(count, 1, key);
                         count++;
+
                         printDiemInput(input);
+                        gotoxy(INSERT_X + input.length() + count,
+                               INSERT_Y + index * 2);
                         continue;
                     } else {
                         continue;
@@ -126,6 +130,7 @@ float inputDiem(float diem) {
                 input.insert(count, 1, key);
                 count++;
                 printDiemInput(input);
+                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
             }
         }
     }
