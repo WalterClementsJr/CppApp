@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void printInput(string input) {
+void printMaLopInput(string input) {
     ShowCur(false);
     string label = "Nhap ma lop: ";
 
@@ -26,6 +26,8 @@ void printInput(string input) {
 }
 
 string inputMaLop() {
+    clearDetail();
+
     string input = "";
     unsigned limit = 10;
     unsigned index = 0;
@@ -33,7 +35,6 @@ string inputMaLop() {
     unsigned key;
 
     gotoxy(INSERT_X, INSERT_Y);
-
     cout << "Nhap ma lop: ";
     ShowCur(true);
 
@@ -59,7 +60,7 @@ string inputMaLop() {
 
             input.erase(count - 1, 1);
             count--;
-            printInput(input);
+            printMaLopInput(input);
         } else if (key == ESC) {
             clearDetail();
             break;
@@ -69,8 +70,6 @@ string inputMaLop() {
             return input;
         } else {
             // catch character input
-            printInput(input);
-
             if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
                 (key >= '0' && key <= '9')) {
                 // out of range
@@ -79,7 +78,7 @@ string inputMaLop() {
                 }
                 input.insert(count, 1, toupper(char(key)));
                 count++;
-                printInput(input);
+                printMaLopInput(input);
             }
         }
     }
@@ -104,7 +103,7 @@ void loadSinhVienToTable(SinhVien *list[], int length, int index) {
 
     for (int i = 0; i < rowsLeft; i++) {
         gotoxy(x, y);
-        cout << setfill(' ') << left << setw(15) << list[index + i]->maSV
+        cout << setfill(' ') << left << setw(10) << index + i + 1<< setw(15) << list[index + i]->maSV
              << setw(20) << list[index + i]->ho << setw(20)
              << list[index + i]->ten << setw(10) << list[index + i]->phai
              << setw(10) << list[index + i]->soDT;
@@ -118,14 +117,16 @@ int initThongKeSVTab(DSSV dssv) {
     SetColor(BLACK, WHITE);
 
     gotoxy(TABLE_X, TABLE_Y);
+    cout << "STT";
+    gotoxy(TABLE_X + 10, TABLE_Y);
     cout << "Ma SV";
-    gotoxy(TABLE_X + 15, TABLE_Y);
+    gotoxy(TABLE_X + 25, TABLE_Y);
     cout << "Ho";
-    gotoxy(TABLE_X + 35, TABLE_Y);
+    gotoxy(TABLE_X + 45, TABLE_Y);
     cout << "Ten";
-    gotoxy(TABLE_X + 55, TABLE_Y);
-    cout << "Phai";
     gotoxy(TABLE_X + 65, TABLE_Y);
+    cout << "Phai";
+    gotoxy(TABLE_X + 75, TABLE_Y);
     cout << "SDT";
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
 
