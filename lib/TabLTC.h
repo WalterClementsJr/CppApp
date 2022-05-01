@@ -93,7 +93,7 @@ void printInsertLTCField(int index, string input) {
     ShowCur(true);
 }
 
-void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
+int insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
     gotoxy(INSERT_X, INSERT_Y - 1);
     cout << "THEM LTC";
 
@@ -109,7 +109,7 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
         printInsertLTCField(i, input[i]);
     }
 
-    gotoxy(INSERT_X + LTC_FIELDS[0].length(), INSERT_Y);
+    gotoxy(INSERT_X + LTC_FIELDS[0].length() + count, INSERT_Y);
 
     while (true) {
         key = _getch();
@@ -185,7 +185,7 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     if (ltc) {
                         displayNotification("Luu lop tin chi thanh cong");
                         dsltc.write();
-                        return;
+                        return 1;
                     } else {
                         displayNotification("Luu lop tin chi khong thanh cong");
 
@@ -220,7 +220,10 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     }
                     input[index].insert(count, 1, toupper(char(key)));
                     count++;
+
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             } else if (index == 1) {
                 // Nien khoa
@@ -230,7 +233,10 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     }
                     input[index].insert(count, 1, char(key));
                     count++;
+
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             } else if (index == 2 || index == 3 || index == 4 || index == 5) {
                 // hoc ky / nhom / min / max
@@ -251,13 +257,16 @@ void insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     input[index].insert(count, 1, char(key));
                     count++;
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             }
         }
     }
+    return 0;
 }
 
-void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
+int editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
     gotoxy(INSERT_X, INSERT_Y - 1);
     cout << "EDIT LTC";
 
@@ -272,7 +281,7 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                       to_string(ltc->huy)};
     unsigned fieldMaxIndex = 6;
     unsigned index = 0;
-    unsigned count = 0;
+    unsigned count = input[index].length();
     unsigned key;
 
     for (unsigned i = 0; i <= fieldMaxIndex; i++) {
@@ -280,8 +289,7 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
         cout << LTC_FIELDS[i];
         printInsertLTCField(i, input[i]);
     }
-
-    gotoxy(INSERT_X + LTC_FIELDS[0].length(), INSERT_Y);
+    gotoxy(INSERT_X + input[index].length() + count, INSERT_Y);
 
     while (true) {
         key = _getch();
@@ -376,7 +384,7 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     dsltc.write();
 
                     clearDetail();
-                    return;
+                    return 1;
 
                     /*
                     //copy dsdk before delete
@@ -420,8 +428,6 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
             }
         } else {
             // catch character input
-            printInsertLTCField(index, input[index]);
-
             if (index == 0) {
                 // field is MAMH
                 if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
@@ -432,7 +438,10 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     }
                     input[index].insert(count, 1, toupper(char(key)));
                     count++;
+
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             } else if (index == 1) {
                 // Nien khoa
@@ -442,7 +451,10 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     }
                     input[index].insert(count, 1, char(key));
                     count++;
+
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             } else if (index == 2 || index == 3 || index == 4 || index == 5) {
                 // hoc ky / nhom / min / max
@@ -452,7 +464,10 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     }
                     input[index].insert(count, 1, char(key));
                     count++;
+
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             } else if (index == 6) {
                 // huy
@@ -462,11 +477,15 @@ void editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     }
                     input[index].insert(count, 1, char(key));
                     count++;
+
                     printInsertLTCField(index, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
                 }
             }
         }
     }
+    return 0;
 }
 
 int initLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
@@ -490,7 +509,7 @@ int initLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
     gotoxy(TABLE_X + 83, TABLE_Y);
     cout << "Huy";
     gotoxy(TABLE_X + 93, TABLE_Y);
-    cout << "So DK";
+    cout << "So SV DK";
 
     int key;
     // số hàng còn lại

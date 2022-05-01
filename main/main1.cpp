@@ -27,8 +27,8 @@ int main() {
     dsltc.read();
     // testDSLTC(dsltc);
 
-    initMHTab(dsmh, dsltc);
-    // initLTCTab(dsltc, dsmh, dssv);
+    // initMHTab(dsmh, dsltc);
+    initLTCTab(dsmh, dssv, dsltc);
     // initDKTab(dsmh, dssv, dsltc, dsltc.dsltc[1]);
 
     // initThongKeSVTab(dssv);
