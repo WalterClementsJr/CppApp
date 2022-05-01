@@ -142,7 +142,7 @@ class DsLTC {
     }
 
     void print() {
-        cout << "\tDSLTC, size: " << count << endl;
+        cout << "\n\tDSLTC, size: " << count << endl;
         for (int i = 0; i < count; i++) {
             cout << dsltc[i]->toString() << endl;
             if (dsltc[i]->dsdk->count > 0) {
@@ -150,6 +150,26 @@ class DsLTC {
                 cout << dsltc[i]->dsdk->toString() << endl;
             }
         }
+    }
+
+    bool coMonHoc(string maMH) {
+        for (int i = 0; i < count; i++) {
+            if (dsltc[i]->maMH == maMH) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool coSinhVien(string maSV) {
+        for (int i = 0; i < count; i++) {
+            if (dsltc[i]->dsdk->count > 0) {
+                if (dsltc[i]->dsdk->search(maSV)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     void write() {
@@ -224,6 +244,14 @@ class DsLTC {
         }
         reader.close();
     }
+
+    void replaceMaMH(string oldId, string newId) {
+        for (int i = 0; i < count; i++) {
+            if (dsltc[i]->maMH == oldId) {
+                dsltc[i]->maMH = newId;
+            }
+        }
+    }
 };
 
 void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
@@ -242,7 +270,6 @@ void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
 }
 
 void testDSLTC(DsLTC &dsltc) {
-    dsltc.read();
     dsltc.print();
 
     // dsltc.insert("INT2", "22-23", 2, 1, 12, 100, 0, -1);
@@ -250,11 +277,11 @@ void testDSLTC(DsLTC &dsltc) {
     // dsltc.insert("INT0", "20-21", 2, 1, 1, 100, true, -1);
     // dsltc.insert("INT1", "20-21", 2, 1, 1, 123, 0, -1);
     // LTC *ltc = dsltc.search("INT022-2321");
+    dsltc.replaceMaMH("INT8", "AAA12");
 
-    // dsltc.remove("INT022-2321");
-    // dsltc.print();
+    dsltc.print();
 
-    // ds.write();
+    // dsltc.write();
 }
 
 #endif

@@ -25,9 +25,9 @@ int main() {
 
     DsLTC dsltc;
     dsltc.read();
-    // testDSLTC(dsltc, dsdk, dssv);
+    // testDSLTC(dsltc);
 
-    // initMHTab(dsmh);
+    initMHTab(dsmh, dsltc);
     // initLTCTab(dsltc, dsmh, dssv);
     // initDKTab(dsmh, dssv, dsltc, dsltc.dsltc[1]);
 
@@ -35,13 +35,12 @@ int main() {
     // initLTCTab(dsmh, dssv, dsltc);
     // initXemDSDKTab(dsmh, dssv, dsltc);
     // initThongKeDiemTab(dsmh, dssv, dsltc);
-    initThongKeDiemLTCTab(dsmh, dssv, dsltc);
-
+    // initThongKeDiemLTCTab(dsmh, dssv, dsltc);
 
     return 0;
 }
 
-int main2() {
+int main1() {
     // initUI();
     keyTest();
     return 0;
