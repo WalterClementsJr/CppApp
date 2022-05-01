@@ -4,6 +4,7 @@
 #include "TabLTC.h"
 #include "TabMonHoc.h"
 #include "TabThongKeDiem.h"
+#include "TabThongKeDiemLTC.h"
 #include "TabThongKeSV.h"
 #include "TabXemDSDK.h"
 #include "drawing.h"
@@ -33,7 +34,9 @@ int main() {
     // initThongKeSVTab(dssv);
     // initLTCTab(dsmh, dssv, dsltc);
     // initXemDSDKTab(dsmh, dssv, dsltc);
-    initThongKeDiemTab(dsmh, dssv, dsltc);
+    // initThongKeDiemTab(dsmh, dssv, dsltc);
+    initThongKeDiemLTCTab(dsmh, dssv, dsltc);
+
 
     return 0;
 }
