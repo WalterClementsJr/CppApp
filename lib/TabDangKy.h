@@ -135,7 +135,7 @@ void highlightIndex(LTC *list[], string *tenMH, int index) {
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
     cout << setfill(' ') << left << setw(15) << list[index]->maMH << setw(60)
-         << tenMH[index] << setw(10) << sosv << setw(10)
+         << tenMH[index] << setw(10) << list[index]->nhom << setw(10) << sosv << setw(5)
          << list[index]->max - sosv;
 
     SetColor();
@@ -149,7 +149,7 @@ void dehighlightIndex(LTC *list[], string *tenMH, int index) {
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
     cout << setfill(' ') << left << setw(15) << list[index]->maMH << setw(60)
-         << tenMH[index] << setw(10) << sosv << setw(10)
+         << tenMH[index] << setw(10) << list[index]->nhom << setw(10) << sosv << setw(5)
          << list[index]->max - sosv;
 }
 
@@ -174,7 +174,7 @@ void loadThongTinLTCToTable(LTC *list[], string *tenMH, int length, int index) {
         gotoxy(x, y);
         sosv = list[index + i]->dsdk->getSoSVDK();
         cout << setfill(' ') << left << setw(15) << list[index + i]->maMH
-             << setw(60) << tenMH[index + i] << setw(10) << sosv << setw(10)
+             << setw(60) << tenMH[index + i] << setw(10) << list[index + i]->nhom << setw(10) << sosv << setw(5)
              << list[index + i]->max - sosv;
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
@@ -194,7 +194,7 @@ int initDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
     gotoxy(TABLE_X + 85, TABLE_Y);
     cout << "Da dk";
     gotoxy(TABLE_X + 95, TABLE_Y);
-    cout << "So slot trong";
+    cout << "So slot";
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
 
     gotoxy(TABLE_X, LAST_ROW + 1);
@@ -209,9 +209,13 @@ int initDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
     int dsLength = 0;
 
     string mssv = "";
+    string nk = "";
+    int hk = 0;
+    // chuyen ds
+    bool xemDSChuaDK = true;
 
-    LTC *list[10000];
-    string *tenMH = new string[10000];
+    LTC *list[1000];
+    string *tenMH = new string[1000];
 
     while (true) {
         currentPage = index / MAX_TABLE_ROW;
@@ -290,14 +294,6 @@ int initDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
                     loadThongTinLTCToTable(list, tenMH, dsLength, index);
                     highlightIndex(list, tenMH, index);
                 } else if (key == INSERT) {
-                    // TODO insert
-
-                    if (dsLength == 0) {
-                        continue;
-                    }
-                    index = 0;
-                    loadThongTinLTCToTable(list, tenMH, dsLength, index);
-                    highlightIndex(list, tenMH, index);
                 }
             }
         } else if (key == CTRL_F) {
@@ -328,17 +324,50 @@ int initDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
                 continue;
             }
             // nhap nien khoa hk
-            string nk;
-            int hk;
             inputNkHk(nk, hk);
 
+            dsltc.filterLtcTheoNkHk(list, mssv, nk, hk, dsLength, 2);
+            xemDSChuaDK = true;
+
+            if (dsLength == 0) {
+                displayNotification("Khong co lop");
+                continue;
+            }
+
+            for (int i = 0; i < dsLength; i++) {
+                MonHoc *mh = dsmh.search(list[i]->maMH);
+                if (mh) {
+                    tenMH[i] = mh->ten;
+                } else {
+                    tenMH[i] = "???";
+                }
+            }
+            index = 0;
+            loadThongTinLTCToTable(list, tenMH, dsLength, index);
+            highlightIndex(list, tenMH, index);
         } else if (key == TAB) {
             if (mssv.empty()) {
                 displayNotification("Hay nhap MSSV");
                 continue;
             }
+            xemDSChuaDK = !xemDSChuaDK;
 
-            // DK row
+            dsltc.filterLtcTheoNkHk(list, mssv, nk, hk, dsLength, xemDSChuaDK ? 0 : 2);
+
+            if (dsLength == 0) {
+                displayNotification("Khong co lop");
+                continue;
+            }
+
+            for (int i = 0; i < dsLength; i++) {
+                MonHoc *mh = dsmh.search(list[i]->maMH);
+                if (mh) {
+                    tenMH[i] = mh->ten;
+                } else {
+                    tenMH[i] = "???";
+                }
+            }
+
             index = 0;
             loadThongTinLTCToTable(list, tenMH, dsLength, index);
             highlightIndex(list, tenMH, index);
@@ -346,13 +375,10 @@ int initDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
             if (dsLength == 0) {
                 continue;
             }
-
-            // DK row
-            // editDK(dsmh, list, index);
             // index = 0;
 
             // loadThongTinLTCToTable(list, tenMH, dsLength, index);
-            highlightIndex(list, tenMH, index);
+            // highlightIndex(list, tenMH, index);
         }
     }
     return 0;

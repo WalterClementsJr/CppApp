@@ -165,7 +165,7 @@ int initThongKeDiemLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
                 }
             }
         } else if (key == CTRL_F) {
-            string malop = inputMaLop();
+            string malop = inputString("Nhap ma lop: ", 10);
 
             dssv.filterSinhVienTheoMaLop(list, dsLength, malop);
 

@@ -53,11 +53,12 @@ string inputString(string label, unsigned limit, string input = "") {
     clearDetail();
 
     unsigned index = 0;
-    unsigned count = 0;
+    unsigned count = input.length();
     unsigned key;
 
     gotoxy(INSERT_X, INSERT_Y);
     cout << label;
+    cout << input;
     ShowCur(true);
 
     while (true) {

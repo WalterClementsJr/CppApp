@@ -30,9 +30,9 @@ int main() {
 
     // initMHTab(dsmh, dsltc);
     // initLTCTab(dsmh, dssv, dsltc);
-    // initDKTab(dsmh, dssv, dsltc);
+    initDKTab(dsmh, dssv, dsltc);
 
-    initThongKeSVTab(dssv);
+    // initThongKeSVTab(dssv);
     // initLTCTab(dsmh, dssv, dsltc);
     // initXemDSDKTab(dsmh, dssv, dsltc);
     // initThongKeDiemTab(dsmh, dssv, dsltc);

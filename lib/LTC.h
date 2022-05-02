@@ -154,7 +154,7 @@ class DsLTC {
 
     bool coMonHoc(string maMH) {
         for (int i = 0; i < count; i++) {
-            if (dsltc[i]->maMH == maMH) {
+            if ((dsltc[i]->maMH == maMH) && (dsltc[i]->dsdk->getSoSVDK() > 0)) {
                 return true;
             }
         }
@@ -162,6 +162,7 @@ class DsLTC {
     }
 
     bool coSinhVien(string maSV) {
+        // TODO: check this
         for (int i = 0; i < count; i++) {
             if (dsltc[i]->dsdk->count > 0) {
                 if (dsltc[i]->dsdk->search(maSV)) {
@@ -249,6 +250,63 @@ class DsLTC {
         for (int i = 0; i < count; i++) {
             if (dsltc[i]->maMH == oldId) {
                 dsltc[i]->maMH = newId;
+            }
+        }
+    }
+
+    // loc cac ltc theo nien khoa, hoc ky
+    // status 0: loc cac ltc sv da dk
+    // status 1: loc cac ltc sv da huy dk
+    // status 2: loc cac ltc sv co the dk/huy dk
+    void filterLtcTheoNkHk(LTC *list[], string mssv, string nk, int hk,
+                           int &len, int status) {
+        len = 0;
+        for (int i = 0; i < count; i++) {
+            if ((dsltc[i]->nienKhoa == nk) && (dsltc[i]->hocKy == hk)) {
+                DangKy *dk = dsltc[i]->dsdk->search(mssv);
+                int sosv = dsltc[i]->dsdk->getSoSVDK();
+
+                if (status == 0) {
+                    // add to array ds dk
+                    if (dk && !dk->huy) {
+                        list[len++] = dsltc[i];
+                    }
+                } else if (status == 1) {
+                    // add to array ds canceled dk
+                    if (dk && dk->huy) {
+                        list[len++] = dsltc[i];
+                    }
+                } else if (status == 2) {
+                    // add to array ds dk
+                    if (sosv >= dsltc[i]->max) {
+                        continue;
+                    }
+                    if (!dk || dk->huy) {
+                        list[len++] = dsltc[i];
+                    }
+                }
+            }
+        }
+    }
+
+    void getLTCSvDk(LTC *list[], string maSV, int &len) {
+        len = 0;
+        for (int i = 0; i < count; i++) {
+            DangKy *dk = dsltc[i]->dsdk->search(maSV);
+
+            if (dk->huy == false) {
+                list[len++] = dsltc[i];
+            }
+        }
+    }
+
+    void getLTCSvChuaDk(LTC *list[], string maSV, int &len) {
+        len = 0;
+        for (int i = 0; i < count; i++) {
+            DangKy *dk = dsltc[i]->dsdk->search(maSV);
+
+            if (dk->huy == false) {
+                list[len++] = dsltc[i];
             }
         }
     }
