@@ -13,7 +13,6 @@
 #include "LTC.h"
 #include "MonHoc.h"
 #include "SinhVien.h"
-#include "TabDangKy.h"
 #include "drawing.h"
 
 using namespace std;
@@ -33,7 +32,8 @@ void highlightIndex(LTC *list[], int index) {
          << list[index]->maMH << setw(15) << list[index]->nienKhoa << setw(10)
          << list[index]->hocKy << setw(8) << list[index]->nhom << setw(10)
          << list[index]->min << setw(10) << list[index]->max << setw(10)
-         << list[index]->huy << setw(10) << list[index]->dsdk->count;
+         << list[index]->huy;
+        //   << setw(10) << list[index]->dsdk->count;
 
     SetColor();
 }
@@ -47,7 +47,8 @@ void dehighlightIndex(LTC *list[], int index) {
          << list[index]->maMH << setw(15) << list[index]->nienKhoa << setw(10)
          << list[index]->hocKy << setw(8) << list[index]->nhom << setw(10)
          << list[index]->min << setw(10) << list[index]->max << setw(10)
-         << list[index]->huy << setw(10) << list[index]->dsdk->count;
+         << list[index]->huy;
+        //   << setw(10) << list[index]->dsdk->count;
     SetColor();
 }
 
@@ -73,8 +74,8 @@ void loadLTCToTable(LTC *list[], int length, int index) {
              << list[index + i]->nienKhoa << setw(10) << list[index + i]->hocKy
              << setw(8) << list[index + i]->nhom << setw(10)
              << list[index + i]->min << setw(10) << list[index + i]->max
-             << setw(10) << list[index + i]->huy << setw(10)
-             << list[index + i]->dsdk->count;
+             << setw(10) << list[index + i]->huy;
+            //  << setw(10) << list[index + i]->dsdk->count;
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
     }
@@ -508,8 +509,8 @@ int initLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
     cout << "SV max";
     gotoxy(TABLE_X + 83, TABLE_Y);
     cout << "Huy";
-    gotoxy(TABLE_X + 93, TABLE_Y);
-    cout << "So SV DK";
+    // gotoxy(TABLE_X + 93, TABLE_Y);
+    // cout << "So SV DK";
 
     int key;
     // số hàng còn lại

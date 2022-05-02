@@ -27,13 +27,14 @@
 
 // keyboard values
 // normal
-#define SPACE 32
-#define TAB 9
-#define ESC 27
-#define ENTER 13
-#define BACKSPACE 8
+#define CTRL_A 1
 #define CTRL_F 6
+#define BACKSPACE 8
+#define TAB 9
+#define ENTER 13
 #define CTRL_S 19
+#define ESC 27
+#define SPACE 32
 // a-z: 97-122
 // A-Z: 65-90
 // 0-9: 48-57

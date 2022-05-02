@@ -10,86 +10,6 @@
 
 using namespace std;
 
-void printMaLopInput(string input) {
-    SetColor();
-    ShowCur(false);
-    string label = "Nhap ma lop: ";
-
-    gotoxy(INSERT_X + label.length(), INSERT_Y);
-    cout << string(20, ' ');
-
-    gotoxy(INSERT_X + label.length(), INSERT_Y);
-    cout << input;
-
-    gotoxy(INSERT_X + label.length() + input.length(), INSERT_Y);
-    ShowCur(true);
-}
-
-string inputMaLop() {
-    SetColor();
-    clearDetail();
-
-    string input = "";
-    unsigned limit = 10;
-    unsigned index = 0;
-    unsigned count = 0;
-    unsigned key;
-
-    gotoxy(INSERT_X, INSERT_Y);
-    cout << "Nhap ma lop: ";
-    ShowCur(true);
-
-    while (true) {
-        key = _getch();
-
-        // catch special input first
-        if (key == 224 || key == 0) {
-            key = _getch();
-
-            if (key == KEY_LEFT) {
-                count = count <= 0 ? input.length() : (count - 1);
-                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
-            } else if (key == KEY_RIGHT) {
-                count = count >= input.length() ? 0 : (count + 1);
-                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
-            }
-        } else if (key == BACKSPACE) {
-            // if input is empty
-            if (input.empty() || count == 0) {
-                continue;
-            }
-            input.erase(count - 1, 1);
-            count--;
-
-            printMaLopInput(input);
-            gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
-        } else if (key == ESC) {
-            clearDetail();
-            break;
-        } else if (key == ENTER) {
-            // check
-            clearDetail();
-            return input;
-        } else {
-            // catch character input
-            if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                (key >= '0' && key <= '9')) {
-                // out of range
-                if (input.length() >= limit) {
-                    continue;
-                }
-                input.insert(count, 1, toupper(char(key)));
-                count++;
-
-                printMaLopInput(input);
-                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
-            }
-        }
-    }
-    ShowCur(false);
-    return "";
-}
-
 void loadSinhVienToTable(SinhVien *list[], int length, int index) {
     ShowCur(false);
     clearTableContent();
@@ -188,7 +108,7 @@ int initThongKeSVTab(DSSV dssv) {
                 }
             }
         } else if (key == CTRL_F) {
-            string maLop = inputMaLop();
+            string maLop = inputString("Nhap ma lop: ", 10);
 
             if (maLop.empty()) {
                 continue;

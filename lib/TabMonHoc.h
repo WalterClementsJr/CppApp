@@ -429,7 +429,7 @@ int initMHTab(DsMonHoc &dsmh, DsLTC &dsltc) {
     SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);
-    cout << "Ma so";
+    cout << "Ma MH";
     gotoxy(TABLE_X + 15, TABLE_Y);
     cout << "Ten mon hoc";
     gotoxy(TABLE_X + 75, TABLE_Y);
@@ -554,7 +554,7 @@ int initMHTab(DsMonHoc &dsmh, DsLTC &dsltc) {
                     // check DSLTC
                     if (dsltc.coMonHoc(list[index]->ms)) {
                         displayNotification(
-                            "Khong the xoa mon hoc da dc dang ky");
+                            "Khong the xoa mon hoc nay vi da dc dang ky");
                         continue;
                     }
                     // delete

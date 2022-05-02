@@ -1,6 +1,7 @@
 #include "DsMonHoc.h"
 #include "LTC.h"
 #include "SinhVien.h"
+#include "TabDangKy.h"
 #include "TabLTC.h"
 #include "TabMonHoc.h"
 #include "TabThongKeDiem.h"
@@ -28,10 +29,10 @@ int main() {
     // testDSLTC(dsltc);
 
     // initMHTab(dsmh, dsltc);
-    initLTCTab(dsmh, dssv, dsltc);
-    // initDKTab(dsmh, dssv, dsltc, dsltc.dsltc[1]);
+    // initLTCTab(dsmh, dssv, dsltc);
+    // initDKTab(dsmh, dssv, dsltc);
 
-    // initThongKeSVTab(dssv);
+    initThongKeSVTab(dssv);
     // initLTCTab(dsmh, dssv, dsltc);
     // initXemDSDKTab(dsmh, dssv, dsltc);
     // initThongKeDiemTab(dsmh, dssv, dsltc);
@@ -41,7 +42,12 @@ int main() {
 }
 
 int main1() {
-    // initUI();
-    keyTest();
+    initUI();
+    // keyTest();
+    // testDSDK();
+    string a;
+    int b;
+    inputNkHk(a, b);
+    gotoxy(0, 20);
     return 0;
 }

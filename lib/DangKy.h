@@ -50,6 +50,7 @@ class DsDangKy {
     void print();
     int insertFirst(string maSV, float diem, bool huy = false);
     int insertOrder(string maSV, float diem, bool huy = false);
+    int getSoSVDK();
     DangKy *search(string maSV);
     int remove(string maSV);
     string toString();
@@ -88,8 +89,11 @@ int DsDangKy::insertOrder(string maSV, float diem, bool huy) {
     if (first == NULL || first->dk.maSV > maSV) {
         return insertFirst(maSV, diem, huy);
     } else if (first->dk.maSV == maSV) {
-        // neu masv trung first -> return 0
-        return 0;
+        // neu masv trung first - edit huy
+        first->dk.huy = huy;
+        // first->dk.diem = diem;
+
+        return 2;
     }
 
     NodeDangKy *current = first->next;
@@ -97,7 +101,11 @@ int DsDangKy::insertOrder(string maSV, float diem, bool huy) {
 
     while (current != NULL) {
         if (current->dk.maSV == maSV) {
-            return 0;
+            // set huy
+            current->dk.huy = false;
+            // current->dk.diem = diem;
+
+            return 2;
         } else if (current->dk.maSV > maSV) {
             break;
         }
@@ -113,6 +121,17 @@ int DsDangKy::insertOrder(string maSV, float diem, bool huy) {
 
     count++;
     return 1;
+}
+
+int DsDangKy::getSoSVDK() {
+    int c = 0;
+
+    for (NodeDangKy *temp = first; temp != NULL; temp = temp->next) {
+        if (temp->dk.huy == false) {
+            c++;
+        }
+    }
+    return c;
 }
 
 DangKy *DsDangKy::search(string maSV) {
@@ -201,13 +220,16 @@ void printDSDK(DangKy *list[], int length) {
     }
 }
 
-void testDSDK(DsDangKy &dsdk) {
+void testDSDK() {
+    DsDangKy dsdk;
     dsdk.insertOrder("N1", 2, 1);
-    dsdk.insertOrder("N2", 1, 1);
-    dsdk.insertOrder("N5", 7, 1);
-    dsdk.insertOrder("N6", 2, 1);
-    dsdk.insertOrder("N4", 4, 1);
-    // dsdk.print();
+    dsdk.insertOrder("N1", 1, 0);
+    dsdk.insertOrder("N1", 1, 1);
+
+    dsdk.insertOrder("N2", 7, 1);
+    dsdk.insertOrder("N2", 2, 1);
+    dsdk.insertOrder("N3", 4, 1);
+    dsdk.print();
 
     // dsdk.remove("N1");
     // DangKy *d = dsdk.search("N6");
