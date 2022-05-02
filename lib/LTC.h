@@ -154,7 +154,8 @@ class DsLTC {
 
     bool coMonHoc(string maMH) {
         for (int i = 0; i < count; i++) {
-            if ((dsltc[i]->maMH == maMH) && (dsltc[i]->dsdk->getSoSVDK() > 0)) {
+            // if ((dsltc[i]->maMH == maMH) && (dsltc[i]->dsdk->getSoSVDK() > 0)) {
+            if (dsltc[i]->maMH == maMH) {
                 return true;
             }
         }
@@ -257,7 +258,7 @@ class DsLTC {
     // loc cac ltc theo nien khoa, hoc ky
     // status 0: loc cac ltc sv da dk
     // status 1: loc cac ltc sv da huy dk
-    // status 2: loc cac ltc sv co the dk/huy dk
+    // status 2: loc cac ltc sv co the dk/da huy dk
     void filterLtcTheoNkHk(LTC *list[], string mssv, string nk, int hk,
                            int &len, int status) {
         len = 0;
@@ -277,7 +278,7 @@ class DsLTC {
                         list[len++] = dsltc[i];
                     }
                 } else if (status == 2) {
-                    // add to array ds dk
+                    // ds có thể dk
                     if (sosv >= dsltc[i]->max) {
                         continue;
                     }

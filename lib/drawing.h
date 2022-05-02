@@ -248,14 +248,20 @@ void clearTableContent() {
     clearArea(TABLE_X, TABLE_Y + 1, TABLE_WIDTH + 1, 31);
 }
 
-void clearPageNumber() {
-    clearArea(TABLE_X, LAST_ROW - 1, 20, 0);
-}
-
 void showPageNumber(int current, int total) {
-    clearPageNumber();
+    clearArea(TABLE_X, LAST_ROW - 1, 20, 0);
     gotoxy(TABLE_X, LAST_ROW - 1);
     cout << "Page " << ++current << "/" << ++total;
+}
+
+void showNote(string note) {
+    gotoxy(TABLE_X + 40, LAST_ROW - 1);
+    cout << string(20, ' ');
+
+    SetColor(BLACK, GREEN);
+    gotoxy(TABLE_X + 40, LAST_ROW - 1);
+    cout << note;
+    SetColor();
 }
 
 void clearDetail() { clearArea(NOTIF_X, 11, NOTIF_WORD_PER_LINE, 27); }
@@ -373,6 +379,7 @@ void drawSelectedTab(int index) {
 
 int showConfirmDialog(string message, int color = RED) {
     displayNotification(message, color);
+    ShowCur(true);
 
     int key = _getch();
 
@@ -380,8 +387,10 @@ int showConfirmDialog(string message, int color = RED) {
         if (key == 0 || key == 224) {
             _getch();
         } else if (key == 'y' || key == 'Y') {
+            ShowCur(false);
             return 1;
         } else if (key == 'n' || key == 'N') {
+            ShowCur(false);
             return 0;
         } else {
             key = _getch();
