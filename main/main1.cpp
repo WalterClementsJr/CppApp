@@ -30,13 +30,13 @@ int main() {
 
     // initMHTab(dsmh, dsltc);
     // initLTCTab(dsmh, dssv, dsltc);
-    initDKTab(dsmh, dssv, dsltc);
+    // initDKTab(dsmh, dssv, dsltc);
 
     // initThongKeSVTab(dssv);
     // initLTCTab(dsmh, dssv, dsltc);
     // initXemDSDKTab(dsmh, dssv, dsltc);
     // initThongKeDiemTab(dsmh, dssv, dsltc);
-    // initThongKeDiemLTCTab(dsmh, dssv, dsltc);
+    initThongKeDiemTheoLopTab(dsmh, dssv, dsltc);
 
     return 0;
 }

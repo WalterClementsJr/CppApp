@@ -56,6 +56,7 @@ class DsDangKy {
     string toString();
     void toArray(DangKy *list[], int &length);
     void filterDSDK(DangKy *list[], int &length);
+    void replaceMaSV(string oldId, string newId);
 };
 
 DsDangKy::DsDangKy() {
@@ -211,6 +212,15 @@ void DsDangKy::filterDSDK(DangKy *list[], int &length) {
         }
     }
 }
+
+void DsDangKy::replaceMaSV(string oldId, string newId) {
+    for (NodeDangKy *temp = first; temp != NULL; temp = temp->next) {
+        if (temp->dk.maSV == oldId) {
+            temp->dk.maSV = newId;
+        }
+    }
+}
+
 
 void printDSDK(DangKy *list[], int length) {
     cout << "\nPrinting dsdk\n";

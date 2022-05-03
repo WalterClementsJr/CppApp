@@ -6,7 +6,9 @@
 #include <string>
 
 #include "DangKy.h"
+#include "DsMonHoc.h"
 #include "Helper.h"
+#include "MonHoc.h"
 
 using namespace std;
 
@@ -297,26 +299,24 @@ class DsLTC {
         }
     }
 
-    void getLTCSvDk(LTC *list[], string maSV, int &len) {
-        len = 0;
+    float getDtbCuaSV(DsMonHoc dsmh, string maSV) {
+        float soDiem = 0;
+        int soTC = 0;
+
         for (int i = 0; i < count; i++) {
             DangKy *dk = dsltc[i]->dsdk->search(maSV);
 
-            if (dk->huy == false) {
-                list[len++] = dsltc[i];
+            if (dk) {
+                MonHoc *mh = dsmh.search(dsltc[i]->maMH);
+                if (mh) {
+                    soDiem += dk->diem * (mh->sltclt + mh->sltcth);
+                    soTC += mh->sltclt + mh->sltcth;
+                }
             }
         }
-    }
+        if (soTC == 0) return 0;
 
-    void getLTCSvChuaDk(LTC *list[], string maSV, int &len) {
-        len = 0;
-        for (int i = 0; i < count; i++) {
-            DangKy *dk = dsltc[i]->dsdk->search(maSV);
-
-            if (dk->huy == false) {
-                list[len++] = dsltc[i];
-            }
-        }
+        return soDiem / soTC;
     }
 };
 

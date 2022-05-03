@@ -18,7 +18,7 @@ using namespace std;
 
 const string MH_FIELDS[] = {"Ma so: ", "Ten MH: ", "SLTC LT: ", "SLTC TH: "};
 
-const unsigned int MH_FIELD_LIMITS[] = {10, 50, 2, 2};
+const unsigned int MH_FIELD_LIMITS[] = {10, 50, 1, 1};
 
 void highlightIndex(MonHoc *list[], int index) {
     SetColor(BLACK, BLUE);

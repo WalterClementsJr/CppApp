@@ -19,7 +19,7 @@ void highlightIndex(SinhVien *list[], float *diem, int index) {
     ShowCur(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left << setw(10) << index << setw(15)
+    cout << setfill(' ') << left << setw(10) << index + 1 << setw(15)
          << list[index]->maSV << setw(20) << list[index]->ho << setw(20)
          << list[index]->ten << setw(10) << diem[index];
 
@@ -31,7 +31,7 @@ void dehighlightIndex(SinhVien *list[], float *diem, int index) {
     ShowCur(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left << setw(10) << index << setw(15)
+    cout << setfill(' ') << left << setw(10) << index + 1<< setw(15)
          << list[index]->maSV << setw(20) << list[index]->ho << setw(20)
          << list[index]->ten << setw(10) << diem[index];
     SetColor();
@@ -58,7 +58,7 @@ void loadDiemToTable(SinhVien *list[], float *diem, int length, int index) {
     }
 }
 
-int initThongKeDiemLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
+int initThongKeDiemTheoLopTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
     clearTable();
     SetColor();
 
@@ -71,7 +71,7 @@ int initThongKeDiemLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
     gotoxy(TABLE_X + 45, TABLE_Y);
     cout << "Ten";
     gotoxy(TABLE_X + 65, TABLE_Y);
-    cout << "Diem";
+    cout << "Diem TB";
 
     gotoxy(TABLE_X, LAST_ROW + 1);
     cout << "CTRL + F de tim lop";
@@ -185,7 +185,7 @@ int initThongKeDiemLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
             // TODO tinh diem
             for (int i = 0; i < dsLength; i++) {
                 // get diem for list[i]
-                diem[i] = (float)i;
+                diem[i] = dsltc.getDtbCuaSV(dsmh, list[i]->maSV);
             }
             clearTableContent();
             index = 0;
