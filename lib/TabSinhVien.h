@@ -14,7 +14,7 @@ using namespace std;
 const string SV_FIELDS[] = {
     "MSSV: ", "Ho: ", "Ten: ", "Phai: ", "SDT: ", "Lop: "};
 
-const unsigned int SV_LIMITS[] = {10, 20, 20, 3, 10};
+const unsigned int SV_LIMITS[] = {10, 20, 20, 3, 10, 10};
 
 void highlightIndex(SinhVien *list[], int index) {
     SetColor(BLACK, BLUE);
