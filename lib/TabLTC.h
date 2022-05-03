@@ -14,6 +14,7 @@
 #include "MonHoc.h"
 #include "SinhVien.h"
 #include "drawing.h"
+#include "import.h"
 
 using namespace std;
 
@@ -33,7 +34,7 @@ void highlightIndex(LTC *list[], int index) {
          << list[index]->hocKy << setw(8) << list[index]->nhom << setw(10)
          << list[index]->min << setw(10) << list[index]->max << setw(10)
          << list[index]->huy;
-        //   << setw(10) << list[index]->dsdk->count;
+    //   << setw(10) << list[index]->dsdk->count;
 
     SetColor();
 }
@@ -48,7 +49,7 @@ void dehighlightIndex(LTC *list[], int index) {
          << list[index]->hocKy << setw(8) << list[index]->nhom << setw(10)
          << list[index]->min << setw(10) << list[index]->max << setw(10)
          << list[index]->huy;
-        //   << setw(10) << list[index]->dsdk->count;
+    //   << setw(10) << list[index]->dsdk->count;
     SetColor();
 }
 
@@ -75,7 +76,7 @@ void loadLTCToTable(LTC *list[], int length, int index) {
              << setw(8) << list[index + i]->nhom << setw(10)
              << list[index + i]->min << setw(10) << list[index + i]->max
              << setw(10) << list[index + i]->huy;
-            //  << setw(10) << list[index + i]->dsdk->count;
+        //  << setw(10) << list[index + i]->dsdk->count;
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
     }
@@ -153,13 +154,20 @@ int insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
             if (index == fieldMaxIndex) {
                 clearNotification();
                 // check if one of the inputs is empty
+                bool pass = true;
+
                 for (string s : input) {
                     if (s.empty()) {
                         displayNotification("Hay dien day du thong tin.", RED);
-                        continue;
+                        pass = false;
+                        break;
                     }
                 }
-
+                if (!pass) {
+                    index = 0;
+                    printInsertLTCField(index, input[index]);
+                    continue;
+                }
                 // check fields
                 if (dsmh.search(input[0]) == NULL) {
                     // check mamh
@@ -168,11 +176,30 @@ int insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
                     printInsertLTCField(index, input[index]);
 
                     continue;
+                } else if (!regex_match(input[1], NIEN_KHOA_REGEX)) {
+                    displayNotification(
+                        "Nien khoa khong dung dinh dang (VD: 2021-2022)");
+
+                    index = 1;
+                    count = input[index].length();
+                    printInsertLTCField(index, input[index]);
+
+                    continue;
+                } else if (!checkNienKhoa(input[1])) {
+                    displayNotification(
+                        "Nien khoa khong hop le (nam truoc lon hon nam sau)");
+
+                    index = 1;
+                    count = input[index].length();
+                    printInsertLTCField(index, input[index]);
+
+                    continue;
                 } else if (stoi(input[4]) > stoi(input[5])) {
                     // check min > max
                     displayNotification("So sv min > so sv max. Hay nhap lai.",
                                         RED);
                     index = 4;
+                    count = input[index].length();
                     printInsertLTCField(index, input[index]);
 
                     continue;
@@ -300,12 +327,12 @@ int editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
             key = _getch();
             if (key == KEY_UP) {
                 index = index <= 0 ? fieldMaxIndex : index - 1;
-                count = !input[index].empty() ? input[index].length() : 0;
+                count = input[index].length();
 
                 printInsertLTCField(index, input[index]);
             } else if (key == KEY_DOWN) {
                 index = index >= fieldMaxIndex ? 0 : index + 1;
-                count = !input[index].empty() ? input[index].length() : 0;
+                count = input[index].length();
 
                 printInsertLTCField(index, input[index]);
             } else if (key == KEY_LEFT) {
@@ -333,11 +360,20 @@ int editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
             if (index == fieldMaxIndex) {
                 clearNotification();
                 // check if one of the inputs is empty
+                bool pass = true;
+
                 for (string s : input) {
                     if (s.empty()) {
                         displayNotification("Hay dien day du thong tin.", RED);
-                        continue;
+                        pass = false;
+                        break;
                     }
+                }
+                if (!pass) {
+                    index = 0;
+                    count = input[index].length();
+                    printInsertLTCField(index, input[index]);
+                    continue;
                 }
 
                 // check fields
@@ -345,6 +381,25 @@ int editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     // check mamh
                     displayNotification("Ma mon hoc khong ton tai.", RED);
                     index = 0;
+                    count = input[index].length();
+                    printInsertLTCField(index, input[index]);
+
+                    continue;
+                } else if (!regex_match(input[1], NIEN_KHOA_REGEX)) {
+                    displayNotification(
+                        "Nien khoa khong dung dinh dang (VD: 2021-2022)");
+
+                    index = 1;
+                    count = input[index].length();
+                    printInsertLTCField(index, input[index]);
+
+                    continue;
+                } else if (!checkNienKhoa(input[1])) {
+                    displayNotification(
+                        "Nien khoa khong hop le (nam truoc lon hon nam sau)");
+
+                    index = 1;
+                    count = input[index].length();
                     printInsertLTCField(index, input[index]);
 
                     continue;
@@ -353,6 +408,7 @@ int editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
                     displayNotification("So sv min > so sv max. Hay nhap lai.",
                                         RED);
                     index = 4;
+                    count = input[index].length();
                     printInsertLTCField(index, input[index]);
 
                     continue;

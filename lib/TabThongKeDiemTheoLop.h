@@ -1,6 +1,8 @@
 #ifndef TK_DIEM_LTC_H
 #define TK_DIEM_LTC_H
 
+// cau k
+
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -8,8 +10,6 @@
 #include "DangKy.h"
 #include "LTC.h"
 #include "SinhVien.h"
-#include "TabThongKeSV.h"
-#include "TabXemDSDK.h"
 #include "drawing.h"
 
 using namespace std;
@@ -178,10 +178,11 @@ int initThongKeDiemLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
             // INT8|20-21|2|1 account
             clearInfo();
             gotoxy(TABLE_X, LAST_ROW + 3);
-            cout << "BANG DIEM Lop: " << malop;
+            cout << "BANG DIEM TONG KET";
             gotoxy(TABLE_X, LAST_ROW + 4);
-            cout << "So sv: " << dsLength;
+            cout << "Lop: " << malop << ". So sv: " << dsLength;
 
+            // TODO tinh diem
             for (int i = 0; i < dsLength; i++) {
                 // get diem for list[i]
                 diem[i] = (float)i;

@@ -5,7 +5,7 @@
 #include "TabLTC.h"
 #include "TabMonHoc.h"
 #include "TabThongKeDiem.h"
-#include "TabThongKeDiemLTC.h"
+#include "TabThongKeDiemTheoLop.h"
 #include "TabThongKeSV.h"
 #include "TabXemDSDK.h"
 #include "drawing.h"

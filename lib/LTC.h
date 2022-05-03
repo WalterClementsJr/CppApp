@@ -6,6 +6,7 @@
 #include <string>
 
 #include "DangKy.h"
+#include "Helper.h"
 
 using namespace std;
 
@@ -154,7 +155,8 @@ class DsLTC {
 
     bool coMonHoc(string maMH) {
         for (int i = 0; i < count; i++) {
-            // if ((dsltc[i]->maMH == maMH) && (dsltc[i]->dsdk->getSoSVDK() > 0)) {
+            // if ((dsltc[i]->maMH == maMH) && (dsltc[i]->dsdk->getSoSVDK() >
+            // 0)) {
             if (dsltc[i]->maMH == maMH) {
                 return true;
             }
@@ -163,7 +165,6 @@ class DsLTC {
     }
 
     bool coSinhVien(string maSV) {
-        // TODO: check this
         for (int i = 0; i < count; i++) {
             if (dsltc[i]->dsdk->count > 0) {
                 if (dsltc[i]->dsdk->search(maSV)) {
@@ -252,6 +253,12 @@ class DsLTC {
             if (dsltc[i]->maMH == oldId) {
                 dsltc[i]->maMH = newId;
             }
+        }
+    }
+
+    void replaceMaSV(string oldId, string newId) {
+        for (int i = 0; i < count; i++) {
+            dsltc[i]->dsdk->replaceMaSV(oldId, newId);
         }
     }
 

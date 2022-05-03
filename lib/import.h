@@ -5,6 +5,7 @@
 #include <windows.h>
 
 #include <iostream>
+#include <regex>
 #include <string>
 
 // color values
@@ -115,5 +116,14 @@ const int NOTIF_WORD_PER_LINE = 60;
 //
 const int MAX_LTC = 10000;
 const int MAX_MH = 10000;
+
+// regex
+// INT12
+const std::regex MSMH_REGEX("[a-zA-Z]{3}\\d{2,7}");
+// 2021-2022
+const std::regex NIEN_KHOA_REGEX("\\d{4}\\-\\d{4}");
+// N18DCCN000
+const std::regex MA_SV_REGEX("\\N\\d{2}\\w{4}\\d{2,3}");
+
 
 #endif

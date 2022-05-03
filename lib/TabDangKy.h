@@ -3,6 +3,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <regex>
 #include <string>
 
 #include "DangKy.h"
@@ -78,12 +79,40 @@ void inputNkHk(string &nk, int &hk) {
         } else if (key == ENTER) {
             if (index == fieldMaxIndex) {
                 clearNotification();
+                bool pass = true;
                 // check if one of the inputs is empty
-                for (string s : input) {
-                    if (s.empty()) {
+                for (int i = 0; i < 2; i++) {
+                    if (input[i].empty()) {
                         displayNotification("Hay dien day du thong tin.", RED);
-                        continue;
+                        pass = false;
+                        break;
                     }
+                }
+                if (!pass) {
+                    index = 0;
+                    count = input[index].length();
+                    printInsertLTCField(index + 1, input[index]);
+                    continue;
+                }
+
+                if (!regex_match(input[0], NIEN_KHOA_REGEX)) {
+                    displayNotification(
+                        "Nien khoa khong dung dinh dang (VD: 2021-2022)");
+
+                    index = 0;
+                    count = input[index].length();
+                    printInsertLTCField(index + 1, input[index]);
+
+                    continue;
+                } else if (!checkNienKhoa(input[0])) {
+                    displayNotification(
+                        "Nien khoa khong hop le (nam truoc be hon nam sau)");
+
+                    index = 1;
+                    count = input[index].length();
+                    printInsertLTCField(index + 1, input[index]);
+
+                    continue;
                 }
                 nk = input[0];
                 hk = stoi(input[1]);
@@ -327,6 +356,12 @@ int initDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
             }
             // nhap nien khoa hk
             inputNkHk(nk, hk);
+
+            if (soSanhNienKhoa(nk, getSoNamTuMaSV(mssv)) > 0) {
+                displayNotification(
+                    "Sinh vien chua the dang ky cac lop trong nien khoa nay");
+                continue;
+            }
 
             xemDSChuaDK = true;
             dsltc.filterLtcTheoNkHk(list, mssv, nk, hk, dsLength,

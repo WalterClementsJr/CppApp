@@ -70,10 +70,10 @@ string inputString(string label, unsigned limit, string input = "") {
 
             if (key == KEY_LEFT) {
                 count = count <= 0 ? input.length() : (count - 1);
-                gotoxy(INSERT_X + label.length() +  count, INSERT_Y + index * 2);
+                gotoxy(INSERT_X + label.length() + count, INSERT_Y + index * 2);
             } else if (key == KEY_RIGHT) {
                 count = count >= input.length() ? 0 : (count + 1);
-                gotoxy(INSERT_X  + label.length() +  count, INSERT_Y + index * 2);
+                gotoxy(INSERT_X + label.length() + count, INSERT_Y + index * 2);
             }
         } else if (key == BACKSPACE) {
             // if input is empty
@@ -84,7 +84,7 @@ string inputString(string label, unsigned limit, string input = "") {
             count--;
 
             printInputString(label, input, limit);
-            gotoxy(INSERT_X+ label.length() + count, INSERT_Y + index * 2);
+            gotoxy(INSERT_X + label.length() + count, INSERT_Y + index * 2);
         } else if (key == ESC) {
             clearDetail();
             break;
@@ -111,5 +111,65 @@ string inputString(string label, unsigned limit, string input = "") {
     ShowCur(false);
     return "";
 }
+
+// return 0
+// return 1
+// return 2
+int soSanhNienKhoa(string nk, int nam) {
+    string s1, s2;
+    int i1, i2;
+
+    string delim = "-";
+    size_t start = 0;
+    size_t end = nk.find(delim, start);
+
+    if (end != string::npos) {
+        s1 = nk.substr(start, end - start);
+        start = end + delim.length();
+        end = nk.find(delim, start);
+    }
+    s2 = nk.substr(start, end);
+
+    i1 = stoi(s1);
+    i2 = stoi(s2);
+
+    if (nam > i2) {
+        return 2;
+    } else if (nam < i1) {
+        return -2;
+    } else if (nam == i2) {
+        return 1;
+    } else if (nam == i1) {
+        return -1;
+    }
+    return 0;
+}
+
+bool checkNienKhoa(string nk) {
+    string s1, s2;
+    int i1, i2;
+
+    string delim = "-";
+    size_t start = 0;
+    size_t end = nk.find(delim, start);
+
+    if (end != string::npos) {
+        s1 = nk.substr(start, end - start);
+        start = end + delim.length();
+        end = nk.find(delim, start);
+    }
+    s2 = nk.substr(start, end);
+
+    i1 = stoi(s1);
+    i2 = stoi(s2);
+
+    return i2 > i1;
+}
+
+int getSoNamTuMaSV(string mssv) {
+    string nam = "20" + mssv.substr(1, 2);
+    return stoi(nam);
+}
+
 
 #endif

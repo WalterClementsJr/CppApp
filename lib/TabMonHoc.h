@@ -12,14 +12,13 @@
 #include "LTC.h"
 #include "MonHoc.h"
 #include "drawing.h"
+#include "import.h"
 
 using namespace std;
 
 const string MH_FIELDS[] = {"Ma so: ", "Ten MH: ", "SLTC LT: ", "SLTC TH: "};
 
 const unsigned int MH_FIELD_LIMITS[] = {10, 50, 2, 2};
-
-const regex MSMH_REGEX("[a-zA-Z]{3}\\d{2,7}");
 
 void highlightIndex(MonHoc *list[], int index) {
     SetColor(BLACK, BLUE);
@@ -308,15 +307,20 @@ int editMonHoc(DsMonHoc &dsmh, DsLTC &dsltc, MonHoc *list[], int index_arr) {
             if (index == 3) {
                 clearNotification();
                 // check if one of the inputs is empty
+                bool pass = true;
                 for (string s : input) {
                     if (s.empty()) {
                         displayNotification("Hay dien day du thong tin.", RED);
-                        index = 0;
-                        count = input[index].length();
-                        printInsertMHField(index, input[index]);
-
-                        continue;
+                        pass = false;
+                        break;
                     }
+                }
+                if (!pass) {
+                    index = 0;
+                    count = input[index].length();
+                    printInsertMHField(index, input[index]);
+
+                    continue;
                 }
 
                 // check format
@@ -589,7 +593,7 @@ int initMHTab(DsMonHoc &dsmh, DsLTC &dsltc) {
                 dsmh.toArray(list, dsLength);
             }
 
-            index = 0;            
+            index = 0;
             loadMonHocToTable(list, dsLength, index);
             highlightIndex(list, index);
         }

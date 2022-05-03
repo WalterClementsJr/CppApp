@@ -249,14 +249,13 @@ void clearTableContent() {
 }
 
 void showPageNumber(int current, int total) {
-    clearArea(TABLE_X, LAST_ROW - 1, 20, 0);
+    clearArea(TABLE_X, LAST_ROW - 1, 20, 1);
     gotoxy(TABLE_X, LAST_ROW - 1);
     cout << "Page " << ++current << "/" << ++total;
 }
 
 void showNote(string note) {
-    gotoxy(TABLE_X + 40, LAST_ROW - 1);
-    cout << string(20, ' ');
+    clearArea(TABLE_X + 40, LAST_ROW - 1, 20, 1);
 
     SetColor(BLACK, GREEN);
     gotoxy(TABLE_X + 40, LAST_ROW - 1);
@@ -364,10 +363,11 @@ void drawSelectedTab(int index) {
     SetTextColor(WHITE);
     drawRow(tabx, taby + rong, space * 4);
 
-    const string tabName[] = {"DS Mon Hoc",   "DS LTC",       "DSSV",
-                              "Dang ky LTC",  "In DSDK",      "TK/nhap diem LTC",
-                              "TK SV lop", "TK diem", "Thong ke (j)",
-                              "Thong ke (k)", "Thong ke (l)", "Thong ke (?)"};
+    const string tabName[] = {
+        "DS Mon Hoc",   "DS LTC",          "DSSV",
+        "Dang ky LTC",  "In DSDK",         "TK/nhap diem LTC",
+        "TK SV lop",    "TK dtb khoa hoc", "TK diem cac mon",
+        "Thong ke (?)", "Thong ke (?)",    "Thong ke (?)"};
     const string shortcut[] = {"F1", "F2", "F3", "F4",  "F5",  "F6",
                                "F7", "F8", "F9", "F10", "F11", "F12"};
 

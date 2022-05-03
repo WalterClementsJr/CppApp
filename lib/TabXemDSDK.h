@@ -65,7 +65,7 @@ string inputThongTinLop(DsMonHoc dsmh) {
 
             input[index].erase(count - 1, 1);
             count--;
-            
+
             printInsertLTCField(index, input[index]);
             gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
                    INSERT_Y + index * 2);
@@ -76,11 +76,19 @@ string inputThongTinLop(DsMonHoc dsmh) {
             if (index == fieldMaxIndex) {
                 clearNotification();
                 // check if one of the inputs is empty
+                bool pass = true;
                 for (string s : input) {
                     if (s.empty()) {
                         displayNotification("Hay dien day du thong tin.", RED);
-                        continue;
+                        pass = false;
+                        break;
                     }
+                }
+                if (!pass) {
+                    index = 0;
+                    count = input[index].length();
+                    printInsertLTCField(index, input[index]);
+                    continue;
                 }
 
                 if (dsmh.search(input[0]) == NULL) {
