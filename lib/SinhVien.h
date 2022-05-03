@@ -64,9 +64,11 @@ class DSSV {
                     string soDT, string maLop);
     int insertOrder(string maSV, string ho, string ten, string phai,
                     string soDT, string maLop);
+    int xoa(string mssv);
     PTRSinhVien search(string maSV);
     int ghiFile();
     int docFile();
+    void toArray(SinhVien *list[], int &dsLength);
     void filterSinhVienTheoMaLop(SinhVien *list[], int &dsLength, string maLop);
 };
 
@@ -131,6 +133,40 @@ int DSSV::insertOrder(string maSV, string ho, string ten, string phai,
     return 1;
 }
 
+int DSSV::xoa(string mssv) {
+    if (First == NULL) {
+        return 0;
+    } else if (First->sinhVien.maSV == mssv) {
+        NodeSinhVien *current = First;
+        First = First->next;
+        delete current;
+        dem--;
+        return 1;
+    }
+
+    NodeSinhVien *current = First->next;
+    NodeSinhVien *prev = First;
+    bool found = false;
+
+    while (current != NULL) {
+        if (current->sinhVien.maSV == mssv) {
+            found = true;
+            break;
+        }
+        prev = current;
+        current = current->next;
+    }
+    if (found) {
+        prev->next = current->next;
+        delete current;
+        dem--;
+
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 PTRSinhVien DSSV::search(string maSV) {
     for (PTRSinhVien p = First; p != NULL; p = p->next) {
         if (p->sinhVien.maSV == maSV) {
@@ -192,6 +228,13 @@ int DSSV::docFile() {
     return 1;
 }
 
+void DSSV::toArray(SinhVien *list[], int &len) {
+    len = 0;
+
+    for (NodeSinhVien *p = First; p != NULL; p = p->next) {
+        list[len++] = &p->sinhVien;
+    }
+}
 void DSSV::filterSinhVienTheoMaLop(SinhVien *list[], int &listLength,
                                    string maLop) {
     listLength = 0;
