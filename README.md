@@ -8,7 +8,7 @@
 g++ -Wall $project_path/main/main.cpp -I $project_path/lib -o $project_path/build/main.exe
 ```
 
-with project path as path to the folder
+with `$project_path` as path to the folder
 
 ## Run
 
