@@ -69,7 +69,7 @@ class DsLTC {
     int currentMax;
 
    public:
-    LTC *dsltc[DSLTC_MAX];
+    LTC **dsltc = new LTC*[DSLTC_MAX];
     int count;
 
     DsLTC() {
@@ -81,7 +81,7 @@ class DsLTC {
         for (int i = 0; i < count; i++) {
             delete dsltc[i];
         }
-        count = 0;
+        delete [] dsltc;
     }
 
     bool isEmpty() { return count == 0; }
@@ -336,8 +336,7 @@ class DsLTC {
         return soDiem / soTC;
     }
 
-    void thongKeDiemMonHocTheoMSSV(DsMonHoc dsmh, string mssv, MonHoc *list[],
-                                   float *diem, int &len) {
+    void thongKeDiemMonHocTheoMSSV(DsMonHoc dsmh, string mssv, MonHoc *list[], float *diem, int &len) {
         len = 0;
         for (int i = 0; i < count; i++) {
             DangKy *dk = dsltc[i]->dsdk->search(mssv);
@@ -389,16 +388,19 @@ void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
 }
 
 void testDSLTC(DsLTC &dsltc) {
+    // dsltc.read();
     dsltc.print();
 
     // dsltc.insert("INT2", "22-23", 2, 1, 12, 100, 0, -1);
     // dsltc.insert("INT3", "22-23", 2, 1, 1, 100, 0, -1);
     // dsltc.insert("INT0", "20-21", 2, 1, 1, 100, true, -1);
     // dsltc.insert("INT1", "20-21", 2, 1, 1, 123, 0, -1);
-    // LTC *ltc = dsltc.search("INT022-2321");
-    dsltc.replaceMaMH("INT8", "AAA12");
-
     dsltc.print();
+
+    // LTC *ltc = dsltc.search("INT022-2321");
+    // dsltc.replaceMaMH("INT8", "AAA12");
+
+    // dsltc.print();
 
     // dsltc.write();
 }
