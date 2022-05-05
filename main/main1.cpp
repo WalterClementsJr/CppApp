@@ -28,13 +28,25 @@ int main() {
     DsLTC dsltc;
     dsltc.read();
     // testDSLTC(dsltc);
+    // MonHoc *list[1000];
+    // float *diem = new float[1000];
+    // int len = 0;
+    // dsltc.thongKeDiemMonHocTheoMSSV(dsmh, "N18DCCN214", list, diem, len);
+    // printTKDiemMH(list, diem, len);
+    // dsltc.thongKeDiemMonHocTheoMSSV(dsmh, "N18DCCN212", list, diem, len);
+    // printTKDiemMH(list, diem, len);
+    // dsltc.thongKeDiemMonHocTheoMSSV(dsmh, "N18DCCN214", list, diem, len);
+    // printTKDiemMH(list, diem, len);
+    // dsltc.thongKeDiemMonHocTheoMSSV(dsmh, "N18DCCN212", list, diem, len);
+    // printTKDiemMH(list, diem, len);
+    // delete[] diem;
 
     // initMHTab(dsmh, dsltc);
-    initSVTab(dssv, dsltc);
+    // initSVTab(dssv, dsltc);
     // initLTCTab(dsmh, dssv, dsltc);
     // initDKTab(dsmh, dssv, dsltc);
 
-    // initThongKeSVTab(dssv);
+    initThongKeSVTab(dsmh, dssv, dsltc);
     // initLTCTab(dsmh, dssv, dsltc);
     // initXemDSDKTab(dsmh, dssv, dsltc);
     // initThongKeDiemTab(dsmh, dssv, dsltc);
