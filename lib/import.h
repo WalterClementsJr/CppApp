@@ -86,10 +86,12 @@
 #define D_THANH_NGANG 205
 #define D_THANH_DOC 186
 
+
 // size line
 #define colTabSize 38
 #define rowTabSize 100
 
+const int TAB_HEADER_WIDTH = 17;
 // UI limit
 const int UI_LIMIT_X = 170;
 const int UI_LIMIT_Y = 55;
@@ -127,4 +129,10 @@ const std::regex MA_SV_REGEX("[N]\\d{2}\\w{4}\\d{3}");
 // D00AAAA00
 const std::regex MA_LOP_REGEX("[D]\\d{2}\\w{4}\\d{2}");
 
+const std::string TAB_NAME[] = {
+    "DSMH", "DS LTC", "DSSV",
+    "Dang ky LTC", "In DSDK", "QL Diem LTC",
+    "TK SV lop", "TK DTB khoa", "TK Mon Hoc"};
+
+const std::string TAB_SHORTCUT[] = {"F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"};
 #endif

@@ -598,7 +598,7 @@ int initLTCTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
 
                 if (key == KEY_F1 || key == KEY_F2 || key == KEY_F4 ||
                     key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
-                    key == KEY_F8) {
+                    key == KEY_F8 || key == KEY_F9) {
                     return key;
                 } else if (key == ALT_F4) {
                     clearTab();

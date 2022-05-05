@@ -297,37 +297,30 @@ void clearTab() {
 }
 
 void drawTab(int x, int y, string title, string key, bool selected = false) {
-    int dai = 20, rong = 2;
-    SetTextColor(WHITE);
+    SetColor();
+    int rong = 2;
 
     gotoxy(x, y);
     cout << char(GOC_TREN_TRAI);
-    gotoxy(x + dai, y);
+    gotoxy(x + TAB_HEADER_WIDTH - 1, y);
     cout << char(GOC_TREN_PHAI);
 
     if (selected) {
         gotoxy(x, y + rong);
         cout << char(GOC_DUOI_PHAI);
-        gotoxy(x + dai, y + rong);
+        gotoxy(x + TAB_HEADER_WIDTH - 1, y + rong);
         cout << char(GOC_DUOI_TRAI);
 
         SetColor();
         gotoxy(x + 1, y + 1);
         cout << title;
-        SetColor();
+        // SetColor();
         // cột ngang
-        for (int i = x + 1; i <= x + dai - 1; i++) {
+        for (int i = x + 1; i < x + TAB_HEADER_WIDTH - 1; i++) {
             gotoxy(i, y);
             cout << char(THANH_NGANG);
             gotoxy(i, y + rong);
             cout << " ";
-        }
-        // cột dọc
-        for (int i = y + 1; i <= y + rong - 1; i++) {
-            gotoxy(x, i);
-            cout << char(THANH_DOC);
-            gotoxy(x + dai, i);
-            cout << char(THANH_DOC);
         }
     } else {
         SetColor(BLACK, DARKWHITE);
@@ -335,45 +328,37 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
         cout << title;
         SetColor();
 
-        for (int i = x + 1; i <= x + dai - 1; i++) {
+        for (int i = x + 1; i < x + TAB_HEADER_WIDTH - 1; i++) {
             gotoxy(i, y);
             cout << char(THANH_NGANG);
             gotoxy(i, y + rong);
             cout << char(THANH_NGANG);
         }
-        for (int i = y + 1; i <= y + rong - 1; i++) {
-            gotoxy(x, i);
-            cout << char(THANH_DOC);
-            gotoxy(x + dai, i);
-            cout << char(THANH_DOC);
-        }
+    }
+    // cột dọc
+    for (int i = y + 1; i <= y + rong - 1; i++) {
+        gotoxy(x, i);
+        cout << char(THANH_DOC);
+        gotoxy(x + TAB_HEADER_WIDTH - 1, i);
+        cout << char(THANH_DOC);
     }
 
-    gotoxy(x + dai - 2, y + 1);
-    SetColor(BLACK, GREEN);
+    gotoxy(x + TAB_HEADER_WIDTH - 3, y + 1);
+    SetColor(BLACK, DARKGREEN);
     cout << key;
     SetColor();
 }
 
 void drawSelectedTab(int index) {
-    int space = 16;
     int tabx = 3, taby = 7;
     int rong = 2;
 
-    SetTextColor(WHITE);
-    drawRow(tabx, taby + rong, space * 4);
+    SetColor();
+    drawRow(tabx, taby + rong, TAB_HEADER_WIDTH * 8);
 
-    const string tabName[] = {
-        "DS Mon Hoc",   "DS LTC",          "DSSV",
-        "Dang ky LTC",  "In DSDK",         "TK/nhap diem LTC",
-        "TK SV lop",    "TK dtb khoa hoc", "TK diem cac mon",
-        "Thong ke (?)", "Thong ke (?)",    "Thong ke (?)"};
-    const string shortcut[] = {"F1", "F2", "F3", "F4",  "F5",  "F6",
-                               "F7", "F8", "F9", "F10", "F11", "F12"};
-
-    for (unsigned int i = 0; i < sizeof(tabName) / sizeof(tabName[0]); i++) {
-        drawTab(tabx + space * i, taby, tabName[i], shortcut[i],
-                (i == (unsigned)index));
+    unsigned nOfTabs = sizeof(TAB_NAME) / sizeof(TAB_NAME[0]);
+    for (unsigned i = 0; i < nOfTabs; i++) {
+        drawTab(tabx + TAB_HEADER_WIDTH * i, taby, TAB_NAME[i], TAB_SHORTCUT[i], (i == (unsigned)index));
     }
 }
 
