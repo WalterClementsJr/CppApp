@@ -267,7 +267,7 @@ class DsLTC {
     // loc cac ltc theo nien khoa, hoc ky
     // status 0: loc cac ltc sv da dk
     // status 1: loc cac ltc sv da huy dk
-    // status 2: loc cac ltc sv co the dk/da huy dk
+    // status 2: loc cac ltc sv co the dk/da huy dk (k dc trung nien khoa + hk)
     void filterLtcTheoNkHk(LTC *list[], string mssv, string nk, int hk,
                            int &len, int status) {
         len = 0;
@@ -282,12 +282,29 @@ class DsLTC {
                         list[len++] = dsltc[i];
                     }
                 } else if (status == 1) {
-                    // add to array ds canceled dk
+                    // ds đã hủy đk
                     if (dk && dk->huy) {
                         list[len++] = dsltc[i];
                     }
                 } else if (status == 2) {
                     // ds có thể dk
+                    // tìm ds ltc đã đk để lọc ra các lớp cùng nk - hk
+                    LTC *dkList[100];
+                    int dkListLength = 0;
+                    filterLtcTheoNkHk(dkList, mssv, nk, hk, dkListLength, 0);
+
+                    // check nk + hk
+                    bool found = false;
+                    for (int j = 0; j < dkListLength; j++) {
+                        if (dsltc[i]->maMH == dsltc[j]->maMH &&
+                            dsltc[i]->nienKhoa == nk && dsltc[i]->hocKy == hk) {
+                            found = true;
+                        }
+                    }
+                    if (found) {
+                        continue;
+                    }
+
                     if (sosv >= dsltc[i]->max) {
                         continue;
                     }
@@ -318,7 +335,43 @@ class DsLTC {
 
         return soDiem / soTC;
     }
+
+    void thongKeDiemMonHocTheoMSSV(DsMonHoc dsmh, string mssv, MonHoc *list[],
+                                   float *diem, int &len) {
+        len = 0;
+        for (int i = 0; i < count; i++) {
+            DangKy *dk = dsltc[i]->dsdk->search(mssv);
+
+            if (dk) {
+                string mamh = dsltc[i]->maMH;
+                bool coMH = false;
+
+                for (int j = 0; j < len; j++) {
+                    if (list[j]->ms == mamh) {
+                        coMH = true;
+                        diem[j] = diem[j] > dk->diem ? diem[j] : dk->diem;
+                    }
+                }
+                if (!coMH) {
+                    MonHoc *mh = dsmh.search(dsltc[i]->maMH);
+                    if (mh) {
+                        list[len] = mh;
+                        diem[len] = dk->diem;
+                        len++;
+                    }
+                }
+            }
+        }
+    }
 };
+
+void printTKDiemMH(MonHoc *list[], float *diem, int len) {
+    cout << "\n\tPrint thong ke diem mh\n";
+    for (int i = 0; i < len; i++) {
+        cout << i + 1 << " - " << list[i]->ms << " - " << list[i]->ten << " - "
+             << diem[i] << endl;
+    }
+}
 
 void testDSLTC(DsLTC &ds, DsDangKy &dsdk) {
     // ds.insert("INT2", "21-22", 2, 1, 1, 100, 0, -1);

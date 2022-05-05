@@ -123,7 +123,8 @@ const std::regex MSMH_REGEX("[a-zA-Z]{3}\\d{1,7}");
 // 2021-2022
 const std::regex NIEN_KHOA_REGEX("\\d{4}\\-\\d{4}");
 // N18DCCN000
-const std::regex MA_SV_REGEX("\\N\\d{2}\\w{4}\\d{2,3}");
-
+const std::regex MA_SV_REGEX("[N]\\d{2}\\w{4}\\d{3}");
+// D00AAAA00
+const std::regex MA_LOP_REGEX("[D]\\d{2}\\w{4}\\d{2}");
 
 #endif

@@ -103,7 +103,7 @@ int DsDangKy::insertOrder(string maSV, float diem, bool huy) {
     while (current != NULL) {
         if (current->dk.maSV == maSV) {
             // set huy
-            current->dk.huy = false;
+            current->dk.huy = huy;
             // current->dk.diem = diem;
 
             return 2;
