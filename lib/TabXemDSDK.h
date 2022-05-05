@@ -36,7 +36,7 @@ string inputThongTinLop(DsMonHoc dsmh) {
         key = _getch();
 
         // catch special input first
-        if (key == 224 || key == 0) {
+        if (key == 0 || key == 224) {
             key = _getch();
             if (key == KEY_UP) {
                 index = index <= 0 ? fieldMaxIndex : index - 1;
@@ -166,7 +166,7 @@ void highlightIndex(DangKy *list[], string *hoten, int index) {
 }
 
 void dehighlightIndex(DangKy *list[], string *hoten, int index) {
-    SetColor(BLACK, WHITE);
+    SetColor();
     ShowCur(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);

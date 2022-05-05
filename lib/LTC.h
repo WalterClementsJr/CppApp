@@ -342,7 +342,7 @@ class DsLTC {
         for (int i = 0; i < count; i++) {
             DangKy *dk = dsltc[i]->dsdk->search(mssv);
 
-            if (dk) {
+            if (dk && !dk->huy) {
                 string mamh = dsltc[i]->maMH;
                 bool coMH = false;
 

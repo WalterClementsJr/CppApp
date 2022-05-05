@@ -65,7 +65,7 @@ string inputString(string label, unsigned limit, string input = "") {
         key = _getch();
 
         // catch special input first
-        if (key == 224 || key == 0) {
+        if (key == 0 || key == 224) {
             key = _getch();
 
             if (key == KEY_LEFT) {

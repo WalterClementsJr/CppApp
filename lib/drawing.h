@@ -311,7 +311,7 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
         gotoxy(x + dai, y + rong);
         cout << char(GOC_DUOI_TRAI);
 
-        SetColor(BLACK, WHITE);
+        SetColor();
         gotoxy(x + 1, y + 1);
         cout << title;
         SetColor();

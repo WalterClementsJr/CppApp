@@ -27,7 +27,7 @@ void highlightIndex(SinhVien *list[], float *diem, int index) {
 }
 
 void dehighlightIndex(SinhVien *list[], float *diem, int index) {
-    SetColor(BLACK, WHITE);
+    SetColor();
     ShowCur(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);

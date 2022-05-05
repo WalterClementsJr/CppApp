@@ -12,7 +12,7 @@ using namespace std;
 
 class MonHocQueue {
    private:
-    static const int MAX_SIZE = 5000;
+    static const int MAX_SIZE = 1000;
     NodeMonHoc *list[MAX_SIZE];
     int mFront, mRear;
 

@@ -40,7 +40,7 @@ void highlightIndex(LTC *list[], int index) {
 }
 
 void dehighlightIndex(LTC *list[], int index) {
-    SetColor(BLACK, WHITE);
+    SetColor();
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
@@ -117,7 +117,7 @@ int insertLTC(DsLTC &dsltc, DsMonHoc dsmh) {
         key = _getch();
 
         // catch special input first
-        if (key == 224 || key == 0) {
+        if (key == 0 || key == 224) {
             key = _getch();
             if (key == KEY_UP) {
                 index = index <= 0 ? fieldMaxIndex : index - 1;
@@ -323,7 +323,7 @@ int editLTC(DsLTC &dsltc, DsMonHoc dsmh, LTC *ltc) {
         key = _getch();
 
         // catch special input first
-        if (key == 224 || key == 0) {
+        if (key == 0 || key == 224) {
             key = _getch();
             if (key == KEY_UP) {
                 index = index <= 0 ? fieldMaxIndex : index - 1;

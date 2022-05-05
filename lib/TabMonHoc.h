@@ -33,7 +33,7 @@ void highlightIndex(MonHoc *list[], int index) {
 }
 
 void dehighlightIndex(MonHoc *list[], int index) {
-    SetColor(BLACK, WHITE);
+    SetColor();
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
@@ -51,6 +51,7 @@ void loadMonHocToTable(MonHoc *list[], int length, int index) {
     if (length == 0) {
         return;
     }
+    index = index / MAX_TABLE_ROW * MAX_TABLE_ROW;
 
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
@@ -109,7 +110,7 @@ int insertMonHoc(DsMonHoc &dsmh) {
         key = _getch();
 
         // catch special input first
-        if (key == 224 || key == 0) {
+        if (key == 0 || key == 224) {
             key = _getch();
             // left/right: move while editing text, up/down: move between lines
             if (key == KEY_UP) {
@@ -278,7 +279,7 @@ int editMonHoc(DsMonHoc &dsmh, DsLTC &dsltc, MonHoc *list[], int index_arr) {
         key = _getch();
 
         // catch special input first
-        if (key == 224 || key == 0) {
+        if (key == 0 || key == 224) {
             key = _getch();
             if (key == KEY_UP) {
                 index = index <= 0 ? 3 : index - 1;
@@ -557,7 +558,7 @@ int initMHTab(DsMonHoc &dsmh, DsLTC &dsltc) {
                         continue;
                     }
 
-                    index = 0;
+                    // index = 0;
                     loadMonHocToTable(list, dsLength, index);
                     highlightIndex(list, index);
                 } else if (key == DEL) {
@@ -597,12 +598,12 @@ int initMHTab(DsMonHoc &dsmh, DsLTC &dsltc) {
             if (dsLength == 0) {
                 continue;
             }
-            // edit row
+
             if (editMonHoc(dsmh, dsltc, list, index)) {
                 dsmh.toArray(list, dsLength);
             }
 
-            index = 0;
+            // index = 0;
             loadMonHocToTable(list, dsLength, index);
             highlightIndex(list, index);
         }

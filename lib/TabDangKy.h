@@ -40,7 +40,7 @@ void inputNkHk(string &nk, int &hk) {
         key = _getch();
 
         // catch special input first
-        if (key == 224 || key == 0) {
+        if (key == 0 || key == 224) {
             key = _getch();
             if (key == KEY_UP) {
                 index = index <= 0 ? fieldMaxIndex : index - 1;
@@ -457,6 +457,7 @@ int initDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
             }
         }
     }
+    delete[] tenMH;
     return 0;
 }
 
