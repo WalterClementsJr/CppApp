@@ -36,7 +36,7 @@ void loadTkDiemToTable(MonHoc *list[], float *diem, int len, int index) {
     }
 }
 
-void xemBangDiem(DsMonHoc dsmh, DsLTC dsltc, SinhVien *sv) {
+void xemBangDiem(DsMonHoc &dsmh, DsLTC &dsltc, SinhVien *sv) {
     SetColor();
     clearTable();
 
@@ -56,7 +56,7 @@ void xemBangDiem(DsMonHoc dsmh, DsLTC dsltc, SinhVien *sv) {
     gotoxy(TABLE_X, LAST_ROW + 4);
     cout << "Ho ten: " << sv->ho << " " << sv->ten;
 
-    MonHoc *list[1000];
+    // MonHoc *list[1000];
     float *diem = new float[1000];
 
     // int key;
@@ -174,7 +174,7 @@ void loadSinhVienToTable(SinhVien *list[], int length, int index) {
     }
 }
 
-int initThongKeSVTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
+int initThongKeSVTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     clearTable();
     SetColor();
 
@@ -217,7 +217,7 @@ int initThongKeSVTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
         if (key == 0 || key == 224) {
             if (key == 0) {
                 key = _getch();
-                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F4 ||
+                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F3 || key == KEY_F4 ||
                     key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
                     key == KEY_F8 || key == KEY_F9) {
                     return key;
@@ -325,8 +325,7 @@ int initThongKeSVTab(DsMonHoc dsmh, DSSV dssv, DsLTC dsltc) {
             int _currentPage, _nPage;
             int _len = 0;
 
-            dsltc.thongKeDiemMonHocTheoMSSV(dsmh, list[index]->maSV, listMh,
-                                            listDiem, _len);
+            dsltc.thongKeDiemMonHocTheoMSSV(dsmh, list[index]->maSV, listMh, listDiem, _len);
 
             // for (int i = 0; i < 10; i++) {
             //     gotoxy(TABLE_X, TABLE_Y + 1 + i * 2);

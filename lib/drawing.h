@@ -366,9 +366,10 @@ int showConfirmDialog(string message, int color = RED) {
     displayNotification(message, color);
     ShowCur(true);
 
-    int key = _getch();
+    int key;
 
     while (true) {
+        key = _getch();
         if (key == 0 || key == 224) {
             _getch();
         } else if (key == 'y' || key == 'Y') {
@@ -377,8 +378,6 @@ int showConfirmDialog(string message, int color = RED) {
         } else if (key == 'n' || key == 'N') {
             ShowCur(false);
             return 0;
-        } else {
-            key = _getch();
         }
     }
 }

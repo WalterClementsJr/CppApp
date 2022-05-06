@@ -131,8 +131,8 @@ const std::regex MA_LOP_REGEX("[D]\\d{2}\\w{4}\\d{2}");
 
 const std::string TAB_NAME[] = {
     "DSMH", "DS LTC", "DSSV",
-    "Dang ky LTC", "In DSDK", "QL Diem LTC",
-    "TK SV lop", "TK DTB khoa", "TK Mon Hoc"};
+    "Dang ky LTC", "In DSDK", "QL Diem LTC (j)",
+    "TK SV lop", "TK DTB khoa"};
 
-const std::string TAB_SHORTCUT[] = {"F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"};
+const std::string TAB_SHORTCUT[] = {"F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"};
 #endif

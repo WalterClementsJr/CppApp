@@ -12,7 +12,7 @@
 #include "TabLTC.h"
 #include "drawing.h"
 
-string inputThongTinLop(DsMonHoc dsmh) {
+string inputThongTinLop(DsMonHoc &dsmh) {
     SetColor();
 
     string input[] = {"", "", "", ""};
@@ -195,7 +195,7 @@ void loadDSDKToTable(DangKy *list[], string *hoten, int length, int index) {
     }
 }
 
-int initXemDSDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
+int initXemDSDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     clearTable();
     SetColor();
 
@@ -231,7 +231,7 @@ int initXemDSDKTab(DsMonHoc dsmh, DSSV dssv, DsLTC &dsltc) {
             if (key == 0) {
                 key = _getch();
                 // change tab keys
-                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F4 ||
+                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F3 || key == KEY_F4 ||
                     key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
                     key == KEY_F8 || key == KEY_F9) {
                     delete[] hoten;

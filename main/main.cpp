@@ -1,10 +1,14 @@
 #include "LTC.h"
 #include "MonHoc.h"
 #include "SinhVien.h"
+#include "TabDangKy.h"
 #include "TabLTC.h"
 #include "TabMonHoc.h"
+#include "TabSinhVien.h"
 #include "TabThongKeDiem.h"
+#include "TabThongKeDiemTheoLop.h"
 #include "TabThongKeSV.h"
+#include "TabXemDSDK.h"
 #include "drawing.h"
 #include "import.h"
 
@@ -12,12 +16,10 @@ using namespace std;
 
 int main() {
     initUI();
-    drawSelectedTab(0);
 
     // declare data structures and load data
-    // TODO: also do the same for everything else here, or in switch cases
     DsMonHoc dsmh;
-    // dsmh.read();
+    dsmh.read();
 
     DSSV dssv;
     dssv.docFile();
@@ -26,45 +28,55 @@ int main() {
     dsltc.read();
 
     // start first tab: MonHoc
+    drawSelectedTab(0);
     int key = initMHTab(dsmh, dsltc);
 
-    while (key != ESC) {
-        // TODO: put other tab in here
-        switch (key) {
-            case KEY_F2:
-                drawSelectedTab(1);
-                initLTCTab(dsmh, dssv, dsltc);
-                break;
-            case KEY_F3:
-                drawSelectedTab(2);
-                break;
-            case KEY_F4:
-                drawSelectedTab(3);
-                break;
-            case KEY_F5:
-                drawSelectedTab(4);
-                initThongKeSVTab(dssv);
-                break;
-            case KEY_F6:
-                drawSelectedTab(5);
-                initThongKeDiemTab(dsmh, dssv, dsltc);
-                break;
-            case KEY_F7:
-                drawSelectedTab(6);
-                break;
-            case KEY_F8:
-                drawSelectedTab(7);
-                break;
-            case ESC:
-                drawSelectedTab(0);
-                initMHTab(dsmh, dsltc);
-                break;
+    while (true) {
+        if (key == KEY_F1) {
+            drawSelectedTab(0);
+            key = initMHTab(dsmh, dsltc);
+        } else if (key == KEY_F2) {
+            drawSelectedTab(1);
+            key = initLTCTab(dsmh, dssv, dsltc);
+        } else if (key == KEY_F3) {
+            drawSelectedTab(2);
+            key = initSVTab(dssv, dsltc);
+        } else if (key == KEY_F4) {
+            drawSelectedTab(3);
+            key = initDKTab(dsmh, dssv, dsltc);
+        } else if (key == KEY_F5) {
+            drawSelectedTab(4);
+            key = initXemDSDKTab(dsmh, dssv, dsltc);
+        } else if (key == KEY_F6) {
+            drawSelectedTab(5);
+            key = initThongKeDiemTab(dsmh, dssv, dsltc);
+        } else if (key == KEY_F7) {
+            drawSelectedTab(6);
+            key = initThongKeSVTab(dsmh, dssv, dsltc);
+        } else if (key == KEY_F8) {
+            drawSelectedTab(7);
+            key = initThongKeDiemTheoLopTab(dsmh, dssv, dsltc);
+        } else if (ALT_F4) {
+            SetColor();
+            return 0;
+        } else {
+            drawSelectedTab(0);
+            key = initMHTab(dsmh, dsltc);
         }
-
-        // TODO: remove these 2 lines
-        drawSelectedTab(0);
-        key = initMHTab(dsmh, dsltc);
     }
+
+    SetColor();
+    return 0;
+}
+
+int main1() {
+    initUI();
+
+    // start first tab: MonHoc
+    drawSelectedTab(0);
+    drawSelectedTab(4);
+    drawSelectedTab(7);
+
     SetColor();
     return 0;
 }

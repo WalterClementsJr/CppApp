@@ -488,7 +488,7 @@ int initMHTab(DsMonHoc &dsmh, DsLTC &dsltc) {
             if (key == 0) {
                 key = _getch();
                 // change tab keys
-                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F4 ||
+                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F3 || key == KEY_F4 ||
                     key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
                     key == KEY_F8 || key == KEY_F9) {
                     return key;
