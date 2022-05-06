@@ -65,11 +65,11 @@ struct LTC {
 };
 
 class DsLTC {
-   private:
+private:
     int currentMax;
 
-   public:
-    LTC **dsltc = new LTC*[DSLTC_MAX];
+public:
+    LTC **dsltc = new LTC *[DSLTC_MAX];
     int count;
 
     DsLTC() {
@@ -81,7 +81,7 @@ class DsLTC {
         for (int i = 0; i < count; i++) {
             delete dsltc[i];
         }
-        delete [] dsltc;
+        delete[] dsltc;
     }
 
     bool isEmpty() { return count == 0; }
@@ -316,27 +316,40 @@ class DsLTC {
         }
     }
 
-    float getDtbCuaSV(DsMonHoc dsmh, string maSV) {
+    float getDtbCuaSV(DsMonHoc &dsmh, string mssv) {
+        MonHoc *list[1000];
+        float *diem = new float[1000];
+        int len = 0;
+
+        thongKeDiemMonHocTheoMSSV(dsmh, mssv, list, diem, len);
+
         float soDiem = 0;
         int soTC = 0;
 
-        for (int i = 0; i < count; i++) {
-            DangKy *dk = dsltc[i]->dsdk->search(maSV);
-
-            if (dk) {
-                MonHoc *mh = dsmh.search(dsltc[i]->maMH);
-                if (mh) {
-                    soDiem += dk->diem * (mh->sltclt + mh->sltcth);
-                    soTC += mh->sltclt + mh->sltcth;
-                }
-            }
+        for (int i = 0; i < len; i++) {
+            soDiem += diem[i] * (list[i]->sltclt + list[i]->sltcth);
+            soTC += list[i]->sltclt + list[i]->sltcth;
         }
+
+        // for (int i = 0; i < count; i++) {
+        //     DangKy *dk = dsltc[i]->dsdk->search(mssv);
+
+        //     if (dk) {
+        //         MonHoc *mh = dsmh.search(dsltc[i]->maMH);
+        //         if (mh) {
+        //             soDiem += dk->diem * (mh->sltclt + mh->sltcth);
+        //             soTC += mh->sltclt + mh->sltcth;
+        //         }
+        //     }
+        // }
+
         if (soTC == 0) return 0;
+        delete[] diem;
 
         return soDiem / soTC;
     }
 
-    void thongKeDiemMonHocTheoMSSV(DsMonHoc dsmh, string mssv, MonHoc *list[], float *diem, int &len) {
+    void thongKeDiemMonHocTheoMSSV(DsMonHoc &dsmh, string mssv, MonHoc *list[], float *diem, int &len) {
         len = 0;
         for (int i = 0; i < count; i++) {
             DangKy *dk = dsltc[i]->dsdk->search(mssv);
