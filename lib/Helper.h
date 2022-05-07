@@ -147,7 +147,6 @@ int soSanhNienKhoa(string nk, int nam) {
 
 bool checkNienKhoa(string nk) {
     string s1, s2;
-    int i1, i2;
 
     string delim = "-";
     size_t start = 0;
@@ -160,8 +159,8 @@ bool checkNienKhoa(string nk) {
     }
     s2 = nk.substr(start, end);
 
-    i1 = stoi(s1);
-    i2 = stoi(s2);
+    int i1 = stoi(s1);
+    int i2 = stoi(s2);
 
     return i2 > i1;
 }

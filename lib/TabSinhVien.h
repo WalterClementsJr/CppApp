@@ -51,6 +51,9 @@ void loadSVToTable(SinhVien *list[], int length, int index) {
     ShowCur(false);
     clearTableContent();
 
+    if (length == 0) {
+        return;
+    }
     index = index / MAX_TABLE_ROW * MAX_TABLE_ROW;
 
     int x = TABLE_X, y = TABLE_Y + 2;
@@ -88,6 +91,8 @@ void printInsertSVField(int index, string input) {
 }
 
 int insertSV(DSSV &dssv) {
+    clearDetail();
+
     SetColor();
     gotoxy(INSERT_X, INSERT_Y - 1);
     cout << "THEM SINH VIEN";
@@ -296,6 +301,8 @@ int insertSV(DSSV &dssv) {
 }
 
 int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
+    clearDetail();
+
     SetColor();
     gotoxy(INSERT_X, INSERT_Y - 1);
     cout << "THEM SINH VIEN";
@@ -526,9 +533,7 @@ int initSVTab(DSSV &dssv, DsLTC &dsltc) {
             if (key == 0) {
                 key = _getch();
                 // change tab keys
-                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F3 || key == KEY_F4 ||
-                    key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
-                    key == KEY_F8 || key == KEY_F9) {
+                if (key >= KEY_F1 && key <= KEY_F8) {
                     return key;
                 } else if (key == ALT_F4) {
                     clearTab();

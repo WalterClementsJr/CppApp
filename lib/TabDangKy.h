@@ -190,6 +190,7 @@ void loadThongTinLTCToTable(LTC *list[], string *tenMH, int length, int index) {
     if (length == 0) {
         return;
     }
+    index = index / MAX_TABLE_ROW * MAX_TABLE_ROW;
 
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
@@ -256,23 +257,18 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
 
         key = _getch();
-        // special keys
-        if (key == 0 || key == 224) {
-            // "0" keys
-            if (key == 0) {
-                if (key == 0) {
-                    key = _getch();
-                    if (key == KEY_F1 || key == KEY_F2 || key == KEY_F3 || key == KEY_F4 ||
-                        key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
-                        key == KEY_F8 || key == KEY_F9) {
-                        delete[] tenMH;
 
-                        return key;
-                    } else if (key == ALT_F4) {
-                        clearTab();
-                        delete[] tenMH;
-                        return ALT_F4;
-                    }
+        if (key == 0 || key == 224) {
+            if (key == 0) {
+                key = _getch();
+                if (key >= KEY_F1 && key <= KEY_F8) {
+                    delete[] tenMH;
+
+                    return key;
+                } else if (key == ALT_F4) {
+                    clearTab();
+                    delete[] tenMH;
+                    return ALT_F4;
                 }
             } else if (key == 224) {
                 key = _getch();

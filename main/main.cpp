@@ -57,8 +57,7 @@ int main() {
             drawSelectedTab(7);
             key = initThongKeDiemTheoLopTab(dsmh, dssv, dsltc);
         } else if (ALT_F4) {
-            SetColor();
-            return 0;
+            break;
         } else {
             drawSelectedTab(0);
             key = initMHTab(dsmh, dsltc);
@@ -66,6 +65,7 @@ int main() {
     }
 
     SetColor();
+    initExitScreen();
     return 0;
 }
 

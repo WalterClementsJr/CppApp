@@ -31,7 +31,7 @@ void dehighlightIndex(SinhVien *list[], float *diem, int index) {
     ShowCur(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left << setw(10) << index + 1<< setw(15)
+    cout << setfill(' ') << left << setw(10) << index + 1 << setw(15)
          << list[index]->maSV << setw(20) << list[index]->ho << setw(20)
          << list[index]->ten << setw(10) << diem[index];
     SetColor();
@@ -40,6 +40,11 @@ void dehighlightIndex(SinhVien *list[], float *diem, int index) {
 void loadDiemToTable(SinhVien *list[], float *diem, int length, int index) {
     ShowCur(false);
     clearTableContent();
+
+    if (length == 0) {
+        return;
+    }
+    index = index / MAX_TABLE_ROW * MAX_TABLE_ROW;
 
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
@@ -100,9 +105,7 @@ int initThongKeDiemTheoLopTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             if (key == 0) {
                 key = _getch();
                 // change tab keys
-                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F3 || key == KEY_F4 ||
-                    key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
-                    key == KEY_F8 || key == KEY_F9) {
+                if (key >= KEY_F1 && key <= KEY_F8) {
                     delete[] diem;
 
                     return key;

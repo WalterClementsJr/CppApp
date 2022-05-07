@@ -14,6 +14,7 @@
 
 string inputThongTinLop(DsMonHoc &dsmh) {
     SetColor();
+    clearDetail();
 
     string input[] = {"", "", "", ""};
     unsigned fieldMaxIndex = 3;
@@ -179,6 +180,11 @@ void loadDSDKToTable(DangKy *list[], string *hoten, int length, int index) {
     ShowCur(false);
     clearTableContent();
 
+    if (length == 0) {
+        return;
+    }
+    index = index / MAX_TABLE_ROW * MAX_TABLE_ROW;
+
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
     int rowsLeft = length - currentPage * MAX_TABLE_ROW;
@@ -231,9 +237,7 @@ int initXemDSDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             if (key == 0) {
                 key = _getch();
                 // change tab keys
-                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F3 || key == KEY_F4 ||
-                    key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
-                    key == KEY_F8 || key == KEY_F9) {
+                if (key >= KEY_F1 && key <= KEY_F8) {
                     delete[] hoten;
 
                     return key;

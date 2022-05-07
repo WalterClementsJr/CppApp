@@ -18,6 +18,7 @@ void loadTkDiemToTable(MonHoc *list[], float *diem, int len, int index) {
     if (len == 0) {
         return;
     }
+    index = index / MAX_TABLE_ROW * MAX_TABLE_ROW;
 
     int x = TABLE_X, y = TABLE_Y + 2;
     int currentPage = index / MAX_TABLE_ROW;
@@ -217,9 +218,7 @@ int initThongKeSVTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
         if (key == 0 || key == 224) {
             if (key == 0) {
                 key = _getch();
-                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F3 || key == KEY_F4 ||
-                    key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
-                    key == KEY_F8 || key == KEY_F9) {
+                if (key >= KEY_F1 && key <= KEY_F8) {
                     return key;
                 } else if (key == ALT_F4) {
                     clearTab();

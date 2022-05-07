@@ -98,6 +98,7 @@ void printInsertLTCField(int index, string input) {
 }
 
 int insertLTC(DsLTC &dsltc, DsMonHoc &dsmh) {
+    clearDetail();
     gotoxy(INSERT_X, INSERT_Y - 1);
     cout << "THEM LTC";
 
@@ -298,6 +299,7 @@ int insertLTC(DsLTC &dsltc, DsMonHoc &dsmh) {
 }
 
 int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
+    clearDetail();
     gotoxy(INSERT_X, INSERT_Y - 1);
     cout << "EDIT LTC";
 
@@ -568,8 +570,8 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     cout << "SV max";
     gotoxy(TABLE_X + 83, TABLE_Y);
     cout << "Huy";
-    // gotoxy(TABLE_X + 93, TABLE_Y);
-    // cout << "So SV DK";
+
+    drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
 
     int key;
     // số hàng còn lại
@@ -590,8 +592,7 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
         currentPage = index / MAX_TABLE_ROW;
         nPage = dsltc.count / MAX_TABLE_ROW;
         nOfRowRemains = dsltc.count - currentPage * MAX_TABLE_ROW;
-        nOfRowRemains =
-            nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
+        nOfRowRemains = nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
 
         key = _getch();
 
@@ -599,9 +600,7 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             if (key == 0) {
                 key = _getch();
 
-                if (key == KEY_F1 || key == KEY_F2 || key == KEY_F3 || key == KEY_F4 ||
-                    key == KEY_F5 || key == KEY_F6 || key == KEY_F7 ||
-                    key == KEY_F8 || key == KEY_F9) {
+                if (key >= KEY_F1 && key <= KEY_F8) {
                     return key;
                 } else if (key == ALT_F4) {
                     clearTab();

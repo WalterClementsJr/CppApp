@@ -91,10 +91,14 @@
 #define colTabSize 38
 #define rowTabSize 100
 
-const int TAB_HEADER_WIDTH = 17;
 // UI limit
 const int UI_LIMIT_X = 170;
 const int UI_LIMIT_Y = 55;
+
+// Tabs
+const int TAB_X = 3, TAB_Y = 7;
+const int TAB_HEIGHT = 2;
+const int TAB_HEADER_WIDTH = 20;
 
 // table
 const int TABLE_X = 5, TABLE_Y = 10;
@@ -115,7 +119,6 @@ const int INSERT_X = DETAIL_X, INSERT_Y = DETAIL_Y + 2;
 const int NOTIF_X = 110, NOTIF_Y = 40;
 const int NOTIF_WORD_PER_LINE = 60;
 
-//
 const int MAX_LTC = 10000;
 const int MAX_MH = 10000;
 
@@ -135,4 +138,5 @@ const std::string TAB_NAME[] = {
     "TK SV lop", "TK DTB khoa"};
 
 const std::string TAB_SHORTCUT[] = {"F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"};
+
 #endif
