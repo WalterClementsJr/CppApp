@@ -149,8 +149,7 @@ void clrscr() {
 // vô hiệu hóa thay đổi kích thước cửa sổ
 void DisableResizeWindow() {
     HWND hWnd = GetConsoleWindow();
-    SetWindowLong(hWnd, GWL_STYLE,
-                  GetWindowLong(hWnd, GWL_STYLE) & ~WS_SIZEBOX);
+    SetWindowLong(hWnd, GWL_STYLE, GetWindowLong(hWnd, GWL_STYLE) & ~WS_SIZEBOX);
 }
 
 // Vô hiệu hóa các nút Minimize, Maximize và Close
@@ -234,7 +233,6 @@ void drawRec(int x, int y, int dai, int rong) {
     drawCol(x + dai, y + 1, rong - 2);
 }
 
-// fill an area with space
 void clearArea(int x, int y, int width, int height) {
     for (int i = y; i < y + height; i++) {
         gotoxy(x, i);
@@ -242,7 +240,9 @@ void clearArea(int x, int y, int width, int height) {
     }
 }
 
-void clearTable() { clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH + 1, LAST_ROW); }
+void clearTable() {
+    clearArea(TABLE_X, TABLE_Y, TABLE_WIDTH + 1, LAST_ROW);
+}
 
 void clearTableContent() {
     clearArea(TABLE_X, TABLE_Y + 2, TABLE_WIDTH + 1, 31);
@@ -350,15 +350,12 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
 }
 
 void drawSelectedTab(int index) {
-    int tabx = 3, taby = 7;
-    int rong = 2;
-
     SetColor();
-    drawRow(tabx, taby + rong, TAB_HEADER_WIDTH * 8);
+    drawRow(TAB_X, TAB_Y + TAB_HEADER_HEIGHT, TAB_HEADER_WIDTH * 8);
 
     unsigned nOfTabs = sizeof(TAB_NAME) / sizeof(TAB_NAME[0]);
     for (unsigned i = 0; i < nOfTabs; i++) {
-        drawTab(tabx + TAB_HEADER_WIDTH * i, taby, TAB_NAME[i], TAB_SHORTCUT[i], (i == (unsigned)index));
+        drawTab(TAB_X + TAB_HEADER_WIDTH * i, TAB_Y, TAB_NAME[i], TAB_SHORTCUT[i], (i == (unsigned)index));
     }
 }
 
@@ -402,7 +399,7 @@ void initUI() {
     SetTextColor(BLUE);
     cout << char(17) << " " << char(16);
     SetTextColor(DARKWHITE);
-    cout << " PrevPage/NextPage";
+    cout << " Prev/Next Page";
 
     gotoxy(45, UI_LIMIT_Y);
     SetTextColor(BLUE);
@@ -422,13 +419,13 @@ void initUI() {
     SetTextColor(DARKWHITE);
     cout << " INSERT";
 
-    gotoxy(115, UI_LIMIT_Y);
+    gotoxy(105, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "DEL";
     SetTextColor(DARKWHITE);
     cout << " Delete";
 
-    gotoxy(135, UI_LIMIT_Y);
+    gotoxy(120, UI_LIMIT_Y);
     SetTextColor(BLUE);
     cout << "ALT + F4";
     SetTextColor(DARKWHITE);
@@ -450,4 +447,9 @@ void initUI() {
     cout << "THONG BAO";
 }
 
-#endif  // DRAWING_H
+void initExitScreen() {
+    clearArea(TAB_X, TAB_Y, 100, 100);
+
+}
+
+#endif

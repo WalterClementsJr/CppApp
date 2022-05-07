@@ -37,7 +37,7 @@ void loadTkDiemToTable(MonHoc *list[], float *diem, int len, int index) {
     }
 }
 
-void xemBangDiem(DsMonHoc &dsmh, DsLTC &dsltc, SinhVien *sv) {
+void xemBangDiem(DsMonHoc &dsmh, DsLTC &dsltc, SinhVien sv) {
     SetColor();
     clearTable();
 
@@ -47,79 +47,65 @@ void xemBangDiem(DsMonHoc &dsmh, DsLTC &dsltc, SinhVien *sv) {
     cout << "Ma MH";
     gotoxy(TABLE_X + 25, TABLE_Y);
     cout << "Ten MH";
-    gotoxy(TABLE_X + 45, TABLE_Y);
+    gotoxy(TABLE_X + 85, TABLE_Y);
     cout << "Diem";
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
 
     clearInfo();
-    gotoxy(TABLE_X, LAST_ROW + 3);
-    cout << "MSSV: " << sv->maSV;
-    gotoxy(TABLE_X, LAST_ROW + 4);
-    cout << "Ho ten: " << sv->ho << " " << sv->ten;
+    gotoxy(TABLE_X, LAST_ROW + 1);
+    cout << "MSSV: " << sv.maSV;
+    gotoxy(TABLE_X, LAST_ROW + 2);
+    cout << "Ho ten: " << sv.ho << " " << sv.ten;
 
-    // MonHoc *list[1000];
+    MonHoc *list[1000];
     float *diem = new float[1000];
 
-    // int key;
-    // int index = 0;
-    // int nOfRowRemains;
-    // int currentPage, nPage;
-    // int len = 0;
+    int key;
+    int index = 0;
+    int nOfRowRemains;
+    int currentPage, nPage;
+    int len = 0;
 
-    // dsltc.thongKeDiemMonHocTheoMSSV(dsmh, mssv, list, diem, len);
-    // if (len == 0) {
-    //     displayNotification("chua co thong tin");
-    // }
+    dsltc.thongKeDiemMonHocTheoMSSV(dsmh, sv.maSV, list, diem, len);
 
-    // for (int i = 0; i < 10; i++) {
-    //     gotoxy(TABLE_X, TABLE_Y  + 1 + i * 2);
-    //     // cout << setfill(' ') << left << setw(10) << index + i + 1 <<
-    //     setw(15)
-    //     //      << list[index + i]->ms << setw(60) << list[index + i]->ten
-    //     //      << setw(10) << diem[index + i];
-    //     cout << i;
-    // }
-    // _getch();
+    if (len > 0) {
+        loadTkDiemToTable(list, diem, len, index);
+    }
 
-    // if (len > 0) {
-    //     loadTkDiemToTable(list, diem, len, index);
-    // }
+    while (true) {
+        currentPage = index / MAX_TABLE_ROW;
+        nPage = len / MAX_TABLE_ROW;
+        nOfRowRemains = len - currentPage * MAX_TABLE_ROW;
+        nOfRowRemains = nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
 
-    // while (true) {
-    //     currentPage = index / MAX_TABLE_ROW;
-    //     nPage = len / MAX_TABLE_ROW;
-    //     nOfRowRemains = len - currentPage * MAX_TABLE_ROW;
-    //     nOfRowRemains =
-    //         nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
+        key = _getch();
 
-    //     key = _getch();
-    //     // special keys
-    //     if (key == 0 || key == 224) {
-    //         if (key == 0) {
-    //             key = _getch();
-    //         } else if (key == 224) {
-    //             key = _getch();
-    //             if (key == KEY_LEFT) {
-    //                 if (len == 0) {
-    //                     continue;
-    //                 }
-    //                 index = (currentPage > 0 ? currentPage - 1 : nPage) *
-    //                         MAX_TABLE_ROW;
-    //                 loadTkDiemToTable(list, diem, len, index);
-    //             } else if (key == KEY_RIGHT) {
-    //                 if (len == 0) {
-    //                     continue;
-    //                 }
-    //                 currentPage = currentPage >= nPage ? 0 : currentPage + 1;
-    //                 index = currentPage * MAX_TABLE_ROW;
-    //                 loadTkDiemToTable(list, diem, len, index);
-    //             }
-    //         }
-    //     } else if (key == ESC) {
-    //         clearDetail();
-    //         break;
-    //     }
-    // }
+        if (key == 0 || key == 224) {
+            if (key == 0) {
+                key = _getch();
+            } else if (key == 224) {
+                key = _getch();
+                if (key == KEY_LEFT) {
+                    if (len == 0) {
+                        continue;
+                    }
+                    index = (currentPage > 0 ? currentPage - 1 : nPage) *
+                            MAX_TABLE_ROW;
+                    loadTkDiemToTable(list, diem, len, index);
+                } else if (key == KEY_RIGHT) {
+                    if (len == 0) {
+                        continue;
+                    }
+                    currentPage = currentPage >= nPage ? 0 : currentPage + 1;
+                    index = currentPage * MAX_TABLE_ROW;
+                    loadTkDiemToTable(list, diem, len, index);
+                }
+            }
+        } else if (key == ESC) {
+            clearDetail();
+            break;
+        }
+    }
     delete[] diem;
 }
 
@@ -295,89 +281,11 @@ int initThongKeSVTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                 continue;
             }
 
-            // xemBangDiem(dsmh, dsltc, list[index]);
-            SetColor();
-            clearTable();
-
-            gotoxy(TABLE_X, TABLE_Y);
-            cout << "STT";
-            gotoxy(TABLE_X + 10, TABLE_Y);
-            cout << "Ma MH";
-            gotoxy(TABLE_X + 25, TABLE_Y);
-            cout << "Ten MH";
-            gotoxy(TABLE_X + 45, TABLE_Y);
-            cout << "Diem";
-            drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
-
-            clearInfo();
-            gotoxy(TABLE_X, LAST_ROW + 3);
-            cout << "MSSV: " << list[index]->maSV;
-            gotoxy(TABLE_X, LAST_ROW + 4);
-            cout << "Ho ten: " << list[index]->ho << " " << list[index]->ten;
-
-            MonHoc *listMh[1000];
-            float *listDiem = new float[1000];
-
-            // int key;
-            int _index = 0;
-            int _nOfRowRemains;
-            int _currentPage, _nPage;
-            int _len = 0;
-
-            dsltc.thongKeDiemMonHocTheoMSSV(dsmh, list[index]->maSV, listMh, listDiem, _len);
-
-            // for (int i = 0; i < 10; i++) {
-            //     gotoxy(TABLE_X, TABLE_Y + 1 + i * 2);
-            //     cout << setfill(' ') << left << setw(10) << index + i + 1
-            //          << setw(15) << list[index + i]->ms << setw(60)
-            //          << list[index + i]->ten << setw(10) << diem[index + i];
-            //     cout << i;
-            // }
-
-            if (_len > 0) {
-                loadTkDiemToTable(listMh, listDiem, _len, _index);
-            }
-
-            while (true) {
-                _currentPage = _index / MAX_TABLE_ROW;
-                _nPage = _len / MAX_TABLE_ROW;
-                _nOfRowRemains = _len - _currentPage * MAX_TABLE_ROW;
-                _nOfRowRemains = _nOfRowRemains > MAX_TABLE_ROW
-                                     ? MAX_TABLE_ROW
-                                     : _nOfRowRemains;
-
-                key = _getch();
-                // special keys
-                if (key == 0 || key == 224) {
-                    if (key == 0) {
-                        key = _getch();
-                    } else if (key == 224) {
-                        key = _getch();
-                        if (key == KEY_LEFT) {
-                            if (_len == 0) {
-                                continue;
-                            }
-                            _index = (_currentPage > 0 ? _currentPage - 1 : _nPage) * MAX_TABLE_ROW;
-                            loadTkDiemToTable(listMh, listDiem, _len, _index);
-                        } else if (key == KEY_RIGHT) {
-                            if (_len == 0) {
-                                continue;
-                            }
-                            _currentPage = _currentPage >= nPage ? 0 : _currentPage + 1;
-                            _index = _currentPage * MAX_TABLE_ROW;
-                            loadTkDiemToTable(listMh, listDiem, _len, _index);
-                        }
-                    }
-                } else if (key == ESC) {
-                    clearDetail();
-                    break;
-                }
-            }
-            delete[] listDiem;
+            xemBangDiem(dsmh, dsltc, *list[index]);
 
             // redraw
-            // clearTable();
-            // SetColor();
+            clearTable();
+            SetColor();
 
             gotoxy(TABLE_X, TABLE_Y);
             cout << "STT";

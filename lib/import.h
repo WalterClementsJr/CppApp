@@ -86,18 +86,13 @@
 #define D_THANH_NGANG 205
 #define D_THANH_DOC 186
 
-
-// size line
-#define colTabSize 38
-#define rowTabSize 100
-
 // UI limit
 const int UI_LIMIT_X = 170;
 const int UI_LIMIT_Y = 55;
 
 // Tabs
 const int TAB_X = 3, TAB_Y = 7;
-const int TAB_HEIGHT = 2;
+const int TAB_HEADER_HEIGHT = 2;
 const int TAB_HEADER_WIDTH = 20;
 
 // table
@@ -105,7 +100,6 @@ const int TABLE_X = 5, TABLE_Y = 10;
 const int FIRST_ROW = 12;
 const int LAST_ROW = 44;
 
-const int MAX_ROW = 35;
 const int TABLE_WIDTH = 101;
 const int MAX_TABLE_ROW = 15;
 
