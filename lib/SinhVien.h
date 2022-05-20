@@ -87,7 +87,6 @@ DSSV::~DSSV() {
     delete First;
 }
 
-// DsSinhVien:DsSinhVien(){}
 int DSSV::insertFirst(string maSV, string ho, string ten, string phai,
                       string soDT, string maLop) {
     SinhVien sv(maSV, ho, ten, phai, soDT, maLop);
@@ -187,8 +186,13 @@ void DSSV::duyet() {
 int DSSV::ghiFile() {
     ofstream writer("./build/data/sinhvien.csv");
     if (writer.is_open()) {
-        for (PTRSinhVien p = First; p != NULL; p = p->next) {
-            writer << p->sinhVien.toString() << endl;
+        SinhVien* sv[10000];
+        int len = 0;
+
+        toArray(sv, len);
+
+        for (int i = len - 1; i >= 0; i--) {
+            writer << sv[i]->toString() << endl;
         }
     } else {
         return 0;
@@ -264,7 +268,7 @@ void DSSV::filterSinhVienTheoMaLop(SinhVien *list[], int &listLength,
 }
 
 void testDSSV(DSSV &dssv) {
-    dssv.docFile();
+    // dssv.docFile();
     dssv.duyet();
     dssv.ghiFile();
 
