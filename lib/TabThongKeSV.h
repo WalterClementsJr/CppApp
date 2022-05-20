@@ -76,7 +76,8 @@ void xemBangDiem(DsMonHoc &dsmh, DsLTC &dsltc, SinhVien sv) {
         currentPage = index / MAX_TABLE_ROW;
         nPage = len / MAX_TABLE_ROW;
         nOfRowRemains = len - currentPage * MAX_TABLE_ROW;
-        nOfRowRemains = nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
+        nOfRowRemains =
+            nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
 
         key = _getch();
 
@@ -162,7 +163,7 @@ void loadSinhVienToTable(SinhVien *list[], int length, int index) {
 }
 
 int initThongKeSVTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);

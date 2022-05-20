@@ -387,6 +387,8 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                 displayNotification("Hay nhap MSSV");
                 continue;
             }
+            clearNotification();
+
             xemDSChuaDK = !xemDSChuaDK;
 
             dsltc.filterLtcTheoNkHk(tempList, mssv, nk, hk, dsLength,
@@ -418,8 +420,7 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             if (dsLength == 0) {
                 continue;
             }
-            if (showConfirmDialog(
-                    "Xac nhan " + string(xemDSChuaDK ? "" : "huy ") +
+            if (showConfirmDialog( "Xac nhan " + string(xemDSChuaDK ? "" : "huy ") +
                     string("dang ky lop ") + tenMH[index] + string("? Y/N"))) {
                 // huy dk/dk
                 list[index]->dsdk->insertOrder(mssv, 0, !xemDSChuaDK);
@@ -452,6 +453,7 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                 loadThongTinLTCToTable(list, tenMH, dsLength, index);
                 highlightIndex(list, tenMH, index);
             }
+            clearNotification();
         }
     }
     delete[] tenMH;

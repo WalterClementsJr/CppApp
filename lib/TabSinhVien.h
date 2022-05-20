@@ -21,13 +21,10 @@ void highlightIndex(SinhVien *list[], int index) {
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left
-         << setw(15) << list[index]->maSV
-         << setw(20) << list[index]->ho
-         << setw(20) << list[index]->ten
-         << setw(10) << list[index]->phai
-         << setw(20) << list[index]->soDT
-         << setw(10) << list[index]->maLop;
+    cout << setfill(' ') << left << setw(15) << list[index]->maSV << setw(20)
+         << list[index]->ho << setw(20) << list[index]->ten << setw(10)
+         << list[index]->phai << setw(20) << list[index]->soDT << setw(10)
+         << list[index]->maLop;
 
     SetColor();
 }
@@ -37,13 +34,10 @@ void dehighlightIndex(SinhVien *list[], int index) {
     ShowCursor(false);
 
     gotoxy(TABLE_X, TABLE_Y + 2 + (index % MAX_TABLE_ROW) * 2);
-    cout << setfill(' ') << left
-         << setw(15) << list[index]->maSV
-         << setw(20) << list[index]->ho
-         << setw(20) << list[index]->ten
-         << setw(10) << list[index]->phai
-         << setw(20) << list[index]->soDT
-         << setw(10) << list[index]->maLop;
+    cout << setfill(' ') << left << setw(15) << list[index]->maSV << setw(20)
+         << list[index]->ho << setw(20) << list[index]->ten << setw(10)
+         << list[index]->phai << setw(20) << list[index]->soDT << setw(10)
+         << list[index]->maLop;
     SetColor();
 }
 
@@ -65,13 +59,11 @@ void loadSVToTable(SinhVien *list[], int length, int index) {
 
     for (int i = 0; i < rowsLeft; i++) {
         gotoxy(x, y);
-        cout << setfill(' ') << left
-             << setw(15) << list[index + i]->maSV
-             << setw(20) << list[index + i]->ho
-             << setw(20) << list[index + i]->ten
-             << setw(10) << list[index + i]->phai
-             << setw(20) << list[index + i]->soDT
-             << setw(10) << list[index + i]->maLop;
+        cout << setfill(' ') << left << setw(15) << list[index + i]->maSV
+             << setw(20) << list[index + i]->ho << setw(20)
+             << list[index + i]->ten << setw(10) << list[index + i]->phai
+             << setw(20) << list[index + i]->soDT << setw(10)
+             << list[index + i]->maLop;
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
     }
@@ -420,8 +412,7 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
                         dsltc.write();
 
                         dssv.xoa(sv->maSV);
-                        dssv.insertOrder(input[0], input[1],
-                                         input[2], input[3],
+                        dssv.insertOrder(input[0], input[1], input[2], input[3],
                                          input[4], input[5]);
                     }
 
@@ -489,7 +480,7 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
 }
 
 int initSVTab(DSSV &dssv, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
@@ -526,7 +517,8 @@ int initSVTab(DSSV &dssv, DsLTC &dsltc) {
         currentPage = index / MAX_TABLE_ROW;
         nPage = dsLength / MAX_TABLE_ROW;
         nOfRowRemains = dsLength - currentPage * MAX_TABLE_ROW;
-        nOfRowRemains = nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
+        nOfRowRemains =
+            nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
 
         key = _getch();
         if (key == 0 || key == 224) {
@@ -574,7 +566,8 @@ int initSVTab(DSSV &dssv, DsLTC &dsltc) {
                     if (dsLength == 0) {
                         continue;
                     }
-                    index = (currentPage > 0 ? currentPage - 1 : nPage) * MAX_TABLE_ROW;
+                    index = (currentPage > 0 ? currentPage - 1 : nPage) *
+                            MAX_TABLE_ROW;
 
                     loadSVToTable(list, dsLength, index);
                     highlightIndex(list, index);
@@ -604,12 +597,14 @@ int initSVTab(DSSV &dssv, DsLTC &dsltc) {
                     }
                     // check DSLTC
                     if (dsltc.coSinhVien(list[index]->maSV)) {
-                        displayNotification("Khong the xoa sinh vien nay vi da dang ky");
+                        displayNotification(
+                            "Khong the xoa sinh vien nay vi da dang ky");
                         continue;
                     }
                     // delete
                     if (showConfirmDialog("Xac nhan xoa sinh vien " +
-                                          list[index]->ho + " " + list[index]->ten + "? Y/N")) {
+                                          list[index]->ho + " " +
+                                          list[index]->ten + "? Y/N")) {
                         dssv.xoa(list[index]->maSV);
                         dssv.ghiFile();
 

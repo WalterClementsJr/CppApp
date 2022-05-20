@@ -64,7 +64,7 @@ void loadDiemToTable(SinhVien *list[], float *diem, int length, int index) {
 }
 
 int initThongKeDiemTheoLopTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);

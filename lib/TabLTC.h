@@ -19,7 +19,7 @@
 using namespace std;
 
 const string LTC_FIELDS[] = {
-    "Ma MH: ", "Nien khoa: ", "Hoc ky: ", "Nhom: ",
+    "Ma MH: ",     "Nien khoa: ", "Hoc ky: ",    "Nhom: ",
     "So sv min: ", "So sv max: ", "Huy (0, 1): "};
 
 const unsigned int LTC_LIMITS[] = {10, 9, 1, 1, 3, 3, 1};
@@ -394,7 +394,8 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
 
                     continue;
                 } else if (!regex_match(input[1], NIEN_KHOA_REGEX)) {
-                    displayNotification("Nien khoa khong dung dinh dang (VD: 2021-2022)");
+                    displayNotification(
+                        "Nien khoa khong dung dinh dang (VD: 2021-2022)");
 
                     index = 1;
                     count = input[index].length();
@@ -402,7 +403,8 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
 
                     continue;
                 } else if (!checkNienKhoa(input[1])) {
-                    displayNotification("Nien khoa khong hop le (nam truoc lon hon nam sau)");
+                    displayNotification(
+                        "Nien khoa khong hop le (nam truoc lon hon nam sau)");
 
                     index = 1;
                     count = input[index].length();
@@ -411,7 +413,8 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
                     continue;
                 } else if (stoi(input[4]) > stoi(input[5])) {
                     // check min > max
-                    displayNotification("So sv min > so sv max. Hay nhap lai.", RED);
+                    displayNotification("So sv min > so sv max. Hay nhap lai.",
+                                        RED);
                     index = 4;
                     count = input[index].length();
                     printInsertLTCField(index, input[index]);
@@ -420,7 +423,8 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
                 }
 
                 // check exist
-                LTC *searchLTC = dsltc.search(input[0] + input[1] + input[2] + input[3]);
+                LTC *searchLTC =
+                    dsltc.search(input[0] + input[1] + input[2] + input[3]);
                 if (searchLTC) {
                     if (ltc->maLTC != searchLTC->maLTC) {
                         displayNotification("LTC da ton tai.", RED);
@@ -551,7 +555,7 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
 }
 
 int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
@@ -593,7 +597,8 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
         currentPage = index / MAX_TABLE_ROW;
         nPage = dsltc.count / MAX_TABLE_ROW;
         nOfRowRemains = dsltc.count - currentPage * MAX_TABLE_ROW;
-        nOfRowRemains = nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
+        nOfRowRemains =
+            nOfRowRemains > MAX_TABLE_ROW ? MAX_TABLE_ROW : nOfRowRemains;
 
         key = _getch();
 

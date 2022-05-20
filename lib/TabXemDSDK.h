@@ -202,8 +202,13 @@ void loadDSDKToTable(DangKy *list[], string *hoten, int length, int index) {
 }
 
 int initXemDSDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
+<<<<<<< HEAD
     clearTable();
     SetColor(BLACK, RED);
+=======
+    clearTab();
+    SetColor();
+>>>>>>> e75c8c4cd389faad7dc6bb5aae323e27ad7e40c3
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma SV";
