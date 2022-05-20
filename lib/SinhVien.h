@@ -270,7 +270,7 @@ void DSSV::filterSinhVienTheoMaLop(SinhVien *list[], int &listLength,
 void testDSSV(DSSV &dssv) {
     // dssv.docFile();
     dssv.duyet();
-    dssv.ghiFile();
+    // dssv.ghiFile();
 
     // int dsLength = 0;
 

@@ -192,8 +192,8 @@ int insertSV(DSSV &dssv) {
 
                 // check format
                 if (!regex_match(input[0], MA_SV_REGEX)) {
-                    displayNotification(
-                        "MSSV khong dung dinh dang (VD: N18DCCN000)");
+                    displayNotification("MSSV khong dung dinh dang (VD: N18DCCN000)");
+
                     index = 0;
                     count = input[index].length();
                     printInsertSVField(index, input[index]);
@@ -342,7 +342,7 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
                        INSERT_Y + index * 2);
             }
         } else if (key == BACKSPACE) {
-            if (index == 0 || index == 5) {
+            if (index == 0) {
                 continue;
             }
 
@@ -389,6 +389,12 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
                     count = input[index].length();
                     printInsertSVField(index, input[index]);
                     continue;
+                }  else if (!regex_match(input[5], MA_LOP_REGEX)) {
+                    displayNotification("Ma lop sai cu phap");
+
+                    index = 5;
+                    count = input[index].length();
+                    printInsertSVField(index, input[index]);
                 }
 
                 if (dssv.search(input[0]) != NULL) {
@@ -478,6 +484,18 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
                     gotoxy(INSERT_X + SV_FIELDS[index].length() + count,
                            INSERT_Y + index * 2);
                 }
+            } else if (index == 5) {
+                if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || (key >= '0' && key <= '9')) {
+                    if (input[index].length() >= SV_LIMITS[index]) {
+                        continue;
+                    }
+                    input[index].insert(count, 1, toupper(char(key)));
+                    count++;
+
+                    printInsertSVField(index, input[index]);
+                    gotoxy(INSERT_X + SV_FIELDS[index].length() + count,
+                           INSERT_Y + index * 2);
+                }
             }
         }
     }
@@ -502,6 +520,7 @@ int initSVTab(DSSV &dssv, DsLTC &dsltc) {
     cout << "Lop";
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
     SetColor();
+
     int key;
     int nOfRowRemains;
     int index = 0;
