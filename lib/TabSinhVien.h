@@ -489,7 +489,7 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
 }
 
 int initSVTab(DSSV &dssv, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);

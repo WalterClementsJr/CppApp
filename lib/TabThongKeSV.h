@@ -162,7 +162,7 @@ void loadSinhVienToTable(SinhVien *list[], int length, int index) {
 }
 
 int initThongKeSVTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);

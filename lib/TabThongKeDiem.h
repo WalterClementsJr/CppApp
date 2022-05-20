@@ -187,7 +187,7 @@ void loadDiemToTable(string *hoten, DangKy *list[], int length, int index) {
 }
 
 int initThongKeDiemTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);

@@ -443,7 +443,7 @@ int editMonHoc(DsMonHoc &dsmh, DsLTC &dsltc, MonHoc *list[], int index_arr) {
 }
 
 int initMHTab(DsMonHoc &dsmh, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);

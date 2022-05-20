@@ -202,7 +202,7 @@ void loadDSDKToTable(DangKy *list[], string *hoten, int length, int index) {
 }
 
 int initXemDSDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);

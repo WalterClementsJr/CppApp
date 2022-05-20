@@ -551,7 +551,7 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
 }
 
 int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
-    clearTable();
+    clearTab();
     SetColor();
 
     gotoxy(TABLE_X, TABLE_Y);
