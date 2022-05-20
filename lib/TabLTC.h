@@ -351,6 +351,9 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
                        INSERT_Y + index * 2);
             }
         } else if (key == BACKSPACE) {
+            if (index == 0) {
+                continue;
+            }
             // if input is empty
             if (input[index].empty() || count == 0) {
                 continue;
@@ -496,19 +499,20 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
             // catch character input
             if (index == 0) {
                 // field is MAMH
-                if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                    (key >= '0' && key <= '9')) {
-                    // out of range
-                    if (input[index].length() >= LTC_LIMITS[index]) {
-                        continue;
-                    }
-                    input[index].insert(count, 1, toupper(char(key)));
-                    count++;
+                continue;
+                // if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
+                //     (key >= '0' && key <= '9')) {
+                //     // out of range
+                //     if (input[index].length() >= LTC_LIMITS[index]) {
+                //         continue;
+                //     }
+                //     input[index].insert(count, 1, toupper(char(key)));
+                //     count++;
 
-                    printInsertLTCField(index, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
-                }
+                //     printInsertLTCField(index, input[index]);
+                //     gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
+                //            INSERT_Y + index * 2);
+                // }
             } else if (index == 1) {
                 // Nien khoa
                 if ((key >= '0' && key <= '9') || key == '-') {

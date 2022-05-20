@@ -305,6 +305,9 @@ int editMonHoc(DsMonHoc &dsmh, DsLTC &dsltc, MonHoc *list[], int index_arr) {
                        INSERT_Y + index * 2);
             }
         } else if (key == BACKSPACE) {
+            if (index == 0) {
+                continue;
+            }
             // if input is empty
             if (input[index].empty() || count == 0) {
                 continue;
@@ -395,19 +398,20 @@ int editMonHoc(DsMonHoc &dsmh, DsLTC &dsltc, MonHoc *list[], int index_arr) {
             // catch character input
             if (index == 0) {
                 // field is ms
-                if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                    (key >= '0' && key <= '9')) {
-                    // out of range
-                    if (input[index].length() >= MH_FIELD_LIMITS[index]) {
-                        continue;
-                    }
-                    input[index].insert(count, 1, toupper(char(key)));
-                    count++;
+                continue;
+                // if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
+                //     (key >= '0' && key <= '9')) {
+                //     // out of range
+                //     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
+                //         continue;
+                //     }
+                //     input[index].insert(count, 1, toupper(char(key)));
+                //     count++;
 
-                    printInsertMHField(index, input[index]);
-                    gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                           INSERT_Y + index * 2);
-                }
+                //     printInsertMHField(index, input[index]);
+                //     gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
+                //            INSERT_Y + index * 2);
+                // }
             } else if (index == 1) {
                 // field is ten
                 if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
