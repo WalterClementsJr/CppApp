@@ -214,7 +214,7 @@ void loadThongTinLTCToTable(LTC *list[], string *tenMH, int length, int index) {
 
 int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     clearTab();
-    SetColor();
+    SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma MH";
@@ -226,6 +226,7 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     cout << "Da dk";
     gotoxy(TABLE_X + 95, TABLE_Y);
     cout << "So slot";
+    SetColor();
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
 
     gotoxy(TABLE_X, LAST_ROW + 1);

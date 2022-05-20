@@ -65,7 +65,7 @@ void loadDiemToTable(SinhVien *list[], float *diem, int length, int index) {
 
 int initThongKeDiemTheoLopTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     clearTable();
-    SetColor();
+    SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "STT";
@@ -77,7 +77,7 @@ int initThongKeDiemTheoLopTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     cout << "Ten";
     gotoxy(TABLE_X + 65, TABLE_Y);
     cout << "Diem TB";
-
+    SetColor();
     gotoxy(TABLE_X, LAST_ROW + 1);
     cout << "CTRL + F de tim lop";
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);

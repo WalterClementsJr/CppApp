@@ -490,7 +490,7 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
 
 int initSVTab(DSSV &dssv, DsLTC &dsltc) {
     clearTable();
-    SetColor();
+    SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma SV";
@@ -505,7 +505,7 @@ int initSVTab(DSSV &dssv, DsLTC &dsltc) {
     gotoxy(TABLE_X + 85, TABLE_Y);
     cout << "Lop";
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
-
+    SetColor();
     int key;
     int nOfRowRemains;
     int index = 0;

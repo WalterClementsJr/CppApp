@@ -444,7 +444,7 @@ int editMonHoc(DsMonHoc &dsmh, DsLTC &dsltc, MonHoc *list[], int index_arr) {
 
 int initMHTab(DsMonHoc &dsmh, DsLTC &dsltc) {
     clearTable();
-    SetColor();
+    SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma MH";
@@ -454,7 +454,7 @@ int initMHTab(DsMonHoc &dsmh, DsLTC &dsltc) {
     cout << "STC LT";
     gotoxy(TABLE_X + 85, TABLE_Y);
     cout << "STC TH";
-
+    SetColor();
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
 
     int key;

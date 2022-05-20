@@ -163,7 +163,7 @@ void loadSinhVienToTable(SinhVien *list[], int length, int index) {
 
 int initThongKeSVTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     clearTable();
-    SetColor();
+    SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "STT";
@@ -177,8 +177,8 @@ int initThongKeSVTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     cout << "Phai";
     gotoxy(TABLE_X + 75, TABLE_Y);
     cout << "SDT";
+    SetColor();
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
-
     gotoxy(TABLE_X, LAST_ROW + 1);
     cout << "CTRL + F de tim ma lop can xem";
     gotoxy(TABLE_X, LAST_ROW + 2);

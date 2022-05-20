@@ -203,12 +203,13 @@ void loadDSDKToTable(DangKy *list[], string *hoten, int length, int index) {
 
 int initXemDSDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     clearTable();
-    SetColor();
+    SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma SV";
     gotoxy(TABLE_X + 20, TABLE_Y);
     cout << "Ho ten";
+    SetColor();
     gotoxy(TABLE_X, LAST_ROW + 1);
     cout << "CTRL + F de tim lop";
 

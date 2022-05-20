@@ -188,7 +188,7 @@ void loadDiemToTable(string *hoten, DangKy *list[], int length, int index) {
 
 int initThongKeDiemTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     clearTable();
-    SetColor();
+    SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "STT";
@@ -198,11 +198,11 @@ int initThongKeDiemTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     cout << "Ho ten";
     gotoxy(TABLE_X + 80, TABLE_Y);
     cout << "Diem";
-
+    SetColor();
     gotoxy(TABLE_X, LAST_ROW + 1);
     cout << "CTRL + F de tim lop";
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
-
+    
     int key;
     int index = 0;
     int nOfRowRemains;

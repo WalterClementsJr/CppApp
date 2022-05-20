@@ -552,7 +552,7 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
 
 int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     clearTable();
-    SetColor();
+    SetColor(BLACK, RED);
 
     gotoxy(TABLE_X, TABLE_Y);
     cout << "Ma LTC";
@@ -570,6 +570,7 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     cout << "SV max";
     gotoxy(TABLE_X + 83, TABLE_Y);
     cout << "Huy";
+    SetColor();
 
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
 
