@@ -297,7 +297,7 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
 
     SetColor();
     gotoxy(INSERT_X, INSERT_Y - 1);
-    cout << "THEM SINH VIEN";
+    cout << "EDIT SINH VIEN";
 
     clearNotification();
     clearDetail();
@@ -342,7 +342,7 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
                        INSERT_Y + index * 2);
             }
         } else if (key == BACKSPACE) {
-            if (index == 0) {
+            if (index == 0 || index == 5) {
                 continue;
             }
 
