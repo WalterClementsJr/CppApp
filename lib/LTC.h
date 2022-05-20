@@ -69,7 +69,7 @@ private:
     int currentMax;
 
 public:
-    LTC **dsltc = new LTC *[DSLTC_MAX];
+    LTC *dsltc[DSLTC_MAX];
     int count;
 
     DsLTC() {
@@ -81,7 +81,6 @@ public:
         for (int i = 0; i < count; i++) {
             delete dsltc[i];
         }
-        delete[] dsltc;
     }
 
     bool isEmpty() { return count == 0; }
