@@ -227,9 +227,10 @@ int insertMonHoc(DsMonHoc &dsmh) {
                 }
             } else if (index == 1) {
                 // field is ten
-                if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                    (key >= '0' && key <= '9') || key == ' ' || key == '-' ||
-                    key == ',') {
+                if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || (key >= '0' && key <= '9') ||
+                    key == ' ' || key == ',' || key == '.' || key == '!' || key == '@' ||
+                    key == '#' || key == '^' || key == '&' || key == '*' || key == '(' || key == ')' ||
+                    key == '+' || key == '-') {
                     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
                         continue;
                     }
@@ -414,9 +415,10 @@ int editMonHoc(DsMonHoc &dsmh, DsLTC &dsltc, MonHoc *list[], int index_arr) {
                 // }
             } else if (index == 1) {
                 // field is ten
-                if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                    (key >= '0' && key <= '9') || key == ' ' || key == '-' ||
-                    key == ',') {
+                if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || (key >= '0' && key <= '9') ||
+                    key == ' ' || key == ',' || key == '.' || key == '!' || key == '@' ||
+                    key == '#' || key == '^' || key == '&' || key == '*' || key == '(' ||
+                    key == ')' || key == '+' || key == '-') {
                     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
                         continue;
                     }
