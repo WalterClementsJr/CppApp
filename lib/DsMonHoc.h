@@ -58,9 +58,13 @@ private:
 };
 
 // public
-DsMonHoc::DsMonHoc() { root = NULL; }
+DsMonHoc::DsMonHoc() {
+    root = NULL;
+}
 
-DsMonHoc::~DsMonHoc() { root = emptyTree(root); }
+DsMonHoc::~DsMonHoc() {
+    root = emptyTree(root);
+}
 
 void DsMonHoc::insert(string ms, string ten, int sltclt, int sltcth) {
     MonHoc m(ms, ten, sltclt, sltcth);
@@ -84,9 +88,13 @@ void DsMonHoc::update(string msOld, string ten, int sltclt, int sltcth,
     }
 }
 
-void DsMonHoc::remove(string ms) { root = removeNode(root, ms); }
+void DsMonHoc::remove(string ms) {
+    root = removeNode(root, ms);
+}
 
-MonHoc *DsMonHoc::search(string ms) { return &search(root, ms)->monhoc; }
+MonHoc *DsMonHoc::search(string ms) {
+    return &search(root, ms)->monhoc;
+}
 
 void DsMonHoc::displayInOrder() {
     cout << "\n\tDisplay inorder\n";
@@ -127,7 +135,7 @@ void DsMonHoc::displayLevelOrder() {
 }
 
 bool DsMonHoc::isEmpty() {
-    return root != NULL;
+    return root == NULL;
 }
 
 int DsMonHoc::getSize() {
@@ -149,7 +157,7 @@ void DsMonHoc::read() {
 }
 
 void DsMonHoc::write() {
-    if (isEmpty()) {
+    if (root == NULL) {
         return;
     }
 
@@ -248,6 +256,7 @@ NodeMonHoc *DsMonHoc::emptyTree(NodeMonHoc *root) {
     emptyTree(root->left);
     emptyTree(root->right);
 
+    delete root;
     return NULL;
 }
 
@@ -406,16 +415,20 @@ void DsMonHoc::addNodeToArray(NodeMonHoc *root, MonHoc *array[], int &length) {
     }
     addNodeToArray(root->left, array, length);
 
-    array[length] = &root->monhoc;
-    length++;
+    array[length++] = &root->monhoc;
+
     addNodeToArray(root->right, array, length);
 }
 
 void testDSMH(DsMonHoc &ds) {
     ds.read();
-    ds.write();
+    // ds.write();
+    ds.displayLevelOrder();
 
-    // ds.displayLevelOrder();
+    ds.remove("INT9");
+    ds.displayLevelOrder();
+
+    ds.write();
     // ds.update("6", "HDH123", 2, 1, "6");
     // MonHoc *m = ds.search("6");
     // ds.remove("3");
