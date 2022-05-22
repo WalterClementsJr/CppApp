@@ -84,7 +84,6 @@ void printInsertSVField(int index, string input) {
 
 int insertSV(DSSV &dssv) {
     clearDetail();
-
     SetColor();
     gotoxy(INSERT_X, INSERT_Y - 1);
     cout << "THEM SINH VIEN";
@@ -102,7 +101,7 @@ int insertSV(DSSV &dssv) {
             clearNotification();
             return 0;
         } else if (!regex_match(malop, MA_LOP_REGEX)) {
-            displayNotification("Ma lop sai cu phap");
+            displayNotification("Ma lop khong dung dinh dang (VD: D18AAAA00");
             ok = false;
         }
     }
@@ -114,9 +113,10 @@ int insertSV(DSSV &dssv) {
     cout << "Lop: " << malop;
     SetColor();
 
-    displayNotification("Nhap ma so rong de ket thuc");
+    displayNotification("Nhap MSSV rong de ket thuc");
 
     string input[] = {"", "", "", "", ""};
+    bool inserted = false;
 
     for (unsigned i = 0; i < 5; i++) {
         gotoxy(INSERT_X, INSERT_Y + i * 2);
@@ -172,10 +172,15 @@ int insertSV(DSSV &dssv) {
             if (index == 4) {
                 clearNotification();
 
+                if (input[0].empty()) {
+                    displayNotification("Ket thuc them sinh vien");
+                    return inserted;
+                }
+
                 bool pass = true;
                 // check if one of the inputs is empty
-                for (string s : input) {
-                    if (s.empty()) {
+                for (int i = 1; i < 4; i++) {
+                    if (input[i].empty()) {
                         displayNotification("Hay dien day du thong tin.", RED);
                         pass = false;
                         break;
@@ -192,9 +197,19 @@ int insertSV(DSSV &dssv) {
 
                 // check format
                 if (!regex_match(input[0], MA_SV_REGEX)) {
-                    displayNotification("MSSV khong dung dinh dang (VD: N18DCCN000)");
+                    displayNotification("MSSV khong dung dinh dang (VD: N18DCCN000)", RED);
 
                     index = 0;
+                    count = input[index].length();
+                    printInsertSVField(index, input[index]);
+                    continue;
+                }
+
+                // check input gioi tinh
+                if (!(input[3] == "NAM" || input[3] == "NU")) {
+                    displayNotification("Hay nhap lai gioi tinh (NAM hoac NU)", RED);
+
+                    index = 3;
                     count = input[index].length();
                     printInsertSVField(index, input[index]);
                     continue;
@@ -217,6 +232,9 @@ int insertSV(DSSV &dssv) {
                     dssv.insertOrder(input[0], input[1], input[2], input[3],
                                      input[4], malop);
                     dssv.ghiFile();
+
+                    // 1 sv is inserted inside this function
+                    inserted = true;
 
                     clearNotification();
 
@@ -383,18 +401,27 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
 
                 // check format
                 if (!regex_match(input[0], MA_SV_REGEX)) {
-                    displayNotification(
-                        "MSSV khong dung dinh dang (VD: N18DCCN000)");
+                    displayNotification("MSSV khong dung dinh dang (VD: N18DCCN000)");
                     index = 0;
                     count = input[index].length();
                     printInsertSVField(index, input[index]);
                     continue;
-                }  else if (!regex_match(input[5], MA_LOP_REGEX)) {
-                    displayNotification("Ma lop sai cu phap");
+                } else if (!regex_match(input[5], MA_LOP_REGEX)) {
+                    displayNotification("Ma lop khong dung dinh dang (VD: D18AAAA00");
 
                     index = 5;
                     count = input[index].length();
                     printInsertSVField(index, input[index]);
+                }
+
+                // check input gioi tinh
+                if (!(input[3] == "NAM" || input[3] == "NU")) {
+                    displayNotification("Hay nhap lai gioi tinh (NAM hoac NU)", RED);
+
+                    index = 3;
+                    count = input[index].length();
+                    printInsertSVField(index, input[index]);
+                    continue;
                 }
 
                 if (dssv.search(input[0]) != NULL) {
@@ -621,8 +648,7 @@ int initSVTab(DSSV &dssv, DsLTC &dsltc) {
                     }
                     // check DSLTC
                     if (dsltc.coSinhVien(list[index]->maSV)) {
-                        displayNotification(
-                            "Khong the xoa sinh vien nay vi da dang ky");
+                        displayNotification("Khong the xoa sinh vien nay vi da dang ky lop tin chi");
                         continue;
                     }
                     // delete
