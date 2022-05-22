@@ -13,7 +13,7 @@
 using namespace std;
 
 class DsMonHoc {
-   public:
+public:
     DsMonHoc();
     ~DsMonHoc();
 
@@ -32,7 +32,7 @@ class DsMonHoc {
     void displayInOrder();
     void displayLevelOrder();
 
-   private:
+private:
     NodeMonHoc *root;
     int getHeight(NodeMonHoc *root);
     int getSize(NodeMonHoc *root);
@@ -126,9 +126,13 @@ void DsMonHoc::displayLevelOrder() {
     }
 }
 
-bool DsMonHoc::isEmpty() { return root != NULL; }
+bool DsMonHoc::isEmpty() {
+    return root != NULL;
+}
 
-int DsMonHoc::getSize() { return getSize(root); }
+int DsMonHoc::getSize() {
+    return getSize(root);
+}
 
 void DsMonHoc::toArray(MonHoc *arr[], int &length) {
     length = 0;
@@ -145,6 +149,10 @@ void DsMonHoc::read() {
 }
 
 void DsMonHoc::write() {
+    if (isEmpty()) {
+        return;
+    }
+
     ofstream writer("./build/data/monhoc.csv");
 
     if (writer.is_open()) {

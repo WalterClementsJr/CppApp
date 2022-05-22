@@ -11,20 +11,24 @@
 using namespace std;
 
 class MonHocQueue {
-   private:
-    static const int MAX_SIZE = 1000;
+private:
+    static const int MAX_SIZE = 1024;
     NodeMonHoc *list[MAX_SIZE];
     int mFront, mRear;
 
-   public:
+public:
     MonHocQueue() {
         mFront = -1;
         mRear = -1;
     }
 
-    bool isEmpty() { return (mFront == -1 && mRear == -1); }
+    bool isEmpty() {
+        return (mFront == -1 && mRear == -1);
+    }
 
-    bool isFull() { return (mRear + 1) % MAX_SIZE == mFront ? true : false; }
+    bool isFull() {
+        return (mRear + 1) % MAX_SIZE == mFront ? true : false;
+    }
 
     void enqueue(NodeMonHoc *m) {
         if (isFull()) {
