@@ -353,6 +353,12 @@ int insertLTC(DsLTC &dsltc, DsMonHoc &dsmh) {
                     continue;
                 }
 
+                // kiểm tra khóa
+                if (dsltc.search(input[0] + input[1] + input[2] + input[3])) {
+                    displayNotification("LTC da ton tai");
+                    continue;
+                }
+
                 // confirm insert
                 if (showConfirmDialog("Xac nhan them? Y/N")) {
                     LTC *ltc = dsltc.insert(input[0], input[1], stoi(input[2]),
