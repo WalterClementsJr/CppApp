@@ -25,7 +25,7 @@ INT6|Services|2|5
 INT73|Research and Development|6|6
 INT79|Accounting 3|3|3
 INT85|Business Development|2|5
-INT95|Legal|8|2
+INT95|Ruby|8|2
 INT29|Business Development|8|4
 INT41|Javascript|4|8
 INT5|English A|1|0
@@ -34,4 +34,4 @@ INT66|Chemical|3|2
 INT7|Product A1|2|2
 INT78|Research and Development|3|1
 INT8|C#|1|1
-INT96|Training 1|2|3
+INT9|Java|2|0
