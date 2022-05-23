@@ -52,6 +52,7 @@ float inputDiem(float diem) {
     else
         dot = false;
 
+    string hint = "Nhap Diem: ";
     gotoxy(INSERT_X, INSERT_Y);
     cout << "Nhap Diem: ";
     gotoxy(INSERT_X, INSERT_Y + 2);
@@ -68,10 +69,10 @@ float inputDiem(float diem) {
 
             if (key == KEY_LEFT) {
                 count = count <= 0 ? input.length() : (count - 1);
-                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
+                gotoxy(INSERT_X + hint.length() + count, INSERT_Y + index * 2);
             } else if (key == KEY_RIGHT) {
                 count = count >= input.length() ? 0 : (count + 1);
-                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
+                gotoxy(INSERT_X + hint.length() + count, INSERT_Y + index * 2);
             }
         } else if (key == BACKSPACE) {
             // if input is empty
@@ -85,7 +86,7 @@ float inputDiem(float diem) {
             input.erase(count - 1, 1);
             count--;
             printDiemInput(input);
-            gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
+            gotoxy(INSERT_X + hint.length() + count, INSERT_Y + index * 2);
         } else if (key == ESC) {
             displayNotification("Hay nhap diem");
             continue;
@@ -119,7 +120,7 @@ float inputDiem(float diem) {
                         count++;
 
                         printDiemInput(input);
-                        gotoxy(INSERT_X + input.length() + count,
+                        gotoxy(INSERT_X + hint.length() + count,
                                INSERT_Y + index * 2);
                         continue;
                     } else {
@@ -130,7 +131,7 @@ float inputDiem(float diem) {
                 input.insert(count, 1, key);
                 count++;
                 printDiemInput(input);
-                gotoxy(INSERT_X + input.length() + count, INSERT_Y + index * 2);
+                gotoxy(INSERT_X + hint.length() + count, INSERT_Y + index * 2);
             }
         }
     }
@@ -299,7 +300,7 @@ int initThongKeDiemTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                 dsltc.write();
             }
 
-            index = 0;
+            // index = 0;
             loadDiemToTable(hoten, list, dsLength, index);
             highlightIndex(hoten, list, index);
         } else if (key == CTRL_F) {

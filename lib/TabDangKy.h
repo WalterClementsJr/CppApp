@@ -100,8 +100,8 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     int dsLength = 0;
 
     string mssv = "";
-    string nk = "";
-    int hk = -1;
+    string nienkhoa = "";
+    int hocky = -1;
     // chuyen ds
     bool xemDSChuaDK = true;
 
@@ -211,15 +211,18 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                 continue;
             }
             // nhap nien khoa hk
-            inputNkHk(nk, hk);
+            while (nienkhoa.empty() || hocky == -1) {
+                displayNotification("Hay nhap lai nien khoa hoc ky");
+                inputNkHk(nienkhoa, hocky);
+            }
 
-            if (soSanhNienKhoa(nk, getSoNamTuMaSV(mssv)) > 0) {
+            if (soSanhNienKhoa(nienkhoa, getSoNamTuMaSV(mssv)) > 0) {
                 displayNotification("Sinh vien khong the dang ky cac lop trong nien khoa nay");
                 continue;
             }
 
             xemDSChuaDK = true;
-            dsltc.filterLtcTheoNkHk(list, mssv, nk, hk, dsLength, xemDSChuaDK ? 2 : 0);
+            dsltc.filterLtcTheoNkHk(list, mssv, nienkhoa, hocky, dsLength, xemDSChuaDK ? 2 : 0);
 
             showNote(xemDSChuaDK ? "DS LTC co the dk" : "DS LTC da dk");
 
@@ -245,14 +248,14 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             if (mssv.empty()) {
                 displayNotification("Hay nhap MSSV");
                 continue;
-            } else if (nk.empty() || hk == -1) {
+            } else if (nienkhoa.empty() || hocky == -1) {
                 displayNotification("Hay nhap nien khoa, hoc ky");
                 continue;
             }
 
             xemDSChuaDK = !xemDSChuaDK;
 
-            dsltc.filterLtcTheoNkHk(tempList, mssv, nk, hk, dsLength,
+            dsltc.filterLtcTheoNkHk(tempList, mssv, nienkhoa, hocky, dsLength,
                                     xemDSChuaDK ? 2 : 0);
             showNote(xemDSChuaDK ? "DS LTC co the dk" : "DS LTC da dk");
 
@@ -288,7 +291,7 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                 dsltc.write();
 
                 // reload data
-                dsltc.filterLtcTheoNkHk(tempList, mssv, nk, hk, dsLength, xemDSChuaDK ? 2 : 0);
+                dsltc.filterLtcTheoNkHk(tempList, mssv, nienkhoa, hocky, dsLength, xemDSChuaDK ? 2 : 0);
                 showNote(xemDSChuaDK ? "DS LTC co the dk" : "DS LTC da dk");
 
                 if (dsLength == 0) {

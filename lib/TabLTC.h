@@ -710,7 +710,10 @@ int huyLTC(DsLTC &dsltc) {
     string nienkhoa;
     int hocky;
 
-    inputNkHk(nienkhoa, hocky);
+    while (nienkhoa.empty() || hocky == -1) {
+        displayNotification("Hay nhap lai nien khoa hoc ky");
+        inputNkHk(nienkhoa, hocky);
+    }
 
     LTC *list[1000];
     int len = 0;
