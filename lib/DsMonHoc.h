@@ -192,7 +192,7 @@ void DsMonHoc::write() {
 }
 
 // private
-// get tree height
+// get height
 int DsMonHoc::getHeight(NodeMonHoc *root) {
     if (root == NULL)
         return -1;
@@ -283,14 +283,15 @@ NodeMonHoc *DsMonHoc::insertNode(NodeMonHoc *root, MonHoc m) {
 
     int balance = balanceFactor(root);
 
-    // left heavier than right
     if (balance > 1) {
+        // left heavy
         if (m.ms < root->left->monhoc.ms) {
             root = RotateRight(root);
         } else {
             root = RotateLR(root);
         }
     } else if (balance < -1) {
+        // right heavy
         if (m.ms < root->right->monhoc.ms) {
             root = RotateRL(root);
         } else {

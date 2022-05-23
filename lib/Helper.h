@@ -170,5 +170,4 @@ int getSoNamTuMaSV(string mssv) {
     return stoi(nam);
 }
 
-
 #endif

@@ -29,6 +29,7 @@
 // keyboard values
 // normal
 #define CTRL_A 1
+#define CTRL_D 4
 #define CTRL_F 6
 #define BACKSPACE 8
 #define TAB 9

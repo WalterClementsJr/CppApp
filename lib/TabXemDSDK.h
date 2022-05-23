@@ -15,6 +15,7 @@
 string inputThongTinLop(DsMonHoc &dsmh) {
     SetColor();
     clearDetail();
+    clearNotification();
 
     string input[] = {"", "", "", ""};
     unsigned fieldMaxIndex = 3;

@@ -68,15 +68,3 @@ int main() {
     initExitScreen();
     return 0;
 }
-
-int main1() {
-    initUI();
-
-    // start first tab: MonHoc
-    drawSelectedTab(0);
-    drawSelectedTab(4);
-    drawSelectedTab(7);
-
-    SetColor();
-    return 0;
-}

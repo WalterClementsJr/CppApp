@@ -2,6 +2,7 @@
 #define LTC_PANEL_H
 
 #include <conio.h>
+#include <windows.h>
 
 #include <iomanip>
 #include <iostream>
@@ -13,13 +14,14 @@
 #include "LTC.h"
 #include "MonHoc.h"
 #include "SinhVien.h"
+#include "TabDangKy.h"
 #include "drawing.h"
 #include "import.h"
 
 using namespace std;
 
 const string LTC_FIELDS[] = {
-    "Ma MH: ",     "Nien khoa: ", "Hoc ky: ",    "Nhom: ",
+    "Ma MH: ", "Nien khoa: ", "Hoc ky: ", "Nhom: ",
     "So sv min: ", "So sv max: ", "Huy (0, 1): "};
 
 const unsigned int LTC_LIMITS[] = {10, 9, 1, 1, 3, 3, 1};
@@ -33,8 +35,7 @@ void highlightIndex(LTC *list[], int index) {
          << list[index]->maMH << setw(15) << list[index]->nienKhoa << setw(10)
          << list[index]->hocKy << setw(8) << list[index]->nhom << setw(10)
          << list[index]->min << setw(10) << list[index]->max << setw(10)
-         << list[index]->huy;
-    //   << setw(10) << list[index]->dsdk->count;
+         << list[index]->huy << setw(10) << list[index]->dsdk->getSoSVDK();
 
     SetColor();
 }
@@ -48,8 +49,7 @@ void dehighlightIndex(LTC *list[], int index) {
          << list[index]->maMH << setw(15) << list[index]->nienKhoa << setw(10)
          << list[index]->hocKy << setw(8) << list[index]->nhom << setw(10)
          << list[index]->min << setw(10) << list[index]->max << setw(10)
-         << list[index]->huy;
-    //   << setw(10) << list[index]->dsdk->count;
+         << list[index]->huy << setw(10) << list[index]->dsdk->getSoSVDK();
     SetColor();
 }
 
@@ -77,8 +77,7 @@ void loadLTCToTable(LTC *list[], int length, int index) {
              << list[index + i]->nienKhoa << setw(10) << list[index + i]->hocKy
              << setw(8) << list[index + i]->nhom << setw(10)
              << list[index + i]->min << setw(10) << list[index + i]->max
-             << setw(10) << list[index + i]->huy;
-        //  << setw(10) << list[index + i]->dsdk->count;
+             << setw(10) << list[index + i]->huy << setw(10) << list[index + i]->dsdk->getSoSVDK();
         drawRow(x, y + 1, TABLE_WIDTH);
         y += 2;
     }
@@ -95,6 +94,152 @@ void printInsertLTCField(int index, string input) {
     cout << input;
 
     ShowCur(true);
+}
+
+void inputNkHk(string &nk, int &hk) {
+    SetColor();
+    clearDetail();
+    clearNotification();
+
+    nk = "";
+    hk = -1;
+
+    string input[] = {"", ""};
+    unsigned fieldMaxIndex = 1;
+    unsigned index = 0;
+    unsigned count = input[0].length();
+    unsigned key;
+
+    gotoxy(INSERT_X, INSERT_Y - 1);
+    cout << "Tim LTC trong nien khoa hoc ky";
+
+    for (unsigned i = 0; i <= fieldMaxIndex; i++) {
+        gotoxy(INSERT_X, INSERT_Y + (i + 1) * 2);
+        cout << LTC_FIELDS[i + 1];
+        printInsertLTCField(i + 1, input[i]);
+    }
+
+    gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
+           INSERT_Y + (index + 1) * 2);
+
+    while (true) {
+        key = _getch();
+
+        // catch special input first
+        if (key == 0 || key == 224) {
+            key = _getch();
+            if (key == KEY_UP) {
+                index = index <= 0 ? fieldMaxIndex : index - 1;
+                count = !input[index].empty() ? input[index].length() : 0;
+
+                printInsertLTCField(index + 1, input[index]);
+            } else if (key == KEY_DOWN) {
+                index = index >= fieldMaxIndex ? 0 : index + 1;
+                count = !input[index].empty() ? input[index].length() : 0;
+
+                printInsertLTCField(index + 1, input[index]);
+            } else if (key == KEY_LEFT) {
+                count = count <= 0 ? input[index].length() : (count - 1);
+                gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
+                       INSERT_Y + (index + 1) * 2);
+            } else if (key == KEY_RIGHT) {
+                count = count >= input[index].length() ? 0 : (count + 1);
+                gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
+                       INSERT_Y + (index + 1) * 2);
+            }
+        } else if (key == BACKSPACE) {
+            // if input is empty
+            if (input[index].empty() || count == 0) {
+                continue;
+            }
+
+            input[index].erase(count - 1, 1);
+            count--;
+
+            printInsertLTCField(index + 1, input[index]);
+            gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
+                   INSERT_Y + (index + 1) * 2);
+        } else if (key == ESC) {
+            clearDetail();
+            break;
+        } else if (key == ENTER) {
+            if (index == fieldMaxIndex) {
+                clearNotification();
+                bool pass = true;
+                // check if one of the inputs is empty
+                for (int i = 0; i < 2; i++) {
+                    if (input[i].empty()) {
+                        displayNotification("Hay dien day du thong tin.", RED);
+                        pass = false;
+                        break;
+                    }
+                }
+                if (!pass) {
+                    index = 0;
+                    count = input[index].length();
+                    printInsertLTCField(index + 1, input[index]);
+                    continue;
+                }
+
+                if (!regex_match(input[0], NIEN_KHOA_REGEX)) {
+                    displayNotification(
+                        "Nien khoa khong dung dinh dang (VD: 2021-2022)");
+
+                    index = 0;
+                    count = input[index].length();
+                    printInsertLTCField(index + 1, input[index]);
+
+                    continue;
+                } else if (!checkNienKhoa(input[0])) {
+                    displayNotification(
+                        "Nien khoa khong hop le (nam truoc be hon nam sau)");
+
+                    index = 1;
+                    count = input[index].length();
+                    printInsertLTCField(index + 1, input[index]);
+
+                    continue;
+                }
+                nk = input[0];
+                hk = stoi(input[1]);
+                return;
+            } else {
+                index++;
+                count = input[index].length();
+                printInsertLTCField(index + 1, input[index]);
+            }
+        } else {
+            if (index == 0) {
+                // Nien khoa
+                if ((key >= '0' && key <= '9') || key == '-') {
+                    if (input[index].length() >= LTC_LIMITS[1]) {
+                        continue;
+                    }
+                    input[index].insert(count, 1, char(key));
+                    count++;
+
+                    printInsertLTCField(index + 1, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
+                           INSERT_Y + (index + 1) * 2);
+                }
+            } else if (index == 1) {
+                // hoc ky
+                if (key >= '1' && key <= '9') {
+                    if (input[index].length() >= LTC_LIMITS[2]) {
+                        continue;
+                    }
+                    input[index].insert(count, 1, char(key));
+                    count++;
+
+                    printInsertLTCField(index + 1, input[index]);
+                    gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
+                           INSERT_Y + (index + 1) * 2);
+                }
+            }
+        }
+    }
+    nk = "";
+    hk = -1;
 }
 
 int insertLTC(DsLTC &dsltc, DsMonHoc &dsmh) {
@@ -558,6 +703,42 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
     return 0;
 }
 
+int huyLTC(DsLTC &dsltc) {
+    clearTableContent();
+    clearInfo();
+
+    string nienkhoa;
+    int hocky;
+
+    inputNkHk(nienkhoa, hocky);
+
+    LTC *list[1000];
+    int len = 0;
+
+    dsltc.filterLtcCoTheHuy(list, nienkhoa, hocky, len);
+
+    if (len == 0) {
+        displayNotification("Khong co lop nao can huy trong nien khoa " + nienkhoa + " hoc ky " + to_string(hocky));
+        return 0;
+    }
+
+    loadLTCToTable(list, len, 0);
+
+    if (showConfirmDialog("Xac nhan huy cac lop tin chi trong danh sach? Y/N")) {
+        for (int i = 0; i < len; i++) {
+            list[i]->huy = true;
+        }
+        displayNotification("Huy thanh cong " + to_string(len) + " lop");
+        Sleep(500);
+
+        return 1;
+    } else {
+        return 0;
+    }
+
+    return 0;
+}
+
 int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     clearTab();
     SetColor(BLACK, RED);
@@ -578,9 +759,14 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
     cout << "SV max";
     gotoxy(TABLE_X + 83, TABLE_Y);
     cout << "Huy";
+    gotoxy(TABLE_X + 93, TABLE_Y);
+    cout << "Da dky";
     SetColor();
 
     drawRow(TABLE_X, TABLE_Y + 1, TABLE_WIDTH);
+
+    gotoxy(TABLE_X, LAST_ROW + 3);
+    cout << "CTRL + D de huy cac lop chua du sinh vien dang ky";
 
     int key;
     // số hàng còn lại
@@ -637,9 +823,8 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                     if (dsltc.count == 0) {
                         continue;
                     }
-                    // last row -> first row
-                    if (index >=
-                        currentPage * MAX_TABLE_ROW + nOfRowRemains - 1) {
+
+                    if (index >= currentPage * MAX_TABLE_ROW + nOfRowRemains - 1) {
                         dehighlightIndex(dsltc.dsltc, index);
                         index = currentPage * MAX_TABLE_ROW;
                         highlightIndex(dsltc.dsltc, index);
@@ -652,9 +837,8 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                     if (dsltc.count == 0) {
                         continue;
                     }
-                    // prev page
-                    index = (currentPage > 0 ? currentPage - 1 : nPage) *
-                            MAX_TABLE_ROW;
+
+                    index = (currentPage > 0 ? currentPage - 1 : nPage) * MAX_TABLE_ROW;
 
                     loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                     highlightIndex(dsltc.dsltc, index);
@@ -662,21 +846,22 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                     if (dsltc.count == 0) {
                         continue;
                     }
-                    // next page
+
                     currentPage = currentPage >= nPage ? 0 : currentPage + 1;
                     index = currentPage * MAX_TABLE_ROW;
                     loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                     highlightIndex(dsltc.dsltc, index);
                 } else if (key == INSERT) {
                     // insert
-                    insertLTC(dsltc, dsmh);
-
-                    if (dsltc.count == 0) {
+                    if (insertLTC(dsltc, dsmh)) {
+                        index = 0;
+                        loadLTCToTable(dsltc.dsltc, dsltc.count, index);
+                        highlightIndex(dsltc.dsltc, index);
+                    } else if (dsltc.count == 0) {
                         clearTableContent();
                         continue;
                     }
 
-                    index = 0;
                     loadLTCToTable(dsltc.dsltc, dsltc.count, index);
                     highlightIndex(dsltc.dsltc, index);
                 } else if (key == DEL) {
@@ -686,11 +871,12 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                     }
 
                     if (showConfirmDialog("Xac nhan xoa LTC? Y/N")) {
-                        if (dsltc.remove(dsltc.dsltc[index]->getKey())) {
+                        if (dsltc.remove(dsltc.dsltc[index]->maLTC)) {
                             dsltc.write();
                             displayNotification("Xoa ltc thanh cong");
 
                             if (dsltc.count == 0) {
+                                clearTableContent();
                                 continue;
                             }
 
@@ -705,11 +891,30 @@ int initLTCTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
                     }
                 }
             }
+        } else if (key == CTRL_D) {
+            // liet danh sach cac lop chua du sinh vien dk
+            if (dsltc.count == 0) {
+                continue;
+            }
+
+            // ct hủy ltc
+            if (!huyLTC(dsltc)) {
+                clearNotification();
+
+                loadLTCToTable(dsltc.dsltc, dsltc.count, index);
+                highlightIndex(dsltc.dsltc, index);
+                continue;
+            }
+            clearNotification();
+
+            // index = 0;
+            loadLTCToTable(dsltc.dsltc, dsltc.count, index);
+            highlightIndex(dsltc.dsltc, index);
         } else if (key == ENTER) {
             if (dsltc.count == 0) {
                 continue;
             }
-            // edit
+            // edit ltc
             editLTC(dsltc, dsmh, dsltc.dsltc[index]);
 
             // index = 0;

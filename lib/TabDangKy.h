@@ -8,153 +8,12 @@
 
 #include "DangKy.h"
 #include "DsMonHoc.h"
+#include "Helper.h"
 #include "LTC.h"
 #include "TabLTC.h"
 #include "drawing.h"
 
 using namespace std;
-
-void inputNkHk(string &nk, int &hk) {
-    clearDetail();
-    SetColor();
-
-    string input[] = {"", ""};
-    unsigned fieldMaxIndex = 1;
-    unsigned index = 0;
-    unsigned count = input[0].length();
-    unsigned key;
-
-    gotoxy(INSERT_X, INSERT_Y - 1);
-    cout << "Tim LTC trong nien khoa hoc ky";
-
-    for (unsigned i = 0; i <= fieldMaxIndex; i++) {
-        gotoxy(INSERT_X, INSERT_Y + (i + 1) * 2);
-        cout << LTC_FIELDS[i + 1];
-        printInsertLTCField(i + 1, input[i]);
-    }
-
-    gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
-           INSERT_Y + (index + 1) * 2);
-
-    while (true) {
-        key = _getch();
-
-        // catch special input first
-        if (key == 0 || key == 224) {
-            key = _getch();
-            if (key == KEY_UP) {
-                index = index <= 0 ? fieldMaxIndex : index - 1;
-                count = !input[index].empty() ? input[index].length() : 0;
-
-                printInsertLTCField(index + 1, input[index]);
-            } else if (key == KEY_DOWN) {
-                index = index >= fieldMaxIndex ? 0 : index + 1;
-                count = !input[index].empty() ? input[index].length() : 0;
-
-                printInsertLTCField(index + 1, input[index]);
-            } else if (key == KEY_LEFT) {
-                count = count <= 0 ? input[index].length() : (count - 1);
-                gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
-                       INSERT_Y + (index + 1) * 2);
-            } else if (key == KEY_RIGHT) {
-                count = count >= input[index].length() ? 0 : (count + 1);
-                gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
-                       INSERT_Y + (index + 1) * 2);
-            }
-        } else if (key == BACKSPACE) {
-            // if input is empty
-            if (input[index].empty() || count == 0) {
-                continue;
-            }
-
-            input[index].erase(count - 1, 1);
-            count--;
-
-            printInsertLTCField(index + 1, input[index]);
-            gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
-                   INSERT_Y + (index + 1) * 2);
-        } else if (key == ESC) {
-            clearDetail();
-            break;
-        } else if (key == ENTER) {
-            if (index == fieldMaxIndex) {
-                clearNotification();
-                bool pass = true;
-                // check if one of the inputs is empty
-                for (int i = 0; i < 2; i++) {
-                    if (input[i].empty()) {
-                        displayNotification("Hay dien day du thong tin.", RED);
-                        pass = false;
-                        break;
-                    }
-                }
-                if (!pass) {
-                    index = 0;
-                    count = input[index].length();
-                    printInsertLTCField(index + 1, input[index]);
-                    continue;
-                }
-
-                if (!regex_match(input[0], NIEN_KHOA_REGEX)) {
-                    displayNotification(
-                        "Nien khoa khong dung dinh dang (VD: 2021-2022)");
-
-                    index = 0;
-                    count = input[index].length();
-                    printInsertLTCField(index + 1, input[index]);
-
-                    continue;
-                } else if (!checkNienKhoa(input[0])) {
-                    displayNotification(
-                        "Nien khoa khong hop le (nam truoc be hon nam sau)");
-
-                    index = 1;
-                    count = input[index].length();
-                    printInsertLTCField(index + 1, input[index]);
-
-                    continue;
-                }
-                nk = input[0];
-                hk = stoi(input[1]);
-                return;
-            } else {
-                index++;
-                count = input[index].length();
-                printInsertLTCField(index + 1, input[index]);
-            }
-        } else {
-            if (index == 0) {
-                // Nien khoa
-                if ((key >= '0' && key <= '9') || key == '-') {
-                    if (input[index].length() >= LTC_LIMITS[1]) {
-                        continue;
-                    }
-                    input[index].insert(count, 1, char(key));
-                    count++;
-
-                    printInsertLTCField(index + 1, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
-                           INSERT_Y + (index + 1) * 2);
-                }
-            } else if (index == 1) {
-                // hoc ky
-                if (key >= '0' && key <= '9') {
-                    if (input[index].length() >= LTC_LIMITS[2]) {
-                        continue;
-                    }
-                    input[index].insert(count, 1, char(key));
-                    count++;
-
-                    printInsertLTCField(index + 1, input[index]);
-                    gotoxy(INSERT_X + LTC_FIELDS[index + 1].length() + count,
-                           INSERT_Y + (index + 1) * 2);
-                }
-            }
-        }
-    }
-    nk = "";
-    hk = 0;
-}
 
 void highlightIndex(LTC *list[], string *tenMH, int index) {
     SetColor(BLACK, BLUE);
@@ -242,7 +101,7 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
 
     string mssv = "";
     string nk = "";
-    int hk = 0;
+    int hk = -1;
     // chuyen ds
     bool xemDSChuaDK = true;
 
@@ -355,14 +214,12 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             inputNkHk(nk, hk);
 
             if (soSanhNienKhoa(nk, getSoNamTuMaSV(mssv)) > 0) {
-                displayNotification(
-                    "Sinh vien chua the dang ky cac lop trong nien khoa nay");
+                displayNotification("Sinh vien khong the dang ky cac lop trong nien khoa nay");
                 continue;
             }
 
             xemDSChuaDK = true;
-            dsltc.filterLtcTheoNkHk(list, mssv, nk, hk, dsLength,
-                                    xemDSChuaDK ? 2 : 0);
+            dsltc.filterLtcTheoNkHk(list, mssv, nk, hk, dsLength, xemDSChuaDK ? 2 : 0);
 
             showNote(xemDSChuaDK ? "DS LTC co the dk" : "DS LTC da dk");
 
@@ -383,11 +240,15 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             loadThongTinLTCToTable(list, tenMH, dsLength, index);
             highlightIndex(list, tenMH, index);
         } else if (key == TAB) {
+            clearNotification();
+
             if (mssv.empty()) {
                 displayNotification("Hay nhap MSSV");
                 continue;
+            } else if (nk.empty() || hk == -1) {
+                displayNotification("Hay nhap nien khoa, hoc ky");
+                continue;
             }
-            clearNotification();
 
             xemDSChuaDK = !xemDSChuaDK;
 
@@ -420,15 +281,14 @@ int initDKTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             if (dsLength == 0) {
                 continue;
             }
-            if (showConfirmDialog( "Xac nhan " + string(xemDSChuaDK ? "" : "huy ") +
-                    string("dang ky lop ") + tenMH[index] + string("? Y/N"))) {
+            if (showConfirmDialog("Xac nhan " + string(xemDSChuaDK ? "" : "huy ") +
+                                  string("dang ky lop ") + tenMH[index] + string("? Y/N"))) {
                 // huy dk/dk
                 list[index]->dsdk->insertOrder(mssv, 0, !xemDSChuaDK);
                 dsltc.write();
 
                 // reload data
-                dsltc.filterLtcTheoNkHk(tempList, mssv, nk, hk, dsLength,
-                                        xemDSChuaDK ? 2 : 0);
+                dsltc.filterLtcTheoNkHk(tempList, mssv, nk, hk, dsLength, xemDSChuaDK ? 2 : 0);
                 showNote(xemDSChuaDK ? "DS LTC co the dk" : "DS LTC da dk");
 
                 if (dsLength == 0) {
