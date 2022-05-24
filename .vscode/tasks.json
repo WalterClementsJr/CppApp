@@ -117,7 +117,7 @@
         },
         {
             "type": "cppbuild",
-            "label": "Debug main1",
+            "label": "Debug main1.cpp",
             "command": "g++",
             "args": [
                 "-ggdb",
@@ -164,7 +164,7 @@
         },
         {
             "type": "cppbuild",
-            "label": "Build & run main1",
+            "label": "Build & run main1.cpp",
             "command": "g++",
             "args": [
                 "-Wall",
@@ -201,14 +201,14 @@
                 }
             ],
             "group": {
-                "kind": "test",
+                "kind": "none",
                 "isDefault": true
             },
             "detail": ""
         },
         {
             "type": "cppbuild",
-            "label": "Run main1",
+            "label": "Run main1.exe",
             "command": "start",
             "args": [
                 "cmd",
@@ -224,7 +224,7 @@
         },
         {
             "type": "cppbuild",
-            "label": "Build & run main2",
+            "label": "Build & run main2.cpp",
             "command": "g++",
             "args": [
                 "-Wall",
@@ -261,14 +261,14 @@
                 }
             ],
             "group": {
-                "kind": "test",
-                "isDefault": true
+                "kind": "none",
+                "isDefault": false
             },
             "detail": ""
         },
         {
             "type": "cppbuild",
-            "label": "Run main2",
+            "label": "Run main2.exe",
             "command": "start",
             "args": [
                 "cmd",
@@ -278,7 +278,24 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": [],
+            "problemMatcher": [
+                {
+                    "source": "gcc",
+                    "owner": "cpptools",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder}"
+                    ],
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(?:fatal\\s+)?(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                    }
+                }
+            ],
             "group": "none",
             "detail": ""
         }
