@@ -1,4 +1,4 @@
-# DATA STRUCTURE & ALGORITHM PROJECT/ĐỒ ÁN CẤU TRÚC DỮ LIỆU & GIẢI THUẬT
+# ĐỒ ÁN CẤU TRÚC DỮ LIỆU & GIẢI THUẬT
 
 ## Đề tài quản lý điểm sinh viên theo hệ tín chỉ
 
@@ -8,10 +8,16 @@
 g++ -Wall $project_path/main/main.cpp -I $project_path/lib -o $project_path/build/main.exe
 ```
 
-with `$project_path` as path to the folder
+**với `$project_path` là đường dẫn tới folder**
 
 ## Run
 
 ```
 $project_path/build/main.exe
 ```
+
+## Demo
+![](meta/cap_list_subjects.png)
+![](meta/cap_list_all_students.png)
+![](meta/cap_list_credit_class.png)
+![](meta/cap_list_students_in_class.png)
