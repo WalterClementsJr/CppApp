@@ -106,12 +106,6 @@ void SetColor(WORD background = BLACK, WORD text = WHITE) {
     SetTextColor(text);
 }
 
-void CursorVisibility(bool show) {
-    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO cur = {1, show};
-    SetConsoleCursorInfo(h, &cur);
-}
-
 // clear screen and set cursor at 0,0
 void cls(HANDLE hConsole) {
     COORD coordScreen = {0, 0};
@@ -314,7 +308,7 @@ void drawTab(int x, int y, string title, string key, bool selected = false) {
         SetColor();
         gotoxy(x + 1, y + 1);
         cout << title;
-        // SetColor();
+
         // cột ngang
         for (int i = x + 1; i < x + TAB_HEADER_WIDTH - 1; i++) {
             gotoxy(i, y);

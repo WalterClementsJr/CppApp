@@ -400,19 +400,6 @@ int editMonHoc(DsMonHoc &dsmh, DsLTC &dsltc, MonHoc *list[], int index_arr) {
             if (index == 0) {
                 // field is ms
                 continue;
-                // if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                //     (key >= '0' && key <= '9')) {
-                //     // out of range
-                //     if (input[index].length() >= MH_FIELD_LIMITS[index]) {
-                //         continue;
-                //     }
-                //     input[index].insert(count, 1, toupper(char(key)));
-                //     count++;
-
-                //     printInsertMHField(index, input[index]);
-                //     gotoxy(INSERT_X + MH_FIELDS[index].length() + count,
-                //            INSERT_Y + index * 2);
-                // }
             } else if (index == 1) {
                 // field is ten
                 if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || (key >= '0' && key <= '9') ||

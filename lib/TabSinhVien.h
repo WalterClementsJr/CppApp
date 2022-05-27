@@ -474,17 +474,6 @@ int editSV(DSSV &dssv, DsLTC &dsltc, SinhVien *sv) {
             if (index == 0) {
                 // ms/malop
                 continue;
-                // if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                //     (key >= '0' && key <= '9')) {
-                //     if (input[index].length() >= SV_LIMITS[index]) {
-                //         continue;
-                //     }
-                //     input[index].insert(count, 1, toupper(char(key)));
-                //     count++;
-                //     printInsertSVField(index, input[index]);
-                //     gotoxy(INSERT_X + SV_FIELDS[index].length() + count,
-                //            INSERT_Y + index * 2);
-                // }
             } else if (index == 1 || index == 2 || index == 3) {
                 // ho/ten/phai
                 if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z')) {

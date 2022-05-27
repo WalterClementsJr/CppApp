@@ -604,35 +604,6 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
                     dsltc.write();
                     clearDetail();
                     return 1;
-
-                    /*
-                    //copy dsdk before delete
-                    // DsDangKy *tempDSDK = new DsDangKy;
-                    // *tempDSDK = *ltc->dsdk;
-                    // // remove old ltc then insert with new key
-                    // if (dsltc.remove(oldKey)) {
-                    //     // insert to dsltc
-                    //     LTC *newLTC = dsltc.insert(
-                    //         input[0], input[1], stoi(input[2]),
-                    //         stoi(input[3]), stoi(input[4]), stoi(input[5]),
-                    //         stoi(input[6]));
-                    //     if (newLTC) {
-                    //         displayNotification(
-                    //             "Chinh sua lop tin chi thanh cong");
-                    //         *newLTC->dsdk = *tempDSDK;
-                    //         dsltc.write();
-
-                    //         clearDetail();
-                    //     } else {
-                    //         displayNotification(
-                    //             "Chinh sua lop tin chi khong thanh cong");
-                    //     }
-                    // } else {
-                    //     displayNotification(
-                    //         "Chinh sua lop tin chi khong thanh cong");
-                    // }
-                    // delete tempDSDK;
-                    */
                 } else {
                     clearNotification();
 
@@ -651,19 +622,6 @@ int editLTC(DsLTC &dsltc, DsMonHoc &dsmh, LTC *ltc) {
             if (index == 0) {
                 // field is MAMH
                 continue;
-                // if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') ||
-                //     (key >= '0' && key <= '9')) {
-                //     // out of range
-                //     if (input[index].length() >= LTC_LIMITS[index]) {
-                //         continue;
-                //     }
-                //     input[index].insert(count, 1, toupper(char(key)));
-                //     count++;
-
-                //     printInsertLTCField(index, input[index]);
-                //     gotoxy(INSERT_X + LTC_FIELDS[index].length() + count,
-                //            INSERT_Y + index * 2);
-                // }
             } else if (index == 1) {
                 // Nien khoa
                 if ((key >= '0' && key <= '9') || key == '-') {

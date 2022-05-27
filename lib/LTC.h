@@ -138,31 +138,6 @@ public:
         return lop;
     }
 
-    // int remove(string key) {
-    //     if (count == 0) {
-    //         return 0;
-    //     }
-    //     bool found = false;
-
-    //     for (int i = 0; i < count; i++) {
-    //         if (!found) {
-    //             if (dsltc[i]->getKey() == key) {
-    //                 found = true;
-    //                 delete dsltc[i];
-    //                 dsltc[i] = dsltc[i + 1];
-    //             }
-    //         } else {
-    //             dsltc[i] = dsltc[i + 1];
-    //         }
-    //     }
-
-    //     if (found) {
-    //         delete dsltc[count - 1];
-    //         count--;
-    //     }
-    //     return found;
-    // }
-
     int remove(int maltc) {
         if (count == 0) {
             return 0;
@@ -329,53 +304,6 @@ public:
     // status 2: loc cac ltc sv co the dk/da huy dk (k đc trùng môn học nếu đã đk)
     void filterLtcTheoNkHk(LTC *list[], string mssv, string nk, int hk, int &len, int status) {
         len = 0;
-        // for (int i = 0; i < count; i++) {
-        //     if (dsltc[i]->huy) {
-        //         continue;
-        //     }
-
-        //     if ((dsltc[i]->nienKhoa == nk) && (dsltc[i]->hocKy == hk)) {
-        //         DangKy *dk = dsltc[i]->dsdk->search(mssv);
-        //         int sosv = dsltc[i]->dsdk->getSoSVDK();
-
-        //         if (status == 0) {
-        //             if (dk && !dk->huy) {
-        //                 list[len++] = dsltc[i];
-        //             }
-        //         } else if (status == 1) {
-        //             if (dk && dk->huy) {
-        //                 list[len++] = dsltc[i];
-        //             }
-        //         } else if (status == 2) {
-        //             // ds có thể dk
-        //             // tìm ds ltc sv đã đk trong nk - hk
-        //             LTC *dkList[100];
-        //             int dkListLength = 0;
-        //             filterLtcTheoNkHk(dkList, mssv, nk, hk, dkListLength, 0);
-
-        //             // kiểm tra môn học đã đk chưa
-        //             bool found = false;
-        //             for (int j = 0; j < dkListLength; j++) {
-        //                 if (dsltc[i]->maMH == dsltc[j]->maMH) {
-        //                     cout << "\nfound mh\n";
-
-        //                     found = true;
-        //                     break;
-        //                 }
-        //             }
-        //             // found -> đã đk môn học trong nk học kỳ đó
-        //             if (!found) {
-        //                 if (sosv >= dsltc[i]->max) {
-        //                     // ltc full
-        //                     continue;
-        //                 } else if (!dk || dk->huy) {
-        //                     // chưa đk hoặc đã hủy
-        //                     list[len++] = dsltc[i];
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
 
         if (status == 0) {
             for (int i = 0; i < count; i++) {

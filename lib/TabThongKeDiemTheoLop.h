@@ -185,7 +185,6 @@ int initThongKeDiemTheoLopTab(DsMonHoc &dsmh, DSSV &dssv, DsLTC &dsltc) {
             gotoxy(TABLE_X, LAST_ROW + 4);
             cout << "Lop: " << malop << ". So sv: " << dsLength;
 
-            // TODO tinh diem
             for (int i = 0; i < dsLength; i++) {
                 // get diem for list[i]
                 diem[i] = dsltc.getDtbCuaSV(dsmh, list[i]->maSV);
