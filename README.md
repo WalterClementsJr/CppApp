@@ -4,8 +4,12 @@
 
 <br>
 
+## Download
+[Tải demo](https://github.com/WalterClementsJr/credit-class-manager/releases) và đọc hướng dẫn trong README.txt
+
+<br>
+
 ## Build
----
 ```
 cd $project_path/
 ```
@@ -19,7 +23,6 @@ g++ -Wall $project_path/main/main.cpp -I $project_path/lib -o $project_path/buil
 <br>
 
 ## Run
----
 
 ```
 cd $project_path/
@@ -35,8 +38,9 @@ Project được viết trên Visual Studio Code và build bằng MinGW. Nếu m
 - Đọc [hướng dẫn sử dụng](https://code.visualstudio.com/docs/languages/cpp)
 - [Tải MinGW](https://sourceforge.net/projects/mingw-w64/files/mingw-w64/) (nếu chưa có)
 
+<br>
+
 ## Demo
----
 ![](meta/cap_list_subjects.png)
 ![](meta/cap_list_all_students.png)
 ![](meta/cap_list_credit_class.png)
