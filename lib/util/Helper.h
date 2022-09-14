@@ -7,8 +7,8 @@
 #include <iostream>
 #include <string>
 
-#include "drawing.h"
-#include "import.h"
+#include "ui/drawing.h"
+#include "util/import.h"
 
 using namespace std;
 

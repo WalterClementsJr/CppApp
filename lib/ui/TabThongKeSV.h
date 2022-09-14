@@ -5,9 +5,9 @@
 #include <iostream>
 #include <string>
 
-#include "LTC.h"
-#include "SinhVien.h"
-#include "drawing.h"
+#include "model/LTC.h"
+#include "model/SinhVien.h"
+#include "ui/drawing.h"
 
 using namespace std;
 

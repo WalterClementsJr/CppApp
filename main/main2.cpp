@@ -1,18 +1,14 @@
-// #include "drawing.h"
+/**
+ *  2nd test file
+*/
 #include <iostream>
 
-#include "Helper.h"
-#include "SinhVien.h"
-#include "import.h"
+#include "util/Helper.h"
+#include "model/SinhVien.h"
+#include "util/import.h"
 
 using namespace std;
 
 int main() {
-    // keyTest();
-    DSSV ds;
-
-    testDSSV(ds);
-
-    system("pause");
     return 0;
 }

@@ -5,10 +5,10 @@
 #include <iostream>
 #include <string>
 
-#include "DangKy.h"
-#include "DsMonHoc.h"
-#include "Helper.h"
-#include "MonHoc.h"
+#include "model/DangKy.h"
+#include "model/DsMonHoc.h"
+#include "util/Helper.h"
+#include "model/MonHoc.h"
 
 using namespace std;
 

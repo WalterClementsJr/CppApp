@@ -2,19 +2,19 @@
     Test các module
 */
 
-#include "DsMonHoc.h"
-#include "LTC.h"
-#include "SinhVien.h"
-#include "TabDangKy.h"
-#include "TabLTC.h"
-#include "TabMonHoc.h"
-#include "TabSinhVien.h"
-#include "TabThongKeDiem.h"
-#include "TabThongKeDiemTheoLop.h"
-#include "TabThongKeSV.h"
-#include "TabXemDSDK.h"
-#include "drawing.h"
-#include "import.h"
+#include "model/DsMonHoc.h"
+#include "model/LTC.h"
+#include "model/SinhVien.h"
+#include "ui/TabDangKy.h"
+#include "ui/TabLTC.h"
+#include "ui/TabMonHoc.h"
+#include "ui/TabSinhVien.h"
+#include "ui/TabThongKeDiem.h"
+#include "ui/TabThongKeDiemTheoLop.h"
+#include "ui/TabThongKeSV.h"
+#include "ui/TabXemDSDK.h"
+#include "ui/drawing.h"
+#include "util/import.h"
 
 using namespace std;
 
@@ -34,7 +34,6 @@ int main() {
     // initMHTab(dsmh, dsltc);
     // initSVTab(dssv, dsltc);
     // initLTCTab(dsmh, dssv, dsltc);
-
 
     // initDKTab(dsmh, dssv, dsltc);
     // initThongKeSVTab(dsmh, dssv, dsltc);

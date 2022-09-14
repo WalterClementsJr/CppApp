@@ -5,13 +5,13 @@
 #include <iostream>
 #include <string>
 
-#include "DangKy.h"
-#include "DsMonHoc.h"
-#include "LTC.h"
-#include "MonHoc.h"
-#include "SinhVien.h"
+#include "model/DangKy.h"
+#include "model/DsMonHoc.h"
+#include "model/LTC.h"
+#include "model/MonHoc.h"
+#include "model/SinhVien.h"
 #include "TabXemDSDK.h"
-#include "drawing.h"
+#include "ui/drawing.h"
 
 using namespace std;
 

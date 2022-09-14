@@ -8,11 +8,11 @@
 #include <regex>
 #include <string>
 
-#include "DsMonHoc.h"
-#include "LTC.h"
-#include "MonHoc.h"
-#include "drawing.h"
-#include "import.h"
+#include "model/DsMonHoc.h"
+#include "model/LTC.h"
+#include "model/MonHoc.h"
+#include "ui/drawing.h"
+#include "util/import.h"
 
 using namespace std;
 

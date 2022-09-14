@@ -6,12 +6,12 @@
 #include <regex>
 #include <string>
 
-#include "DangKy.h"
-#include "DsMonHoc.h"
-#include "Helper.h"
-#include "LTC.h"
-#include "TabLTC.h"
-#include "drawing.h"
+#include "model/DangKy.h"
+#include "model/DsMonHoc.h"
+#include "model/LTC.h"
+#include "ui/TabLTC.h"
+#include "ui/drawing.h"
+#include "util/Helper.h"
 
 using namespace std;
 

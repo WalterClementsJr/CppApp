@@ -4,9 +4,9 @@
 #include <iostream>
 #include <string>
 
-#include "DsMonHoc.h"
-#include "MonHoc.h"
-#include "import.h"
+#include "model/DsMonHoc.h"
+#include "model/MonHoc.h"
+#include "util/import.h"
 
 using namespace std;
 

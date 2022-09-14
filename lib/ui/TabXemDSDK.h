@@ -5,12 +5,12 @@
 #include <iostream>
 #include <string>
 
-#include "DangKy.h"
-#include "DsMonHoc.h"
-#include "LTC.h"
-#include "SinhVien.h"
+#include "model/DangKy.h"
+#include "model/DsMonHoc.h"
+#include "model/LTC.h"
+#include "model/SinhVien.h"
 #include "TabLTC.h"
-#include "drawing.h"
+#include "ui/drawing.h"
 
 string inputThongTinLop(DsMonHoc &dsmh) {
     SetColor();

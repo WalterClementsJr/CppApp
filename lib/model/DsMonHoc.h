@@ -6,9 +6,9 @@
 #include <iostream>
 #include <string>
 
-#include "Helper.h"
-#include "MonHoc.h"
-#include "MonHocQueue.h"
+#include "util/Helper.h"
+#include "model/MonHoc.h"
+#include "model/MonHocQueue.h"
 
 using namespace std;
 
