@@ -6,11 +6,13 @@
 #include <iostream>
 #include <string>
 
-#include "util/Helper.h"
 #include "model/MonHoc.h"
 #include "model/MonHocQueue.h"
+#include "util/Helper.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
 
 class DsMonHoc {
 public:
@@ -53,7 +55,7 @@ private:
     NodeMonHoc *RotateLR(NodeMonHoc *n3);
     NodeMonHoc *RotateRL(NodeMonHoc *n3);
 
-    NodeMonHoc *readFromFile(NodeMonHoc *root, ifstream &reader);
+    NodeMonHoc *readFromFile(NodeMonHoc *root, std::ifstream &reader);
     void addNodeToArray(NodeMonHoc *root, MonHoc *arr[], int &length);
 };
 
@@ -148,7 +150,7 @@ void DsMonHoc::toArray(MonHoc *arr[], int &length) {
 }
 
 void DsMonHoc::read() {
-    ifstream reader("./build/data/monhoc.csv");
+    std::ifstream reader("./build/data/monhoc.csv");
 
     if (reader.is_open()) {
         root = readFromFile(root, reader);
@@ -161,7 +163,7 @@ void DsMonHoc::write() {
         return;
     }
 
-    ofstream writer("./build/data/monhoc.csv");
+    std::ofstream writer("./build/data/monhoc.csv");
 
     if (writer.is_open()) {
         if (root == NULL) {
@@ -197,7 +199,7 @@ int DsMonHoc::getHeight(NodeMonHoc *root) {
     if (root == NULL)
         return -1;
     else {
-        return max(getHeight(root->left), getHeight(root->right)) + 1;
+        return std::max(getHeight(root->left), getHeight(root->right)) + 1;
     }
 }
 
@@ -384,7 +386,7 @@ NodeMonHoc *DsMonHoc::RotateRL(NodeMonHoc *n3) {
     return RotateLeft(n3);
 }
 
-NodeMonHoc *DsMonHoc::readFromFile(NodeMonHoc *root, ifstream &reader) {
+NodeMonHoc *DsMonHoc::readFromFile(NodeMonHoc *root, std::ifstream &reader) {
     string line;
     string delim = "|";
 
@@ -430,19 +432,6 @@ void testDSMH(DsMonHoc &ds) {
     ds.displayLevelOrder();
 
     ds.write();
-    // ds.update("6", "HDH123", 2, 1, "6");
-    // MonHoc *m = ds.search("6");
-    // ds.remove("3");
-
-    // int len;
-    // MonHoc *arr[10000];
-    // ds.toArray(arr, len);
-    // cout << "Number of mh: " << len << endl;
-    // cout << "Number of getsize: " << ds.getSize() << endl;
-
-    // for (unsigned i = 0; i < len; i++) {
-    //     cout << arr[i]->toString() << endl;
-    // }
 }
 
 #endif

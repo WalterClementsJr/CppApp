@@ -5,7 +5,9 @@
 #include <sstream>
 #include <string>
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
 
 struct DangKy {
     string maSV;
@@ -25,9 +27,9 @@ struct DangKy {
     }
 
     string toString() {
-        stringstream ss;
+        std::stringstream ss;
         ss << diem;
-        return maSV + "|" + ss.str() + "|" + to_string(huy);
+        return maSV + "|" + ss.str() + "|" + std::to_string(huy);
     }
 };
 

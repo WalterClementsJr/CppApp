@@ -12,8 +12,6 @@
 #include "ui/drawing.h"
 #include "util/import.h"
 
-using namespace std;
-
 int main() {
     initUI();
 

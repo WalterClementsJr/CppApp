@@ -13,7 +13,12 @@
 #include "TabXemDSDK.h"
 #include "ui/drawing.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+using std::setfill;
+using std::setw;
+using std::left;
 
 void printDiemInput(string input) {
     SetColor();
@@ -36,7 +41,7 @@ void printDiemInput(string input) {
 float inputDiem(float diem) {
     clearDetail();
 
-    stringstream ss;
+    std::stringstream ss;
     ss << diem;
     string input = ss.str();
 

@@ -9,7 +9,9 @@
 
 #include "util/import.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
 
 // kích thước cửa sổ console
 void resizeConsole(int width, int height) {
@@ -443,7 +445,6 @@ void initUI() {
 
 void initExitScreen() {
     clearArea(TAB_X, TAB_Y, 100, 100);
-
 }
 
 #endif

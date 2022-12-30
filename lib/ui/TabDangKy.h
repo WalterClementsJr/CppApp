@@ -13,7 +13,12 @@
 #include "ui/drawing.h"
 #include "util/Helper.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+using std::setfill;
+using std::setw;
+using std::left;
 
 void highlightIndex(LTC *list[], string *tenMH, int index) {
     SetColor(BLACK, BLUE);

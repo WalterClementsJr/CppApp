@@ -9,7 +9,13 @@
 #include "model/SinhVien.h"
 #include "ui/drawing.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+
+using std::setfill;
+using std::setw;
+using std::left;
 
 void loadTkDiemToTable(MonHoc *list[], float *diem, int len, int index) {
     ShowCur(false);

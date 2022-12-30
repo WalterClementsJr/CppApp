@@ -10,7 +10,10 @@
 #include "util/Helper.h"
 #include "model/MonHoc.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+using std::to_string;
 
 const int DSLTC_MAX = 10000;
 
@@ -197,7 +200,7 @@ public:
     }
 
     void write() {
-        ofstream writer("./build/data/loptinchi.csv");
+        std::ofstream writer("./build/data/loptinchi.csv");
 
         if (writer.is_open()) {
             // write LTC and dsdk on new lines
@@ -212,7 +215,7 @@ public:
     }
 
     void read() {
-        ifstream reader("./build/data/loptinchi.csv");
+        std::ifstream reader("./build/data/loptinchi.csv");
 
         if (!reader.is_open()) {
             return;

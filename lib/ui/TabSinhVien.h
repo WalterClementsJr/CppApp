@@ -9,7 +9,13 @@
 #include "model/SinhVien.h"
 #include "ui/drawing.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+using std::setfill;
+using std::setw;
+using std::left;
+
 
 const string SV_FIELDS[] = {
     "MSSV: ", "Ho: ", "Ten: ", "Phai: ", "SDT: ", "Lop: "};

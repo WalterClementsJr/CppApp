@@ -6,7 +6,9 @@
 #include <sstream>
 #include <string>
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
 
 struct SinhVien {
     string maSV;
@@ -184,7 +186,7 @@ void DSSV::duyet() {
 }
 
 int DSSV::ghiFile() {
-    ofstream writer("./build/data/sinhvien.csv");
+    std::ofstream writer("./build/data/sinhvien.csv");
     if (writer.is_open()) {
         SinhVien* sv[10000];
         int len = 0;
@@ -202,7 +204,7 @@ int DSSV::ghiFile() {
 }
 
 int DSSV::docFile() {
-    ifstream reader("./build/data/sinhvien.csv");
+    std::ifstream reader("./build/data/sinhvien.csv");
 
     if (reader.is_open()) {
         string delim = "|";

@@ -10,7 +10,9 @@
 #include "ui/drawing.h"
 #include "util/import.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
 
 void keyTest() {
     int ch;

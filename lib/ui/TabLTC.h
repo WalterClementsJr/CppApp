@@ -18,7 +18,12 @@
 #include "ui/drawing.h"
 #include "util/import.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+using std::setfill;
+using std::setw;
+using std::left;
 
 const string LTC_FIELDS[] = {
     "Ma MH: ", "Nien khoa: ", "Hoc ky: ", "Nhom: ",

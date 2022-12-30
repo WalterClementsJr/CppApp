@@ -1,8 +1,6 @@
 #ifndef TK_DIEM_LTC_H
 #define TK_DIEM_LTC_H
 
-// cau k
-
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -12,7 +10,12 @@
 #include "model/SinhVien.h"
 #include "ui/drawing.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+using std::setfill;
+using std::setw;
+using std::left;
 
 void highlightIndex(SinhVien *list[], float *diem, int index) {
     SetColor(BLACK, BLUE);

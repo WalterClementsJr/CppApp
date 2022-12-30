@@ -12,6 +12,14 @@
 #include "TabLTC.h"
 #include "ui/drawing.h"
 
+using std::cout;
+using std::endl;
+using std::string;
+
+using std::setfill;
+using std::setw;
+using std::left;
+
 string inputThongTinLop(DsMonHoc &dsmh) {
     SetColor();
     clearDetail();
